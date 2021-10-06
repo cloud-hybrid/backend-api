@@ -165,7 +165,7 @@ denormalized = """\
 openssl req -x509 -newkey rsa:8192 -nodes \
     -sha256 -subj "{0}"                   \
         -keyout "{1}/.CI-CD/Key.PEM" -out        \
-           {1}}/.CI-CD/Key.PEM
+           {1}/.CI-CD/Key.PEM
 """.format(Subject, CWD)
 
 command = shlex.split(denormalized)

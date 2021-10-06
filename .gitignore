@@ -21,6 +21,7 @@ Environment.ini
 Server/Development.crt
 Server/Development.key
 Server/Development.pfx
+Server/PEM.py
 Server/VERSION
 
 Environment.json
