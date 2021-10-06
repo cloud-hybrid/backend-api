@@ -13,9 +13,9 @@ Copy = Configuration = CWD + os.sep + Glob
 Title = Copy = Glob.split(".")[0]
 Sanitation = ".".join([Title, "Sanitized", "ini"])
 
-Source = open(Configuration, "r")
+Source = open(Configuration, "r+")
 Target = open(os.path.join(CWD, Sanitation), "w+")
-API    = open(os.path.join(CWD, "API" + os.sep + ".".join([Title, "json"])), "w+")
+API    = open(os.path.join(CWD, ".".join([Title, "json"])), "w+")
 
 Parser = configparser.ConfigParser()
 Parser.read(Configuration)

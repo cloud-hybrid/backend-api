@@ -340,13 +340,20 @@ try:
     ]
 
     if sys.argv[1].casefold() == "bdist_egg":
-        os.system("mv ./Artifact/Distribution/*.egg ./Backend-API-{0}.egg".format(Version))
+        os.system("mv ./Artifact/Distribution/*.egg Backend-API-{0}.egg".format(Version))
         sys.stdout.write("  ﬌ Generated (Egg)" + "\n")
     elif sys.argv[1].casefold() == "bdist_wheel":
         sys.stdout.write("  ﬌ Generated (Wheel)" + "\n")
         shutil.move(Wheel[0], Wheel[1])
     elif sys.argv[1].casefold() == "install":
         sys.stdout.write("  ﬌  Generated (Source-Binary)" + "\n")
+
+        sys.stdout.write("[Backend-API]: Generating Egg ➜ (Backend-API-{0}.egg)".format(Version) + "\n")
+        sys.stdout.flush()
+
+        os.system("mv ./Artifact/Distribution/*.egg Backend-API-{0}.egg".format(Version))
+
+        sys.stdout.write("  ﬌ Generated (Egg)" + "\n")
     else: sys.stdout.write("  ﬌ Installed (Source)" + "\n")
 
     sys.stdout.flush()
@@ -355,6 +362,8 @@ except Exception as Error: sys.stderr.write("\n" + "%s" % Error + "\n")
 
 finally:
     os.remove(os.path.join(CWD, "setup.cfg"))
+
+    os.system("rm -r -f *.egg-info")
 
     if Install:
         try:
