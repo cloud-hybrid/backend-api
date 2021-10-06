@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:   *.*   -*- #
+
+# ========================================================================
+# --> STDOUT Public IP Address
+# ========================================================================
+
+dig +short myip.opendns.com @resolver1.opendns.com

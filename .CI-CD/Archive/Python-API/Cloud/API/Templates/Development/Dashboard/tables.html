@@ -1,0 +1,62 @@
+<!-- Database Table-Cards & Header -->
+
+<div class = "row">
+    <div class = "Segmented-Sectional center aligned middle aligned sixteen wide column">
+        <div class = "Null ui raised inverted segment top bottom spaced">
+            <div class = "ui header centered">
+                <h3>
+                    Database Tables
+                    <hr>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class = "row">
+    <div class = "Segmented-Inverted-Centered-Cards ui inverted centered cards">
+        {% for key, value in Tables.items() %}
+            <div class = "ui centered card segmented-card">
+                <div class = "content">
+                    <div class = "header">
+                        <strong> 
+                            {{ value["Database-File"] }}
+                            <hr>
+                        </strong>
+                    </div>
+                    <div class = "description">
+                        <div class = "segmented-card-header">
+                            <div class = "ui inverted horizontal divider">{{ key }}</div>
+                            <small>
+                                (Table)
+                            </small>
+                        </div>
+                        <div class = "ui inverted statistic">
+                            <div class = "value">
+                                {{ value["Total-Records"] }}
+                            </div>
+                            <div class = "label">
+                                Records
+                            </div>
+                        </div>
+                      
+                        <hr>
+                    </div>
+                    <div class = "segmented-card-footer">
+                        <a href = "/dashboard/database/tables/{{ key }}">
+                            <div class = "ui icon button">
+                                <i class = "black database icon"></i>
+                            </div>
+                        </a>
+    
+                        <a href = "/dashboard/database/schemas/{{ key }}">
+                            <div class = "ui icon button" href="/dashboard/database/schemas/{{ key }}">
+                                <span style = "color:black">Data</span>
+                            </div>
+                        </a>
+                    </div>                
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

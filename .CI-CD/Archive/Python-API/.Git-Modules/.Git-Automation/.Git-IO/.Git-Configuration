@@ -1,0 +1,82 @@
+[core]
+    ignorecase = false
+    filemode = true
+    credential = --help
+    precomposeunicode = true
+    compression = 7
+    looseCompression = 5
+    untractedCache = true
+
+[am]
+    threeway = true
+
+[http]
+    version = HTTP/2
+
+[credential]
+    helper = store
+
+[core]
+    editor = nano
+    autocrlf = input
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[pull]; git config --global pull.rebase true
+	rebase = true
+	ff = true
+	octopus = true
+
+[branch "UAT"]
+    mergeoptions = --no-ff
+
+[branch "Staging"]
+    mergeoptions = --no-ff
+
+[branch "Production"]
+    mergeoptions = --no-ff
+
+[fetch]
+    prune = true
+    recurseSubmodules = true
+    parallel = 0
+
+[lfs "https://code.cloud-technology.io/*/info/lfs"]
+    locksverify = true
+
+[features]
+    experimental = true
+
+[submodule]
+    recurse = true
+    fetchJobs = 0
+    fetchRecursesSubmodules = on-demand
+
+[merge]
+    ff = true
+    autoStash = false
+    verbosity = 4
+
+[rebase]
+    autostash = false
+    stat = true
+
+[push]
+    recurseSubmodules = on-demand
+
+[status]
+	branch = true
+	showStash = true
+	showUntrackedFiles = all
+	showSubmoduleSummary = true
+
+[pager]
+	paginate = false
+
+[init]
+	defaultBranch = Development
+

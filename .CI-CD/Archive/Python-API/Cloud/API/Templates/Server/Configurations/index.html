@@ -1,0 +1,301 @@
+{% extends "Base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<!-- Code-Mirror -->
+{% set Language = Mode["Test-File-5.py"] %}
+<script nonce="{{ Metadata.JWN }}" type="application/javascript" src="{{ url_for('static', filename='./Code-Mirror/lib/codemirror.js') }}"></script>
+<script nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Code-Mirror/mode/') }}{{ Language }}/{{ Language }}.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='./Code-Mirror/lib/codemirror.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='./Code-Mirror/theme/material-darker.css') }}">
+
+<style>
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.ui.table tbody tr td.selectable > a:not(.ui) {
+    text-align: center;
+    overflow-x: overlay;
+}
+
+.selectable { cursor: pointer; }
+
+.ui.tooltip.button {
+    z-index: 1;
+}
+
+span.under-development.tool-tip::after {
+    font-style: italic;
+    font-weight: bold;
+}
+
+main {
+    min-height: 100vh;
+    width: 100%;
+    padding-top: 1.0rem;
+    background: rgb(235, 235, 235)
+}
+
+main > section:first-child {
+    margin-top: calc(63px + 0.25rem);
+    
+}
+
+main > section:last-child {
+    margin-bottom: calc(63px + 0.25rem);
+    
+}
+
+.ui.inverted.table > tbody > tr > td, .ui.inverted.table > tfoot > tr > td, .ui.inverted.table > tr > td {
+    overflow-x: overlay;
+}
+.segmented.button {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+}
+.segmented.black.icon {
+    color: black;
+}
+.segmented.white.large.header {
+    color: white;
+}
+
+</style>
+
+{% endblock %}
+
+{% block sidemenu %}
+{% include "./Side-Menu.html" %}
+{% endblock %}
+
+{% block menu %}
+{% include "./Primary-Menu.html" %}
+{% endblock %}
+
+{% block pusher %}
+<main class="ui fluid padded container">
+    <section>
+        <div class="ui doubling stackable centered grid container">
+            <div id="Status-Example-1" class="ui icon inverted hidden message" style="margin-top: 1.75em;" hidden>
+                <i id="Status-Example-1-Close" class="close icon"></i>
+                <i id="loader" class="notched circle loading icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Test-Header
+                    </div>
+                </div>
+            </div>
+            <div class="ui inverted raised segment">
+                <div class="row">
+                    <div id="overlay-container" class="ui one column doubling stackable grid container">
+                        <div class="ui large centered white inverted header sixteen wide column">
+                            Test-Sub-Header
+                            <hr>
+                        </div>
+                        <div class="sixteen wide left aligned column inverted segment">
+                            <div class="ui left aligned inverted form">
+                                <div class="field">
+                                    <label>Example-1-Label</label>
+                                    <textarea class="ui left aligned segment" id="Example-1-Text-Area">{{ Content["Test-File-5.py"] }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "ui center aligned fluid basic segment">
+                                <button id="Save-Example-1" class="ui big blue centered segmented button" data-tooltip="Upload Changes to Server" data-position="left center">
+                                <strong>
+                                    Save
+                                </strong>
+                            </button>
+                                <button id="Download-Example-1" class="ui big icon segmented centered button" data-tooltip="Download Example-1" data-position="right center">
+                                <i class="segmented black download icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="Modal-Example-1" class="ui basic modal">
+    <div class="ui icon header">
+        <i class="yellow exclamation circle icon"></i>
+    </div>
+        <div class="content centered">
+            <h3 class="ui segmented white large header centered">
+                The contents for Example-Value-1 are scheduled for upload.
+            </h3>
+            <h2 class="ui inverted segmented white big header centered">
+                Please note that <u>any server modification</u> may have detrimental effect(s) <i>and can cause complete ksystem or service failure</i>.
+            </h3>
+            <br>
+            <hr>
+        </div>
+        <div class="actions">
+            <div id="Close-Example-1" class="ui basic cancel inverted button">
+                <i class="remove icon"></i>
+                Close
+            </div>
+        <div id="Commit-Example-1" class="ui ok inverted button">
+            <i class="checkmark icon"></i>
+            Continue
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const Example1File = "Test-File-5.py"
+        const Example1MIME = "Text/X-{{ Mode['Test-File-5.py'] }}";
+        const Example1Save = document.getElementById("Save-Example-1");
+        const Example1Commit = document.getElementById("Commit-Example-1");
+        const Example1Close = document.getElementById("Close-Example-1");
+        const Example1Download = document.getElementById("Download-Example-1");
+        const Example1TextArea = document.getElementById("Example-1-Text-Area");
+        const Example1Modal = $("#Modal-Example-1.ui.basic.modal");
+        const Example1Editor = CodeMirror.fromTextArea(Example1TextArea, {
+            lineNumbers: true,
+            smartIndent: true,
+            electricChars: true,
+            indentWithTabs: false,
+            indentUnit: 4,
+            lineWrapping: false,
+            firstLineNumber: 0,
+            scrollbarStyle: "native",
+            readOnly: false,
+            showCursorWhenSelecting: true,
+            undoDepth: 50,
+            historyEventDelay: 5000,
+            dragDrop: false,
+            pollInterval: 50,
+            spellcheck: false,
+            autocorrect: false, 
+            autocapitalize: false
+            // theme: "material-darker"
+        });
+
+        Example1Save.addEventListener("click", function() {
+            Example1Save.classList.add("active");
+            Example1Modal.modal("show");
+        });
+
+        Example1Commit.addEventListener("click", function() {
+            let Data = {
+                File: `${Example1File}`,
+                Path: "{{ Path }}",
+                Content: `${Example1Editor.getValue()}`
+            };
+
+            let Payload = JSON.stringify(Data);
+            console.log(`${Data}`);
+
+            // _message.getElementsByClassName("header").item(0)
+            //     .innerHTML = "Uploading File(s) to Server";
+            // _message.style.color = "rgb(18, 121, 198)";
+
+            $.ajax({
+                type: "POST",
+                url: "{{ API['Commit'] }}",
+                data: Payload,
+                contentType: Example1MIME,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    console.log(`${data}`);
+                    // _message.getElementsByClassName("header").item(0)
+                    //     .innerHTML = "Successful";
+
+                    // _message.style.color = "Green";
+
+                    // _message.getElementsByClassName("header").item(0)
+                    //     .innerHTML.fontcolor = "Green";
+
+                    // _message.getElementsByTagName("i").item(1).classList.remove("loading");
+                },
+            });
+        });
+
+        Example1Download.addEventListener("click", function() {
+            var _html = document.getElementById("Content-Example-1").textContent;
+            var link = document.createElement("a");
+            link.download = "Example-Value-1";
+            var blob = new Blob([_html], {type: Example1MIME});
+            link.href = window.URL.createObjectURL(blob);
+            link.click();
+        });
+
+        Example1Close.addEventListener("click", function() {
+            console.log("Close");
+        });
+    });
+    // $(document).ready(function() {
+    //     $("#Commit-Example-1").on("click", function(){
+
+    //         var _message = document.getElementById("Status-Example-1");
+
+    //         _message.classList.remove("hidden");
+
+    //         _message.getElementsByClassName("header").item(0)
+    //             .innerHTML = "Establishing a Secure Connection";
+            
+    //         _message.getElementsByTagName("i").item(1).classList.add("loading");
+
+    //         var _html = document.getElementById("Content-Example-1").textContent;
+            
+    //         var _data = new Blob([_html], {type: "text/plain"});
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/management/test-server/test-server-service?filename=Example-Value-1",
+    //             data: _data,
+    //             contentType: false,
+    //             cache: false,
+    //             processData: false,
+    //             success: function(data) {
+    //                 _message.getElementsByClassName("header").item(0)
+    //                     .innerHTML = "Successful";
+
+    //                 _message.style.color = "Green";
+
+    //                 _message.getElementsByClassName("header").item(0)
+    //                     .innerHTML.fontcolor = "Green";
+
+    //                 _message.getElementsByTagName("i").item(1).classList.remove("loading");
+    //             },
+    //         });
+
+    //         _message.getElementsByClassName("header").item(0)
+    //             .innerHTML = "Uploading File(s) to Server";
+
+    //         _message.style.color = "rgb(18, 121, 198)";
+    //     });
+    // });
+    // $(document).ready(function() {
+    //     $("#Reload-Example-1").on("click", function(){
+    //         document.getElementById("Reload-Example-1").getElementsByTagName("i").item(0).classList.remove("eraser");
+
+    //         document.getElementById("Reload-Example-1").getElementsByTagName("i").item(0).classList.add("spinner");
+    //         document.getElementById("Reload-Example-1").getElementsByTagName("i").item(0).classList.add("basic");
+    //         document.getElementById("Reload-Example-1").getElementsByTagName("i").item(0).classList.add("elastic");
+    //         document.getElementById("Reload-Example-1").getElementsByTagName("i").item(0).classList.add("loading");
+
+    //         window.location.reload();
+    //     });
+    // });
+</script>
+
+<script>
+$(document).ready(function() {
+    $("#Status-Example-1-Close").on("click", function(){
+        var statusMessage = document.getElementById("Status-Example-1");
+        statusMessage.classList.add("hidden");
+    });
+});
+</script>
+
+{% endblock %}

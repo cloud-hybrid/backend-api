@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:    *    -*- #
+
+sudo apt update \
+    --yes
+
+DEBIAN_FRONTEND=noninteractive apt-get --yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+
+sudo apt autoremove \
+    --yes \
+&& sudo apt clean \
+    --yes \
+&& sudo apt autoclean
+    --yes
+
+echo ""
+echo "System Update(s) & Upgrade(s) Complete"
+echo ""

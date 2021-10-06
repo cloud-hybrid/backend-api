@@ -1,0 +1,443 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+#
+# ========================================================================
+# --> Pipeline:  Contineous Integration & Deployment Configuration(s)
+# ========================================================================
+# GitLab CICD Reference(s):
+#   - YAML: https://docs.gitlab.com/ce/ci/yaml/
+# Runner Autoscaling and Caching:
+#   - https://docs.gitlab.com/runner/configuration/autoscale.html
+# GitLab Runner Commands:
+#   - https://docs.gitlab.com/runner/commands/README.html
+# MacOS Runner Setup:
+#   - https://docs.gitlab.com/runner/register/index.html#macos
+# Non-Interactive Runner Registration Full Example:
+# : sudo gitlab-runner register \
+# >      --non-interactive \
+# >      --url "https://gitlab.com/" \
+# >      --registration-token "PROJECT_REGISTRATION_TOKEN" \
+# >      --executor "docker" \
+# >      --docker-image alpine:latest \
+# >      --description "docker-runner" \
+# >      --tag-list "docker,aws" \
+# >      --run-untagged="true" \
+# >      --locked="false" \
+# >      --access-level="not_protected"
+# Advanced GitLab Runner Configuration:
+#   - https://docs.gitlab.com/runner/configuration/advanced-configuration.html
+# Runners Behind Proxies
+#   - https://docs.gitlab.com/runner/configuration/proxy.html
+# AWS Autoscaling
+#   - https://docs.gitlab.com/runner/configuration/runner_autoscale_aws/
+# Oficial Gitlab Runner:
+#   - https://gitlab.com/gitlab-org/gitlab-runner/-/tree/master
+# Great Runner Overview Docs
+#   - https://docs.gitlab.com/runner/#compatibility-with-gitlab-versions
+# Container Registry $ Cache Server
+#   - https://docs.gitlab.com/runner/install/registry_and_cache_servers.html
+# Updating Runners:
+#   - :curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+#
+# Legacy AWS Script: bash -c "chmod a+x ./Applications/AWS/Initialize && ./Applications/AWS/Initialize"
+#
+
+---
+
+# ------------------------------------------------------------------------
+# Setup & Utility Callables
+# ------------------------------------------------------------------------
+
+.Initialization: &Alpine
+    - apk add curl
+    - apk add jq
+    - apk add rsync
+
+.Initialization: &GCC
+    - apk add build-base
+
+.Initialization: &Bionic
+    - sudo apt install curl
+    - sudo apt install jq
+
+.Initialization: &Sphinx
+    - python3 -m pip install Sphinx
+
+# - - - - - - - - - - -
+# Python Configuration
+# - - - - - - - - - - -
+
+.Initialization: &Python-3
+    - mkdir -p ./Cache/Packages
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install --upgrade setuptools
+    - python3 -m pip install wheel
+    - python3 -m pip install virtualenv
+    - python3 -m virtualenv "Environment"
+    - source "./Environment/bin/activate"
+    - mkdir -p ./Cache/Environment
+
+# - - - - - - - - - - -
+# AWS IAM Attributions
+# - - - - - - - - - - -
+
+.Initialization: &AWS
+    - python3 -m pip install awscli
+    -
+    - export _AWS_TOKEN=$(curl --silent -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds:21600")
+    -
+    - echo "$(curl --silent -H "X-aws-ec2-metadata-token:$_AWS_TOKEN" -v http://169.254.169.254/latest/meta-data/)"
+    -
+    - echo "Local Hostname - $(curl --silent http://169.254.169.254/latest/meta-data/local-hostname)"
+    - echo "Public IPv4 - $(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4)"
+    - echo "Instance ID = $(curl --silent http://169.254.169.254/latest/meta-data/instance-id)"
+    - echo "General Hostname - $(curl --silent http://169.254.169.254/latest/meta-data/hostname)"
+    - echo "IAM Information - $(curl --silent http://169.254.169.254/latest/meta-data/iam/info)"
+    - echo "IAM Security Groups - $(curl --silent http://169.254.169.254/latest/meta-data/security-groups)"
+    - echo "Service(s) Domain - $(curl --silent http://169.254.169.254/latest/meta-data/services/domain)"
+    - echo "Instance Type - $(curl --silent http://169.254.169.254/latest/meta-data/instance-type)"
+    - echo "Virtual Machine Image - $(curl --silent http://169.254.169.254/latest/meta-data/ami-id)"
+    - echo "VPS Initialization - $(curl --silent http://169.254.169.254/latest/user-data)"
+    -
+    - export AWS_IAM_ROLE="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/)"
+    - export AWS_ACCESS_KEY_ID="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.AccessKeyId')"
+    - export AWS_SECRET_ACCESS_KEY="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.SecretAccessKey')"
+    - export AWS_SECURITY_TOKEN="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.Token')"
+    - export AWS_SESSION_TOKEN="${AWS_SECURITY_TOKEN}"
+    -
+    - aws configure set aws_access_key_id       "${AWS_ACCESS_KEY_ID}"
+    - aws configure set aws_secret_access_key   "${AWS_SECRET_ACCESS_KEY}"
+    - aws configure set aws_session_token       "${AWS_SESSION_TOKEN}"
+
+# - - - - - - - - - - -
+# Runner Trigger Tags
+# - - - - - - - - - - -
+
+.Tags: &Runner
+    - "Cloud-Hybrid"
+    - "AWS"
+    - "Python"
+    - "Docker"
+    - "Alpine"
+
+# ------------------------------------------------------------------------
+# Configuration & Globals
+# ------------------------------------------------------------------------
+
+stages:
+    - Information
+    - test
+    - Environment
+    - Setup
+    - Analysis
+    - Code-Quality
+    - UAT
+    - Staging
+    - Source-Code
+    - Package
+    - Compilation
+    - Compile 
+    - Distribution
+    - Infrastructure
+    - Production
+    - Documentation
+    - Versioning
+    - Tag
+
+image: "python:alpine"
+
+include:
+    - "https://code.cloud-technology.io/Automata/.IO/-/raw/Development/IO-Code-Quality.Yaml"
+    - "https://code.cloud-technology.io/Automata/.IO/-/raw/Development/IO-Secrets-Detection.Yaml"
+    - "https://code.cloud-technology.io/Automata/.IO/-/raw/Development/IO-Version-Distribution.Yaml"
+    - "https://code.cloud-technology.io/Automata/.IO/-/raw/Development/IO-Version-Release.Yaml"
+    - "https://code.cloud-technology.io/Automata/.IO/-/raw/Development/IO-Initialization-Colors.Yaml"
+
+
+variables:
+    GIT_DEPTH: 10
+    CI_DEBUG_TRACE: "false"
+    GIT_CLONE_PATH: "$CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME"
+    PIP_CACHE_DIR:  "$CI_PROJECT_DIR/Cache/Packages"
+    VIR_CACHE_DIR:  "$CI_PROJECT_DIR/Cache/Environment"
+
+# ------------------------------------------------------------------------
+# Pipeline Jobs & Primary Entry-Point(s)
+# ------------------------------------------------------------------------
+
+Cache:
+    stage: Environment
+    tags: *Runner
+    before_script: [*Python-3]
+    script:
+        - echo "Purging Stubs"
+        - find . -name "*.pyc" -print -exec rm -r -f {} +
+        - find . -name "*.pyo" -print -exec rm -r -f {} +
+        - find . -name "*.egg-info" -print -exec rm -r -f {} +
+        - find ${VIR_CACHE_DIR} -name "*.pyc" -print -exec rm -r -f {} +
+        - find ${VIR_CACHE_DIR} -name "*.pyo" -print -exec rm -r -f {} +
+        - find ${VIR_CACHE_DIR} -name "*.egg-info" -print -exec rm -r -f {} +
+        - find ${PIP_CACHE_DIR} -name "*.pyc" -print -exec rm -r -f {} +
+        - find ${PIP_CACHE_DIR} -name "*.pyo" -print -exec rm -r -f {} +
+        - find ${PIP_CACHE_DIR} -name "*.egg-info" -print -exec rm -r -f {} +
+        - echo "Cleaning Cache Directories"
+        - find . -type d -name "__pycache__" -print -exec rm -r -f {} +
+        - find . -type d -name ".PYC" -print -exec rm -r -f {} +
+        - find ${VIR_CACHE_DIR} -type d -name "__pycache__" -print -exec rm -r -f {} +
+        - find ${VIR_CACHE_DIR} -type d -name ".PYC" -print -exec rm -r -f {} +
+        - find ${PIP_CACHE_DIR} -type d -name "__pycache__" -print -exec rm -r -f {} +
+        - find ${PIP_CACHE_DIR} -type d -name ".PYC" -print -exec rm -r -f {} +
+        - echo "Limiting Artifact(s) Upload"
+        - rm -rf "${CI_PROJECT_DIR}/.git"
+        - rm -rf "${CI_PROJECT_DIR}/Cache"
+        - rm -rf "${CI_PROJECT_DIR}/Environment"
+    artifacts:
+        paths:
+            - "${CI_PROJECT_DIR}"
+        expire_in: 1 hour
+        exclude:
+            - ".git"
+            - ".git*"
+            - ".git/"
+            - ".git/*"
+            - "*.git"
+            - "CI-Templates"
+            - "Git-Management"
+
+gitleaks:
+    stage: test
+    image: zricethezav/gitleaks
+    allow_failure: true
+    tags: *Runner
+    services:
+        - docker:dind
+    variables:
+        DOCKER_DRIVER: overlay2
+    script:
+        - gitleaks --verbose --repo-path=$CI_PROJECT_DIR --report=gitleaks.json
+    artifacts:
+        paths: [ gitleaks.json ]
+        reports:
+            container_scanning: gitleaks.json
+
+Initialization:
+    stage: Setup
+    tags: *Runner
+    before_script: *Python-3
+    script:
+        - mkdir -p ${CI_PROJECT_DIR}/Distribution
+        - mkdir -p /Artifacts/Development
+        - python setup.py build
+    artifacts:
+        paths:
+            - "${CI_PROJECT_DIR}/Build"
+        expire_in: 1 hour
+    needs:
+        -   job: Cache
+            artifacts: true
+Build (Dry):
+    stage: UAT
+    image: python:latest
+    tags: *Runner
+    before_script: *Python-3
+    script:
+        - python setup.py build --dry-run
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Install (Dry):
+    stage: UAT
+    image: python:latest
+    tags: *Runner
+    before_script: *Python-3
+    script:
+        - python setup.py install --dry-run
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Compile (Dry):
+    stage: UAT
+    image: python:latest
+    tags: *Runner
+    before_script: *Python-3
+    script:
+        - python setup.py bdist --dry-run
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Source:
+    stage: Distribution
+    tags: *Runner
+    # parallel: 3
+    resource_group: Distributable
+    before_script: [*Python-3]
+    script:
+        - echo ""
+        - |
+            if [[ "${CI_NODE_INDEX}" == "1" ]]; then 
+                export CI_ENVIRONMENT_NAME="Development" \
+                    && export CI_ENVIRONMENT_URL="development.cloudhybrid.io"
+            elif [[ "${CI_NODE_INDEX}" == "2" ]]; then 
+                export CI_ENVIRONMENT_NAME="Pre-Production" \
+                    && export CI_ENVIRONMENT_URL="staging.cloudhybrid.io"
+            elif [[ "${CI_NODE_INDEX}" == "3" ]]; then
+                export CI_ENVIRONMENT_NAME="Production" \
+                    && export CI_ENVIRONMENT_URL="production.cloudhybrid.io"
+            else
+                echo "Unknown Node Index"
+            fi
+        - |
+            cat << EOF | tee ${CI_PROJECT_DIR}/Environment.Properties
+            #!/usr/bin/file *.Properties
+
+            # -*- Coding: UTF-8 -*- #
+            # -*- System: Linux -*- #
+            # -*- Usage:   *.*  -*- #
+
+            # Source: code.cloud-technology.io
+            # Creator: Jacob B. Sanders
+            # License: BSD 3-Clause License
+
+            # Copyright 2020, Jacob B. Sanders
+
+            #
+            # ========================================================================
+            # Environment Variables
+            # ========================================================================
+            #
+
+            export Environment="${CI_ENVIRONMENT_NAME}"
+            export Pipeline="${CI_PIPELINE_URL}"
+            export URL="${CI_ENVIRONMENT_URL}"
+
+            export FQDN="cloudhybrid.io"
+            export Name="Cloud Hybrid LLC."
+            export Abbreviation="Cloud-Hybrid"
+
+            export Engineer="Jacob B. Sanders"
+            export License="BSD 3-Clause License"
+            export Copyright="Copyright 2020, Jacob B. Sanders"
+
+            EOF
+        - source Environment.Properties
+        - python setup.py build && python setup.py sdist
+        - rm -rf "${CI_PROJECT_DIR}/.git"
+        - rm -rf "${CI_PROJECT_DIR}/Cache"
+        - rm -rf "${CI_PROJECT_DIR}/Environment"
+    artifacts:
+        name: "${ENVIRONMENT}-Source-Code"
+        paths:
+            - "${CI_PROJECT_DIR}"
+        exclude:
+            - "Cache/*"
+            - "Environment/*"
+            - "CI-Templates/*"
+        expire_in: 1 hour
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Build:
+    stage: Distribution
+    tags: *Runner
+    # parallel: 3
+    resource_group: Distributable
+    before_script: [*Python-3]
+    script:
+        - python setup.py build
+    artifacts:
+        paths:
+            - "${CI_PROJECT_DIR}/.../Build"
+        expire_in: 1 hour
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Compile:
+    stage: Distribution
+    tags: *Runner
+    # parallel: 3
+    resource_group: Distributable
+    before_script: [*Python-3]
+    script:
+        - python setup.py bdist && python setup.py bdist_wheel
+    artifacts:
+        paths:
+            - "${CI_PROJECT_DIR}/.../Distribution"
+        expire_in: 1 hour
+    needs:
+        -   job: Initialization
+            artifacts: true
+
+Discovery:
+    stage: Infrastructure
+    tags: *Runner
+    resource_group: Deployment
+    before_script:
+        - echo "https://cloudhybrid.io"
+    script:
+        - echo "       Development        "
+        - echo "--------------------------"
+        - echo "     $CI_NODE_INDEX       "
+        - if [[ "${CI_NODE_INDEX}" == "1" ]]; then export TARGET="Development"; fi
+        - if [[ "${CI_NODE_INDEX}" == "2" ]]; then export TARGET="Staging"; fi
+        - if [[ "${CI_NODE_INDEX}" == "3" ]]; then export TARGET="Production"; fi
+    variables:
+        GIT_STRATEGY: none
+
+Orchestration:
+    stage: Infrastructure
+    environment: 
+        name: Pre-Production
+        url: https://cloudhybrid.io
+    tags: *Runner
+    resource_group: Deployment
+    before_script:
+        - echo "https://cloudhybrid.io"
+    script:
+        - echo "     Pre-Production       "
+        - echo "--------------------------"
+        - echo "     $CI_NODE_INDEX       "
+    variables:
+        GIT_STRATEGY: none
+    needs:
+        -   job: Source
+            artifacts: true
+        -   job: Build
+            artifacts: true
+        -   job: Compile
+            artifacts: true
+
+Synchronization:
+    stage: Infrastructure
+    environment: 
+        name: Production
+        url: https://cloudhybrid.io
+    tags: *Runner
+    before_script:
+        - apk add rsync
+    script:
+        - echo "       Production         "
+        - echo "--------------------------"
+        - echo "    Under Development     "
+    variables:
+        GIT_STRATEGY: none
+
+Sphinx:
+    stage: Documentation
+    tags: *Runner
+    before_script: [*Python-3]
+    script:
+        - python -m pip install sphinx
+        - python -m pip install sphinx-rtd-theme
+        - mv build/html/ ../public/
+    artifacts:
+        paths:
+            - public

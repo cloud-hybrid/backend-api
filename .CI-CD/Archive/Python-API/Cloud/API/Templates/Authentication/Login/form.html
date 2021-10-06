@@ -1,0 +1,78 @@
+<div class = "ui nine wide column">
+    <div class="Null ui inverted segment">
+        <form id="login-signin-form" class="ui form" method="post">
+            <div>
+                <h2 class="ui header center aligned">API Dashboard</h2>
+            </div>
+            {% if session["Authenticated"] != True %}
+            <div class="form-group field">
+                <label class="left">Username</label>
+                <input type="text" name="username" class="form-control" value="" placeholder="Username">
+                {% if message_username %}
+                <span class="help-block">
+                    <strong>
+                        {{ message_username }}
+                    </strong>
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="form-group field">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" value="" placeholder="Password">
+                {% if message_password %}
+                <span class="help-block">
+                    <strong>
+                        {{ message_password}}
+                    </strong>
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="row form-button form-group field submission">
+                <div id="login-button" class="ui large primary button" tabindex="0">Login</div>
+            </div>
+            {% else %}
+            <div class="form-group field">
+                <label class="left">Username</label>
+                <input type="text" name="username" class="form-control" value="" placeholder="..." disabled>
+                {% if message_username %}
+                <span class="help-block">
+                    <strong>
+                        {{ message_username }}
+                    </strong>
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="form-group field">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" value="" placeholder="******" disabled>
+                {% if message_password %}
+                <span class="help-block">
+                    <strong>
+                        {{ message_password}}
+                    </strong>
+                </span>
+                {% endif %}
+            </div>
+
+            <div class="row form-button form-group field submission">
+                <button id="login-button" class="ui large primary button" tabindex="0" disabled>Login</button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#login-button").click(function() {
+    var submit_button = document.getElementById("login-button");
+    submit_button.classList.add("loading");
+    });
+</script>
+<script>
+    $('#login-button').on('click', function() {
+    document.getElementById("login-signin-form").submit();
+    });
+</script>

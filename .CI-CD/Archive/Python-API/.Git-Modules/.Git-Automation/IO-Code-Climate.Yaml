@@ -1,0 +1,27 @@
+﻿version: "2"
+plugins:
+    fixme:
+        enabled: false
+    eslint:
+        enabled: false
+    git-legal:
+        enabled: false
+    markdownlint:
+        enabled: false
+    pylint:
+        enabled: false
+    grep:
+        enabled: false
+    bandit:
+        enabled: true
+    credo:
+        enabled: true
+    duplication:
+        enabled: true
+    shellcheck:
+        enabled: false
+
+exclude_patterns:
+    - "**/.bundle/**"
+    - "**/benchmarks/**"
+    - "**/spec/**"

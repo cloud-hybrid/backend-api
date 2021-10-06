@@ -1,0 +1,10 @@
+<body class="pushable dimmable">
+    {% if session["Authenticated"] == True %}
+    {% include "./DOM/sidemenu.html" %}
+    {% endif %}
+    <div class="pusher">
+        {% include "./DOM/menu.html" %}
+        {% include Template["Body"] %}
+        {% include "./DOM/footer.html" %}
+    </div>
+</body>

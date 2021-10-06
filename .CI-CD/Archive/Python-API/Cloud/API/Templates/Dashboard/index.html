@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Standard Meta -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+
+    <title>{{title}}</title>
+
+    <!-- Component Styles -->
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./User-Interface/semantic.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Null/Byte.css') }}">
+
+    <style type="text/css">
+        body {
+            margin-right: 0.0em;
+            margin-left: 0.0em;
+        }
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+        .main.container {
+            margin-top: 7.0em;
+            min-height: calc(100vh - 7.0em);
+        }
+        .pusher {
+            background: radial-gradient(white, #c0c0c0, #202020) !important;
+        }
+    </style>
+
+    <!-- JQuery -->
+
+    <script src="{{ url_for('static', filename='./Scripts/jquery/dist/jquery.min.js') }}"></script>
+
+    <!-- Component Scripts -->
+
+    <script src="{{ url_for('static', filename='./User-Interface/semantic.js') }}"></script>
+
+</head>
+<body class="pushable dimmable">
+    <div class="pusher">
+        {% include "./DOM/menu.html" %}
+
+        <!-- Primary Content (Body) -->
+
+        <div class="ui main grid container">
+            <div class="row">
+                <div class="center aligned middle aligned sixteen wide column">
+                    <div class="Null ui raised inverted segment">
+                        <div class = "ui fluid centered header">
+                            <h1>
+                                {{company}} - {{title}}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class = "row">
+                <div class ="ui eleven wide column centered">
+                    
+                    <!-- Server Instances (Cards) -->
+
+                    <div class = "row">
+                        <div class = "center aligned middle aligned sixteen wide column">
+                            <div class = "Null ui raised inverted segment bottom spaced">
+                                <div class = "ui header centered">
+                                    <h3>
+                                        Dedicated Instances
+                                        <hr>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        <div class = "ui centered grid container">
+                            <div class="ui inverted cards" style="margin-left: auto;margin-right: auto;display: contents;">
+                                {% for instance, information in Records.items() %}
+                                    <div class="Segmented ui centered card">
+                                        <div class="content">
+                                            <div class="header">
+                                                <strong> 
+                                                    {{Records[instance]["Host-Information"][2]}}
+                                                    <hr>
+                                                </strong>
+                                                {{Records[instance]["Host-Information"][1]}}
+                                            </div>
+                                            {% if (Records[instance]["Services"]) %}
+                                                <div class="description">
+                                                    <div class="ui header">
+                                                        <div class="ui horizontal divider" style="color:white;">Servers</div>
+                                                    </div>
+                                                    {% for service in Records[instance]["Services"] %}
+                                                        <p>
+                                                            {{ service[1] }}
+                                                            <br>
+                                                        </p>
+                                                    {% endfor %}
+                                            {% else %}
+                                            <div class="description">
+                                                <div class="ui header">
+                                                    <div class="ui horizontal divider" style="color:white;">Information</div>
+                                                </div>
+                                                <div class = "ui unordered list left aligned">
+                                                    <ul>
+                                                        <li>
+                                                            <strong>User</strong>: <span style = "text-transform: capitalize">{{Records[instance]["Host-Information"][3]}}</span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Region</strong>: <span style = "text-transform: capitalize">{{Records[instance]["Host-Information"][-3]}}</span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Owner</strong>: <span style = "text-transform: capitalize">{{Records[instance]["Host-Information"][-1]}}</span>
+                                                        </li>
+                                                        <li>
+                                                            <strong>Output</strong>: <span style = "text-transform: capitalize">{{Records[instance]["Host-Information"][-2]}}</span>
+                                                        </li>
+                                                        <br>
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                            <a href="/management/{{Records[instance]['Host-Information'][1]}}">
+                                                <div class="ui bottom attached labeled icon button">
+                                                    <i class="black server icon"></i>
+                                                    <strong style="color:black;">Server Management</strong>
+                                                </div>
+                                            </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ||| Server Instances (Cards) ||| -->
+
+                    <!-- Database Table-Cards -->
+
+                    <div class = "row">
+                        <div class = "center aligned middle aligned sixteen wide column">
+                            <div class = "Null ui raised inverted segment top bottom spaced">
+                                <div class = "ui header centered">
+                                    <h3>
+                                        Database Tables
+                                        <hr>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        <div class = "Segmented-Inverted-Centered-Cards ui inverted centered cards">
+                            {% for key, value in Tables.items() %}
+                                <div class = "ui centered card">
+                                    <div class = "content">
+                                        <div class = "ui centered header">
+                                            <strong> 
+                                                {{ value["Database-File"] }}
+                                                <hr>
+                                            </strong>
+                                        </div>
+                                        <div class = "center aligned description">
+                                            <div class = "ui centered header">
+                                                {{ key }}
+                                            </div>
+                                            <div class = "ui inverted statistic">
+                                                <div class = "value">
+                                                    {{ value["Total-Records"] }}
+                                                </div>
+                                                <div class = "label">
+                                                    Records
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <!-- <div class = "center aligned">
+                                            <a href = "/management/database/tables/{{ key }}">
+                                                <div class = "ui icon button">
+                                                    <i class = "black database icon"></i>
+                                                </div>
+                                            </a>
+                        
+                                            <a href = "/management/database/schemas/{{ key }}">
+                                                <div class = "ui icon button" href="/dashboard/database/schemas/{{ key }}">
+                                                    <span style = "color:black">Data</span>
+                                                </div>
+                                            </a>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    </div>
+
+                    <!-- ||| Database Table-Cards ||| -->
+                </div>
+                {% include "./Dashboard/sidebar.html" %}
+            </div>
+        </div>
+        <!-- ||| Primary Content (Body) ||| -->
+        {% include "./DOM/footer.html" %}
+    </div>
+    <style>
+        span::first-letter {
+            font-weight: bold;
+            color: red;
+            text-transform: capitalize;
+        }
+    </style>
+</body>
+
+</html>

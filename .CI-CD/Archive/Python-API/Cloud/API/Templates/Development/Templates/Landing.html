@@ -1,0 +1,1204 @@
+{% extends "Base.html" %}
+
+{% block head %}
+    {{ super() }}
+
+    <!-- Styles -->
+    <link rel="stylesheet" nonce="{{ Metadata.JWN }}" type="text/css" href="https://cloudhybrid.io/artifacts/Cloud.css">
+
+    <!-- JQuery -->
+    <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
+
+    <!-- Scripts -->
+    <script nonce="{{ Metadata.JWN }}" src="https://cloudhybrid.io/artifacts/Cloud-Theme/Scripts/semantic.min.js"></script>
+
+{% endblock %}
+
+{% block sidemenu %}
+    <div class="item">
+        <div class="ui inverted transparent left icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+        </div>
+    </div>
+    <div class="item">
+        <div class="menu">
+            <div class="ui left aligned padded header">
+                API
+            </div>
+
+            <div class="ui small left aligned padded header">
+                <a href="https://cloudhybrid.io/API/Server/Hardware" class="item">Hardware</a>
+            </div>
+            <hr>
+            <a href="https://cloudhybrid.io/API/Server/Hardware" class="item">CPU</a>
+            <a href="https://cloudhybrid.io/API/Server/Hardware" class="item">RAM</a>
+            <a href="https://cloudhybrid.io/API/Server/Hardware" class="item">Disk</a>
+
+            <div class="ui small left aligned padded header">
+                <a href="https://cloudhybrid.io/API/Server/System" class="item">System</a>
+            </div>
+            <hr>
+            <a href="https://cloudhybrid.io/API/Server/System/Network" class="item">Network</a>
+            <a href="https://cloudhybrid.io/API/Server/System/Uptime" class="item">Uptime</a>
+
+            <div class="ui small left aligned padded header">
+                <a href="https://cloudhybrid.io/API/Network" class="item">LAN</a>
+            </div>
+            <hr>
+            <a href="https://cloudhybrid.io/API/Network/Ping" class="item">Ping</a>
+            <a href="https://cloudhybrid.io/API/Network/Scanner" class="item">Scanner</a>
+
+            <div class="ui small left aligned padded header">
+                <a href="https://cloudhybrid.io/API/Security/PEM" class="item">Security</a>
+            </div>
+            <hr>
+            <a href="https://cloudhybrid.io/API/Security/PEM" class="item">PEM</a>
+            <a href="https://cloudhybrid.io/API/Security/RSA" class="item">RSA</a>
+
+            <div class="ui small left aligned padded header">
+                <a href="https://cloudhybrid.io/API/Virtualization/Preseed" class="item">Virtualization</a>
+            </div>
+            <hr>
+            <a href="https://cloudhybrid.io/API/Virtualization/Preseed" class="item">Preseed</a>
+
+        </div>
+    </div>
+    <div class="ui inverted left aligned padded header">
+        Administration
+    </div>
+    <hr>
+    <a class="item"><i class="grid layout icon"></i>Blog</a>
+    <a class="item"><i class="grid layout icon"></i>Dashboard</a>
+    <a class="item"><i class="grid layout icon"></i>Financial</a>
+    <a class="item"><i class="grid layout icon"></i>Statistics</a>
+    <a class="item"><i class="grid layout icon"></i>IAM Management</a>
+    <div class="ui inverted left aligned padded header">
+        Development
+    </div>
+    <hr>
+    <a href="https://cloudhybrid.io/development/dashboard" class="item">
+        <i class="grid layout icon"></i>
+        Dashboard
+    </a>
+{% endblock %}
+
+{% block menu %}
+    <div class="ui icon item">
+        <i class="large bars link icon"></i>
+    </div>
+    <div class="ui container">
+        <a class="ui link item" href="/">
+            <img class="logo"src="{{ url_for('static', filename='./Images/20r-logo.png') }}"/>{{ Metadata["Company"] }}
+        </a>
+
+        <a href="" class="item">
+            &nbsp;&nbsp;&nbsp;&nbsp;Store&nbsp;&nbsp;&nbsp;&nbsp;
+        </a>
+
+        <div class="ui simple dropdown inverted item">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gaming
+            <i class="large dropdown icon"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="inverted menu">
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/mordhau">Mordhau</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/mordhau">Home</a>
+                        <hr>
+                        <a class="item" href="/mordhau#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/mordhau#administrators">Administrators</a>
+                        <a class="item" href="/mordhau#calendar">Calendar</a>
+                        <a class="item" href="/mordhau#events">Events</a>
+                        <a class="item" href="/mordhau#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/mordhau#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/mordhau/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/squad">Squad</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/squad">Home</a>
+                        <hr>
+                        <a class="item" href="/squad#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/squad#administrators">Administrators</a>
+                        <a class="item" href="/squad#calendar">Calendar</a>
+                        <a class="item" href="/squad#events">Events</a>
+                        <a class="item" href="/squad#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/squad#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/squad/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/rust">Rust</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rust">Home</a>
+                        <hr>
+                        <a class="item" href="/rust#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rust#administrators">Administrators</a>
+                        <a class="item" href="/rust#calendar">Calendar</a>
+                        <a class="item" href="/rust#events">Events</a>
+                        <a class="item" href="/rust#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rust#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rust/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/escape-from-tarkov">Tarkov</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/escape-from-tarkov">Home</a>
+                        <hr>
+                        <a class="item" href="/escape-from-tarkov#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/escape-from-tarkov#administrators">Administrators</a>
+                        <a class="item" href="/escape-from-tarkov#calendar">Calendar</a>
+                        <a class="item" href="/escape-from-tarkov#events">Events</a>
+                        <a class="item" href="/escape-from-tarkov#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/escape-from-tarkov#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/escape-from-tarkov/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/rocket-league">Rocket League</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rocket-league">Home</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#administrators">Administrators</a>
+                        <a class="item" href="/rocket-league#calendar">Calendar</a>
+                        <a class="item" href="/rocket-league#events">Events</a>
+                        <a class="item" href="/rocket-league#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rocket-league/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/mount-and-blade-bannerlord">Bannerlord</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/mount-and-blade-bannerlord">Home</a>
+                        <hr>
+                        <a class="item" href="/mount-and-blade-bannerlord#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/mount-and-blade-bannerlord#administrators">Administrators</a>
+                        <a class="item" href="/mount-and-blade-bannerlord#calendar">Calendar</a>
+                        <a class="item" href="/mount-and-blade-bannerlord#events">Events</a>
+                        <a class="item" href="/mount-and-blade-bannerlord#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/mount-and-blade-bannerlord#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/mount-and-blade-bannerlord/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/rainbow-6ix-siege">Rainbow 6ix</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege">Home</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#administrators">Administrators</a>
+                        <a class="item" href="/rainbow-6ix-siege#calendar">Calendar</a>
+                        <a class="item" href="/rainbow-6ix-siege#events">Events</a>
+                        <a class="item" href="/rainbow-6ix-siege#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rainbow-6ix-siege/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/halo">Halo</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/halo">Home</a>
+                        <hr>
+                        <a class="item" href="/halo#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/halo#administrators">Administrators</a>
+                        <a class="item" href="/halo#calendar">Calendar</a>
+                        <a class="item" href="/halo#events">Events</a>
+                        <a class="item" href="/halo#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/halo#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/halo/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/last-oasis">Last Oasis</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/last-oasis">Home</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#administrators">Administrators</a>
+                        <a class="item" href="/last-oasis#calendar">Calendar</a>
+                        <a class="item" href="/last-oasis#events">Events</a>
+                        <a class="item" href="/last-oasis#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/last-oasis/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    <a href="/minecraft">Minecraft</a>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/minecraft">Home</a>
+                        <hr>
+                        <a class="item" href="/minecraft#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/minecraft#administrators">Administrators</a>
+                        <a class="item" href="/minecraft#calendar">Calendar</a>
+                        <a class="item" href="/minecraft#events">Events</a>
+                        <a class="item" href="/minecraft#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/minecraft#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/minecraft/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <a class="featured item">
+            Resources
+            <i class="dropdown icon"></i>
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted three column relaxed fluid divided grid">
+                <div class="ui center aligned column">
+                    <i class="user icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Login</a>
+                        <a class="item">Sign Up</a>
+                        <a class="item">Dashboard</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                Cloud
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="ui center aligned column">
+                    <i class="chart pie icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Advertising</a>
+                        <a class="item">Outreach</a>
+                        <a class="item">Partners</a>
+                        <a class="item">Twitch</a>
+                    </div>
+                </div>
+                <div class="ui center aligned column">
+                    <i class="edit icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Blog</a>
+                        <a class="item">Videos</a>
+                        <a class="item">Tutorials</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                References
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="servers item">
+            Servers
+            <i class="dropdown icon"></i>
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted four column divided grid">
+                <div class="ui center aligned column">
+                    &nbsp;&nbsp;Community&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Mordhau</a>
+                        <a class="item">Rust</a>
+                        <a class="item">Minecraft</a>
+                        <a class="item">Squad</a>
+                        <a class="item">Bannerlord</a>
+                    </div>
+                </div>
+                <div class="ui center aligned fluid column">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Internal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Archives</a>
+                        <a class="item">Dashboard</a>
+                        <a class="item">Modding</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                Schedule
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="ui center aligned column">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hosting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Gaming</a>
+                        <a class="item">Services</a>
+                        <a class="item">Purchasing</a>
+                        <hr>
+                        <a class="item">
+                            <strong>Demo</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="ui center aligned column">
+                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    <!-- (Continued) -->
+                    &nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">
+                            Affiliates
+                        </a>
+                        <a class="item" href="/contact">
+                            Contact
+                        </a>
+                        <a class="item">
+                            Guides
+                        </a>
+                        <a class="item">
+                            Security
+                        </a>
+                        <a class="item">
+                            References
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="" class="item">
+            Blog
+        </a>
+
+        <a class="item" href="/contact">
+            Contact
+        </a>
+
+        <a href="" class="item">
+            Team
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted three column relaxed fluid divided grid">
+                <div class="ui center aligned column">
+                    <i class="gamepad icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Mordhau</a>
+                        <a class="item">Squad</a>
+                        <a class="item">Rust</a>
+                        <a class="item">Escape from Tarkov</a>
+                    </div>
+                </div>
+                <div class="ui center aligned fluid column">
+                    <i class="ghost icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">Rocket League</a>
+                        <a class="item">Call of Duty</a>
+                        <a class="item">Rainbow 6ix Siege</a>
+                        <a class="item">Minecraft</a>
+                    </div>
+                </div>
+                <div class="ui center aligned column">
+                    <i class="headset icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="ui inverted link list">
+                        <a class="item">League</a>
+                        <a class="item">CS: GO</a>
+                        <a class="item">Planet Side 2</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                All&nbsp;
+                                <i class="green gamepad icon"></i>
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right inverted user-menu-control menu item">
+            {% if session["Authenticated"] != True %}
+                <a class="ui green basic inverted button" href="https://cloudhybrid.io/login">Login</a>
+                <a class="ui blue basic inverted button" href="https://cloudhybrid.io/sign-up">Sign Up</a>
+            {% else %}
+                <a class="ui green basic inverted button" href="https://cloudhybrid.io/login">Dashboard</a>
+                <a class="ui red basic inverted button" href="/logout">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block pusher %}
+<div class="ui very padded inverted vertical center aligned sizer jumbotron segment">
+    <div class="ui container">
+        <img nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Images/20r-logo.png') }}" class="ui centered medium image">
+        <h1 class="ui inverted header">20th Regiment of Foot</h1>
+        <hr>
+        <h2 class="ui inverted header">Gaming, Community, Competition</h2>
+    </div>
+</div>
+<div id="TEST" class="ui very padded violet inverted vertical segment landing-divit">
+    <div class="ui home container position-relative">
+        <div id="call-to-action-header-row" class="display-flex position-relative call-to-action-header-transition" hidden>
+            <div class="four wide column">
+            <div class="my-header header-left">
+                Enhanced Gaming Experience
+            </div>
+        </div>
+            <div class="my-header header-right">
+                Join our Group
+            </div>
+        </div>
+        <div class="ui sixteen wide column">
+            <div id="call-to-action-discord-form" class="discord-form-container discord-form-transition" hidden>
+                <iframe nonce="{{ Metadata.JWN }}" src="https://discordapp.com/widget?id=531243268256694313&theme=dark" width="1200" height="700" allowtransparency="true" frameborder="0"></iframe>
+            </div>
+        </div>
+        <div class="ui centered stackable grid">
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row"></div>
+            <div id="call-to-action-info-row" class="left aligned row call-to-action-fade">
+                <div class="eight wide left aligned text column inverted transparent segment">
+                    <p>
+                        The 20th Regiment of Foot is a global organization that promotes online gaming through quality events, servers, and services for both the amateur and professional player base and community.
+                    </p>
+                    <p>
+                        Founded on February 28th, 2014, our roots graciously grew from Mount and Blade Warband, but we
+                        eventually branched out towards establishing organized groups accross multiple games. We strive to provide
+                        both quality casual and competitive experiences for our members — achieved through
+                        years of experience, strong administrative foundations, and a robust staff structure.
+                    </p>
+                    <p>
+                        Since 2014, we’ve organized <i>thousands</i> of unique events, hosted professional competitive matches,
+                        raised money for various charities, and as of 2020, employ over 20 staff members.
+                        With the continued growth of the <strong>20th Regiment of Foot</strong>, we intend to bring the same incredible events to our
+                        incredible community and the related public.
+                    </p>
+                </div>
+                <div class="eight wide center aligned video column">
+                    <div class="ui inverted dark transparent video segment raised">
+                        <div class="Home-Video-Dimmer ui active light dimmer">
+                            <div class="ui active large slow double loader"></div>
+                        </div>
+                        <video nonce="{{ Metadata.JWN }}" autoplay loop muted preload="auto" onloadeddata="removeVideoDimmer()">
+                            <source src="/artifacts/Video/Mordhau-Showcase.webm" type="video/webm">
+                            <source src="/artifacts/Video/Mordhau-Showcase-Optimized.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <div id="call-to-action-image-row" class="center aligned centered row call-to-action-fade">
+                <div class="ui fourteen wide tabular column">
+                    <div class="ui top attached white tabular menu">
+                        <div class="item active" data-tab="one">Community</div>
+                        <div class="center item" data-tab="two">Partners</div>
+                        <div class="item" data-tab="three">Competition</div>
+                    </div>
+                    <div class="ui bottom attached tab segment active" data-tab="one">
+                        <h3 class="ui large center aligned header">
+                            The 20th Regiment of Foot
+                            <div class="ui horizontal divider">
+                                Community
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            The 20th regiment of Foot provides some of the most <a href="/server-performance-white-page">optimized,
+                            performant game servers</a>, enabling communities to play to the best of their abilities via the highest
+                            server-side performance possible. Offering such infrastructure, publically and without charge, to our gaming
+                            communities is an obligation we proudly hold.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            Visit our <a href="technology-infrastructure">Technology & Infrastructure</a> page for a white-page and
+                            additional information regarding our sever environment(s).
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            Playing with the public communities is another important focus for the 20th Regiment of Foot — especially
+                            regarding recruitment. Our recruitment goal is to provide quality over quantity. Understanding that quality
+                            is invested and produced, our members have always shown willingness and proven their efficacy to ensure
+                            the best communications and sociability.
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="two">
+                        <h3 class="ui large center aligned header">
+                            The 20th Regiment of Foot
+                            <div class="ui horizontal divider">
+                                Partnerships
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            The partners we keep are of utmost importance.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            No partnership is too small for the greatness that's capable from co-creations and partnerships,
+                            so we look forward to speaking more about developing something together. Please
+                            drop us a <a href="/contact">note</a> with any details that will help us understand your interests.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            To learn about partnership opportunities, please send an inquiry via our <a href="/contact">Contact Page.</a>
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="three">
+                        <h3 class="ui large center aligned header">
+                            The 20th Regiment of Foot
+                            <div class="ui horizontal divider">
+                                Competition
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            Lead by passion to recognize and foster the growth of up-and-coming talent,
+                            the vast amount of competitve 20th Regiment of Foot rosters have occupied a commanding place
+                            over the last six years. We continue to
+                            grow talent that has directly funneled into popular streaming channels, game-wide events,
+                            and eSports scenes.
+                        </p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="ui centered stackable grid">
+            </div>
+
+            <div class="discord row">
+                <div class="sixteen wide center aligned column">
+                    <button nonce="{{ Metadata.JWN }}" id="Home-Discord-Button" class="ui left aligned right labeled icon large fitted large inverted button" onclick="flip();">
+                        <span>Discord</span>
+                        <i id="Home-Discord-Button-Icon" class="discord icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cloud home evens ui very padded vertical segment">
+    <div class="ui middle aligned stackable grid container">
+        <div class="home event information row">
+            <div class="eight wide column">
+                <h2 class="ui header">Events</h2>
+                <p>
+                    Are you a member of another team
+                    looking to schedule an event? Please refer to the different gaming sections and reach
+                    out to an applicable administrator for further information.
+                </p>
+                <p>
+                    Established representives and members can sign in and schedule an event via the event calendars.
+                </p>
+            </div>
+            <div class="six wide right floated column">
+                <img nonce="{{ Metadata.JWN }}" src="/artifacts/Images/Full-Width/64-Controller-1.jpg" class="ui home circular image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cloud news ui stackable full-width grid flex container">
+    <div class="cloud-row">
+        <div class="sixteen wide column">
+            <h2 class="ui header">News</h2>
+            {% include "./Development/Templates/Steam-News.html" %}
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="cloud ui news breadcrumb">
+            <a id="news-breadcrumb-1" class="active section">Page 1</a>
+            <i class="right chevron icon divider"></i>
+            <a id="news-breadcrumb-2" class="section">Page 2</a>
+        </div>
+    </div> -->
+</div>
+
+<script nonce="{{ Metadata.JWN }}">
+    // Menu
+    $(".menu .item").tab();
+
+    $(".menu .gaming.item").popup({
+        inline     : true,
+        hoverable  : true,
+        position   : "bottom center",
+        delay: {
+            show: 25,
+            hide: 125
+        },
+        setFluidWidth: true
+    });
+
+    $(".menu .servers.item").popup({
+        inline     : true,
+        hoverable  : true,
+        position   : "bottom center",
+        delay: {
+            show: 25,
+            hide: 125
+        },
+        setFluidWidth: true
+    });
+
+    $(".menu .featured.item").popup({
+        inline     : true,
+        hoverable  : true,
+        position   : "bottom center",
+        delay: {
+            show: 25,
+            hide: 125
+        },
+        setFluidWidth: true
+    });
+
+    // Side-Menu
+    $(".ui.sidebar").first().sidebar("attach events", ".ui.icon.item .bars");
+
+    var callToActionHeaderRow = document.getElementById("call-to-action-header-row");
+    var callToActionImageRow = document.getElementById("call-to-action-image-row");
+    var callToActionInfoRow = document.getElementById("call-to-action-info-row");
+    var callToActionDiscordForm = document.getElementById("call-to-action-discord-form");
+
+    var transitioned = false;
+
+    function flip() {
+        flipCallToActionHeaderRow();
+        fadeCallToActionImageRow();
+        fadeCallToActionInfoRow();
+        fadeCallToActionDiscordForm();
+
+        transitioned = transitioned == true ? false : true;
+    }
+
+    function flipCallToActionHeaderRow() {
+        if (transitioned == false) {
+            callToActionHeaderRow.classList.add("transition-left");
+        } else {
+            callToActionHeaderRow.classList.remove("transition-left");
+        }
+    }
+
+    function fadeCallToActionImageRow() {
+        if (transitioned == false) {
+            callToActionImageRow.classList.add("fade-out");
+
+        } else {
+            callToActionImageRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionInfoRow() {
+        if(transitioned == false) {
+            callToActionInfoRow.classList.add("fade-out");
+        } else {
+            callToActionInfoRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionDiscordForm() {
+        if(transitioned == false) {
+            callToActionDiscordForm.classList.add("fade-in");
+        } else {
+            callToActionDiscordForm.classList.remove("fade-in");
+        }
+    }
+
+    function Open(url) {
+        window.open(url, '_blank');
+    }
+
+    function removeVideoDimmer() {
+        setTimeout(function() {
+            $(".Home-Video-Dimmer").fadeOut("slow", function() {
+                $(this).removeClass("active");
+            });
+        }, 750);
+    }
+
+    // $("#news-breadcrumb-1").on("click", (function(){
+    //     console.log("Clicked");
+
+    //     var actives = document.getElementsByClassName("active-news-card");
+    //     var hiddens = document.getElementsByClassName("hidden-news-card");
+
+    //     var activeIndex;
+    //     var hiddenIndex;
+
+    //     for (activeIndex = 0; activeIndex <= actives.length; activeIndex++) {
+    //         var item = actives[activeIndex];
+    //         item.classList.remove("active-news-card");
+    //         item.classList.add("hidden-news-card");
+    //     };
+
+    //     for (hiddenIndex = 0; hiddenIndex <= hiddenIndex.length; hiddenIndex++) {
+    //         var item = hiddens[hiddenIndex];
+
+    //         item.classList.remove("hidden-news-card");
+    //         item.classList.add("active-news-card");
+    //     };
+    // }))
+
+    // $("#news-breadcrumb-2").on("click", (function(){
+    //     console.log("Clicked");
+
+    //     var actives = document.getElementsByClassName("active-news-card");
+    //     var hiddens = document.getElementsByClassName("hidden-news-card");
+
+    //     var activeIndex;
+    //     var hiddenIndex;
+
+    //     for (activeIndex = 0; activeIndex < actives.length; activeIndex++) {
+    //         var item = actives[activeIndex];
+
+    //         item.classList.remove("active-news-card");
+    //         item.classList.add("hidden-news-card");
+    //     };
+
+    //     for (hiddenIndex = 0; hiddenIndex < hiddenIndex.length; hiddenIndex++) {
+    //         var item = hiddens[hiddenIndex];
+
+    //         item.classList.remove("hidden-news-card");
+    //         item.classList.add("active-news-card");
+    //     };
+    // }))
+</script>
+<style nonce="{{ Metadata.JWN }}">
+    @media only screen and (min-width: 1200px) {
+        .ui.ui.ui.home.container:not(.fluid) {
+            width: 92.5%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ui.ui.ui.grid.container {
+            width: calc(1127px + 2rem);
+        }
+
+        .ui.ui.ui.relaxed.grid.container {
+            width: calc(1127px + 3rem);
+        }
+
+        .ui.ui.ui.very.relaxed.grid.container {
+            width: calc(1127px + 5rem);
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .text.column {
+            max-width: 45% !important;
+        }
+
+        .ui.paragraph.bold.centered.text {
+            max-width: 1205px;
+            margin: auto;
+            padding: 1.0em;
+            text-align: center;
+
+        }
+
+    }
+
+    @media only screen and (min-width: 1000px) and (max-width: 1119.95px) {
+        .my-header.header-left {
+            margin-top: 1.5em;
+        }
+        #call-to-action-info-row {
+            margin-top: 1.5em;
+        }
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 1000px) {
+        .ui.ui.ui.home.container:not(.fluid) {
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row {
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .column {
+            padding: 1.0em;
+            margin: auto;
+            text-align: center;;
+        }
+
+        .ui.three.doubling.cards > .card {
+            width: calc(50% - 2em);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .text.column {
+            width: 100% !important;
+            padding: 1.0em;
+            margin-top: 5.0em;
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .video.column {
+            width: 100% !important;
+            padding: 1.0em;
+            margin-top: 5.0em;
+        }
+
+        .my-header.header-left {
+            display: none;
+        }
+
+        .ui.centered.stackable.grid > div.discord.row {
+            display: none;
+        }
+
+        .ui.ui.ui.grid.container {
+            width: calc(723px + 2rem);
+        }
+
+        .ui.ui.ui.relaxed.grid.container {
+            width: calc(723px + 3rem);
+        }
+
+        .ui.ui.ui.very.relaxed.grid.container {
+            width: calc(723px + 5rem);
+        }
+
+        #call-to-action-info-row {
+            margin-top: 5.35em;
+        }
+    }
+
+
+
+    @media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+        .ui.ui.ui.home.container:not(.fluid) {
+            width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ui.ui.ui.grid.container {
+            width: calc(933px + 2rem);
+        }
+
+        .ui.ui.ui.relaxed.grid.container {
+            width: calc(933px + 3rem);
+        }
+
+        .ui.centered.stackable.grid > div.discord.row {
+            display: inline;
+        }
+
+        .ui.ui.ui.very.relaxed.grid.container {
+            width: calc(933px + 5rem);
+        }
+        .my-header.header-left {
+            margin-top: 1.35em;
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .text.column > p {
+            max-width: 100% !important;
+            padding: 1.0em !important;
+            margin: auto !important;
+            /* text-align: center !important; */
+        }
+
+        .ui.stackable.grid:not(.vertically) > .row > .video.column {
+            max-width: 100% !important;
+            padding: 1.0em !important;
+            margin: auto !important;
+            text-align: center !important;
+        }
+
+        .ui.tabular.ten.wide.column {
+            width: 85% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+    }
+
+    @media only screen and (max-width: 991.95px) {
+        .my-header.header-left {
+            display: none;
+        }
+        .ui.centered.stackable.grid > div.discord.row {
+            display: none;
+        }
+        #call-to-action-info-row {
+            margin-top: 5.35em;
+        }
+        .ui.stackable.grid:not(.vertically) > .row > .text.column > p {
+            text-align: center !important;
+        }
+        .ui.tabular.menu {
+            border-bottom-width: 0px;
+        }
+        .ui.bottom.attached.tab.segment {
+            padding-left: 1.0em !important;
+            padding-right: 1.0em !important;
+        }
+    }
+
+    @media only screen and (max-width: 767.98px) {
+        .ui.home.circular.image {
+            display: none;
+        }
+    }
+
+    .ui.stackable.grid:not(.vertically) > .row > .text.column {
+        margin-block: auto;
+    }
+
+    .ui.stackable.grid:not(.vertically) > .row > .video.column {
+        margin-block: auto;
+    }
+
+    .ui.stackable.grid:not(.vertically) > .row > .text.column > p {
+        max-width: 800px;
+        margin: auto;
+        padding: 1.0em;
+        text-align: left;
+    }
+
+    /* .ui.paragraph.bold.centered.text {
+        margin: auto;
+        padding: 1.0em;
+        margin-left: 3.5em;
+        margin-right: 3.5em;
+        text-align: center;
+    } */
+
+    .ui.paragraph.bold.centered.text {
+        font-weight: 500;
+    }
+
+    .position-relative {
+        position: relative;
+    }
+
+    .display-flex {
+        display: flex;
+        justify-content: center;
+    }
+
+    .landing-divit {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .landing-divit::before,
+    .landing-divit::after {
+        position: absolute;
+        content: '';
+        width: 200px;
+        height: 200px;
+        background-color: #1B1C1D;
+        top: -11em;
+    }
+
+    .landing-divit::before {
+        right: 49.99%;
+        transform: skew(0, 30deg);
+    }
+
+    .landing-divit::after {
+        left: 50%;
+        transform: skew(0, -30deg);
+    }
+
+    .my-header {
+        font-family: 'Montserrat';
+        font-size: 2em;
+        position: absolute;
+        top: 1vh;
+    }
+
+    .ui.very.padded.inverted.vertical.center.aligned.sizer.jumbotron.segment {
+        padding-top: 5.0em;
+    }
+
+    .call-to-action-header-transition {
+        left: 0;
+        transition: all 1.5s ease;
+    }
+
+    .call-to-action-fade {
+        opacity: 1;
+        transition: opacity 0.8s ease-in;
+    }
+
+    .fade-out {
+        opacity: 0;
+    }
+
+    .fade-in {
+        transition-delay: 0.5s;
+        opacity: 1 !important;
+        z-index: 1;
+    }
+
+    .header-left {
+        left: 0;
+    }
+
+    .header-right {
+        right: -50vw;
+    }
+
+    .transition-left {
+        left: -50vw;
+    }
+    .ui.inverted.button:focus {
+        background: transparent !important;
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+    <div class="ui center aligned container">
+        <footer class="ui stackable inverted divided center aligned grid">
+            <div class="four wide column">
+                <h4 class="ui inverted header">Company</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">About Us</a>
+                    <a href="#" class="item">Managed Services</a>
+                    <a href="#" class="item">Blogs & Tutorials</a>
+                    <a href="#" class="item">Automated Solutions</a>
+                    <a href="#" class="item">Product Pricing</a>
+                    <a href="#" class="item">Partners & Affilates</a>
+                    <a href="#" class="item">Leadership</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header">Services</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Cloud Hosting</a>
+                    <a href="#" class="item">Development & APIs</a>
+                    <a href="#" class="item">Game Server Hosting</a>
+                    <a href="#" class="item">Dedicated Server Hosting</a>
+                    <a href="#" class="item">Virtual-Machines</a>
+                    <a href="#" class="item">Wordpress CMS</a>
+                    <a href="#" class="item">Shared Webservers</a>
+                    <a href="#" class="item">Databases & Storage</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header">Open Source</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">APIs</a>
+                    <a href="#" class="item">Sensitive Data</a>
+                    <a href="#" class="item">Git Management</a>
+                    <a href="#" class="item">Virtual Machines</a>
+                    <a href="#" class="item">Mobile Authentication</a>
+                    <a href="#" class="item">Linux Virtualization</a>
+                    <a href="#" class="item">Code Documentation</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header">Powered via <strong><a href="https://cloudhybrid.io" target="_blank">Cloud Hybrid</a></strong></h4>
+                <img src="/artifacts/Images/Logo_4.svg" class="ui centered small image">
+            </div>
+        </footer>
+        <div class="ui inverted section divider"></div>
+
+        <img src="/artifacts/Images/20r-logo.png" class="ui centered mini image">
+
+        <div class="ui horizontal inverted small divided link list">
+            <a class="item" href="{{url_for('static', filename='./documents/Site-Map.xml')}}" target="_blank">Site Map</a>
+            <a class="item" href="{{url_for('static', filename='./documents/Acceptable-Usage-Policy.pdf')}}" target="_blank">Acceptable Usage Policy</a>
+            <a class="item" href="{{url_for('static', filename='./documents/Terms-and-Conditions.pdf')}}" target="_blank">Terms and Conditions</a>
+            <a class="item" href="{{url_for('static', filename='./documents/Privacy-Policy.md')}}" target="_blank">Privacy Policy</a>
+        </div>
+        <br><br>
+        <div class="ui inverted text">Copyright &copy; 2020 - The 20th Regiment of Foot & Cloud Hybrid. All rights reserved.</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:    *    -*- #
+
+set -e
+
+print () {
+    local input="$1"
+
+    echo ""
+    echo "${input}"
+    echo ""
+
+    sleep 2.0
+}
+
+echo ""
+
+echo " ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ "
+echo " ┃                         Automation                      ┃ "
+echo " ┃                      ----------------                   ┃ "
+echo " ┃   The following source file(s) contains confidential,   ┃ "
+echo " ┃  proprietary information. Unauthorized use is strictly  ┃ "
+echo " ┃    prohibited. No portions may be copied, reproduced,   ┃ "
+echo " ┃      or incorporated outside of this domain without     ┃ "
+echo " ┃         Cloud Hybrid LLC's prior written consent.       ┃ "
+echo " ┃                                                         ┃ "
+echo " ┃            Copyright (C) 2020, Cloud Hybrid.            ┃ "
+echo " ┃                   All rights reserved.                  ┃ "
+echo " ┃                                                         ┃ "
+echo " ┃   ┌───────────┬─────────────────────────────────────┐   ┃ "
+echo " ┃   │  License  │          (Private-Use Only)         │   ┃ "
+echo " ┃   ├───────────┼─────────────────────────────────────┤   ┃ "
+echo " ┃   │  Creator  │           Jacob B. Sanders          │   ┃ "
+echo " ┃   ├───────────┼─────────────────────────────────────┤   ┃ "
+echo " ┃   │   Email   │    jacob.sanders@cloudhybrid.io     │   ┃ "
+echo " ┃   └───────────┴─────────────────────────────────────┘   ┃ "
+echo " ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ "
+
+print "Performing System Update(s) & Upgrade(s)"
+
+sudo apt update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \
+    && sudo apt autoremove -y \
+    && sudo apt clean -y \
+    && sudo apt autoclean -y
+
+echo "System Changes Complete"
+
+print "Installing Programming & Networking Toolsets"
+
+sudo apt install net-tools \
+    git \
+    tree \
+    zip \
+    unzip \
+    glances \
+    wget \
+    ufw \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+echo "Successful: Networking & Development Tool(s) Installation"
+
+print "Installing Certificate Service"
+
+sudo add-apt-repository ppa:certbot/certbot --enable-source --yes
+
+sudo apt install certbot \
+    --assume-yes
+
+sudo apt update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \
+    && sudo apt autoremove -y \
+    && sudo apt clean -y \
+    && sudo apt autoclean -y
+
+echo "Installation Target Successful"
+
+print "Generating Wildcard Certificate: $1"
+
+sudo certbot certonly \
+    --manual \
+    --agree-tos \
+    --email development@cloudhybrid.io \
+    --preferred-challenges=dns \
+    --server https://acme-v02.api.letsencrypt.org/directory \
+        --domains *.vps.cloudhybrid.io
+
+sudo certbot certonly \
+    --manual \
+    --agree-tos \
+    --email development@cloudhybrid.io \
+    --preferred-challenges=dns \
+    --server https://acme-v02.api.letsencrypt.org/directory \
+        --domains *.us.vps.cloudhybrid.io us.vps.cloudhybrid.io
+
+sudo certbot certonly \
+    --manual \
+    --agree-tos \
+    --email development@cloudhybrid.io \
+    --preferred-challenges=dns \
+    --server https://acme-v02.api.letsencrypt.org/directory \
+        --domains *.eu.cloudhybrid.io eu.vps.cloudhybrid.io
+
+exit 0

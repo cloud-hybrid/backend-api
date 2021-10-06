@@ -1,0 +1,9 @@
+{% block Map %}
+[/Script/EngineSettings.GameMapsSettings]
+{{ Engine.Map.Default }}
+{% endblock %}
+
+{% block Tick %}
+[/Script/OnlineSubsystemUtils.IpNetDriver]
+{{ Engine.Network.Tick }}
+{% endblock %}

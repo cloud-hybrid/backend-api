@@ -1,0 +1,439 @@
+<style>
+    textarea.pre-wrap-field {
+        white-space: pre-wrap;
+    }
+    span.ui.white.text {
+        color: white;
+    }
+
+    .UUID-Control-Button {
+        font-size: initial;
+        border-color:black;
+        border-width: thick;
+        border-radius: unset !important
+    } .UUID-Control-Button.ui.button {
+        font-size: initial;
+        border-color:black;
+        border-width: thick;
+        border-radius: unset !important;
+    } .UUID-Control-Buttons.ui.icon.buttons {
+        border-width: thick;
+    }
+
+    [Data-Tooltip]::after {
+        pointer-events: none;
+        content: attr(data-tooltip);
+        display: inline;
+        text-transform: none;
+        text-align: left;
+        white-space: nowrap;
+        font-size: 1rem;
+        border: 1px solid #D4D4D5;
+        line-height: 1.4285em;
+        max-width: none;
+        background: #FFFFFF;
+        padding: 0.833em 1em;
+        font-family: "Montserrat", "Sans-Serif";
+        font-weight: normal;
+        font-style: normal;
+        color: rgba(172, 9, 9, 0.875);
+        border-radius: 0.25rem;
+        -webkit-box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
+        box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
+        z-index: 1900;
+    }
+</style>
+
+<div class="ui very padded vertical raised segment">
+    <div class="ui middle aligned stackable grid">
+        <div class="very padded centered row">
+            <div class="fourteen wide left aligned column">
+                <div class="ui inverted raised segment form">
+                    <a href="https://aws.amazon.com/ec2/features/?trk=ec2_landing" rel="noreferrer noopener" target="_blank" class="ui blue ribbon label">EC2</a>
+                    <span class = "ui header"><strong>Server Record Entry</strong></span>
+                    <hr>
+                    <form class="ui inverted form" method="POST" autocomplete = "off">
+                        <div class="inverted field">
+                            <label>Access ID<button id="AWS-Access-ID-Information"
+                                Data-Link="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys"
+                                class="ui tertiary small inverted icon button">
+                                    <i class="inverted field question circle outline icon"></i>
+                                </button>
+                            </label>
+                            <input required type="" name="AWS-Access-ID" value="" placeholder="YVAJOGJ1UGGGCSYSRM3DXY2BS6K" data-validate="Data-AWS-Access-ID">
+                        </div>
+                        <div class="inverted field">
+                            <label>Access Token<button id="AWS-Access-Key-Information"
+                                Data-Link="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys"
+                                class="ui tertiary small inverted icon button">
+                                    <i class="inverted field question circle outline icon"></i>
+                                </button>
+                            </label>
+                            <input required type="password" name="SSH-Username" value="" placeholder="********************" data-validate="Data-AWS-Access-ID">
+                        </div>
+                        <div class="fields">
+                            <div class="inverted five wide field">
+                                <label>SSH Username<button id="SSH-Overview-Information"
+                                    Data-Link="https://www.ssh.com/ssh/key/"
+                                    class="ui tertiary small inverted icon button">
+                                        <i class="inverted field question circle outline icon"></i>
+                                    </button>
+                                </label>
+                                <input required type="text" name="SSH-Username" value="ubuntu" placeholder="VPS-Administrator" data-validate="Data-SSH-Username">
+                            </div>
+                            <div class="inverted eleven wide field">
+                                <label>Public Access Key<button id="SSH-Public-Key-Information"
+                                    Data-Link="https://www.ssh.com/cryptography/public-key"
+                                    class="ui tertiary small inverted icon button">
+                                        <i class="inverted field question circle outline icon"></i>
+                                    </button>
+                                </label>
+                                <input required type="text" name="SSH-Public-Key" value="" placeholder="ssh-rsa AAAAB3NC [...]" data-validate="Data-SSH-Public-Key">
+                            </div>
+                        </div>
+                        <div class="inverted field">
+                            <label>Private Access Key <button id="AWS-Access-ID-Information"
+                                Data-Link="https://www.ssh.com/ssh/key/"
+                                class="ui tertiary small inverted icon button">
+                                    <i class="inverted field question circle outline icon"></i>
+                                </button>
+                            </label>
+                            <textarea required class="pre-wrap-field" type="password" name="SSH-Private-Key" value="" placeholder="ssh-rsa [...]" data-validate="Data-SSH-Private-Key"></textarea>
+                        </div>
+                        <div class="field">
+                            <label>VPS UUID <button id="UUID-Information"
+                                Data-Link="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html"
+                                class="ui tertiary small inverted icon button"
+                                Data-Tooltip="General Overview & Usage"
+                                Data-Position="right center"
+                                Data-Variation="small basic"
+                                Data-Inverted="True">
+                                    <i class="inverted field question circle outline icon"></i>
+                                </button>
+                            </label>
+                            <div class="ui action input">
+                                <input type="text" name="VPS-UUID" placeholder="a490695b-d07b-498e-baa2-f62b7254ad67" Data-Validate="Data-VPS-UUID" value="">
+                                <div class="UUID-Control-Buttons ui icon inverted buttons">
+                                    <button class="UUID-Control-Button ui button" Data-Tooltip="Generate" Data-Inverted="True" Data-Variation="small basic">
+                                        <i class="cogs icon"></i>
+                                    </button>
+                                    <button class="UUID-Control-Button ui button" Data-Tooltip="Generate" Data-Inverted="True" Data-Variation="small basic">
+                                        <i class="copy icon"></i>
+                                    </button>
+                                    <button class="UUID-Control-Button ui button" Data-Tooltip="Generate" Data-Inverted="True" Data-Variation="small">
+                                        <i class="chain icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>Server Name</label>
+                                <input required type="text" name="VPS-Name" placeholder="Web-Server-1" data-validate="Data-VPS-Name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Payload(s)</label>
+                            <select name="Payloads" multiple="" class="ui fluid search inverted selection dropdown" data-validate="Data-Payload">
+                                <option value="">Select Packages</option>
+                                <option selected aria-disabled="true" aria-readonly="true" value="Payload">API (Standard)</option>
+                                <option value="Payload-NextCloud">NextCloud</option>
+                                <option value="Payload-Apache">Apache</option>
+                                <option value="Payload-Steam">Steam</option>
+                                <option value="Payload-Docker">Docker</option>
+                                <option value="Payload-LXD">LXD</option>
+                                <option value="Payload-ETCD">ETC-D</option>
+                                <option value="Payload-NodeJS">Node-JS</option>
+                                <option value="Payload-WordPress">WordPress</option>
+                                <option value="Payload-MySQL">MySQL</option>
+                                <option value="Payload-PostgreSQL">PostgreSQL</option>
+                                <option value="Payload-Virtualization">Virtual-Tools</option>
+                                <option value="Payload-AWS">AWS CLI+Shell</option>
+                            </select>
+                        </div>
+
+                        <div class="fields">
+                            <div class="twelve wide field">
+                                <label>Region <button id="EC2-Region-Information"
+                                    Data-Link="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html"
+                                    class="ui tertiary small inverted icon button">
+                                        <i class="inverted field question circle outline icon"></i>
+                                    </button>
+                                </label>
+                                <div class="ui fluid search inverted selection dropdown">
+                                    <input type="hidden" name="Country" data-validate="data-country">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">Datacenter</div>
+                                    <div class="menu">
+                                        <div class="item" data-value="US-East-1"><i class="us flag"></i>US East 1 (Virginia)</div>
+                                        <div class="item" data-value="US-East-2"><i class="us flag"></i>US East 2 (Ohio)</div>
+                                        <div class="item" data-value="US-West-1"><i class="us flag"></i>US West 1 (N. California)</div>
+                                        <div class="item" data-value="US-West-2"><i class="us flag"></i>US West 2 (Oregon)</div>
+                                        <div class="item" data-value="CA-Central-1"><i class="ca flag"></i>CA Central 1 (Canada)</div>
+                                        <div class="item" data-value="EU-Central-1"><i class="de flag"></i>EU Central 1 (Frankfurt)</div>
+                                        <div class="item" data-value="EU-West-1"><i class="ie flag"></i>EU West 1 (Ireland)</div>
+                                        <div class="item" data-value="EU-West-2"><i class="gb uk flag"></i>EU West 2 (London)</div>
+                                        <div class="item" data-value="EU-West-3"><i class="fr flag"></i>EU West 3 (Paris)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="four wide field">
+                                <label>Hypervisor <button id="EC2-Hypervisor-Information"
+                                    Data-Link="https://www.ibm.com/cloud/learn/hypervisors"
+                                    class="ui tertiary small inverted icon button">
+                                        <i class="inverted field question circle outline icon"></i>
+                                    </button>
+                                </label>
+                                <select name="Hypervisor" class="ui fluid search inverted selection dropdown" data-validate="Data-Hypervisor">
+                                    <option value="">Type(s)</option>
+                                    <option value="Hypervisor-HVM">HVM</option>
+                                    <option value="Hypervisor-JVM">JVM</option>
+                                    <option value="Hypervisor-KVM">KVM</option>
+                                    <option value="Hypervisor-QEMU">QEMU</option>
+                                    <option value="Hypervisor-Microsoft">Microsoft</option>
+                                    <option value="Hypervisor-VMware">VMware</option>
+                                    <option value="Hypervisor-Native">Native</option>
+                                    <option value="Hypervisor-NA">N/A</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="ui inverted checkbox">
+                            <input required type="checkbox" name="Aggrement" tabindex="0" data-validate="data-terms-conditions">
+                            <label>I agree to the Terms and Conditions</label>
+                            </div>
+                        </div>
+                        <button class="ui button" type="submit">Submit</button>
+                        <div class="ui error message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script nonce="{{ Metadata.JWN }}">
+    document.getElementById("EC2-Region-Information").addEventListener("click", function(){
+        window.open(`${document.getElementById("EC2-Region-Information").getAttribute("Data-Link")}`);
+    });
+    document.getElementById("EC2-Hypervisor-Information").addEventListener("click", function(){
+        window.open(`${document.getElementById("EC2-Hypervisor-Information").getAttribute("Data-Link")}`);
+    });
+    // event.preventDefault()
+
+    document.getElementById("UUID-Information"
+        ).popup({
+            inline     : true,
+            hoverable  : true,
+            position   : 'right center',
+            delay: {
+            show: 3300,
+            hide: 800
+        }
+    });
+
+    $(".selection.dropdown").dropdown();
+
+    var toastedUsernameRequirement = false;
+    var toastedUsernameAlphanumerics = false;
+    var toastedUsernameMinimum = false;
+    var toastedUsernameMaximum = false;
+
+    var Toasted = false;
+
+    $(".ui.form").form({
+        fields: {
+            // --- Username ---
+            Username: {
+                identifier: "Username",
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: function() {
+                            if (toastedUsernameRequirement != true) {
+                                $("body").toast({
+                                    title: "Username Field Required",
+                                    message: "Invalid Form Entry",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : "zoom",
+                                    hideMethod   : "fade",
+                                }); toastedUsernameRequirement = true;
+                                Toasted = true;
+                                return "<strong><u>Username</u> is Required</strong>"
+                            } else {
+                                return "<strong><u>Username</u> is Required</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: "regExp[/^[a-zA-Z0-9_]*$/]",
+                        prompt: function() {
+                            if (toastedUsernameAlphanumerics != true) {
+                                $("body").toast({
+                                    title: "Username Incorrectly Formatted",
+                                    message: "Entry must only use Alphanumeric Characters \n and meet Minimum & Maximum Length Requirements",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : "zoom",
+                                    hideMethod   : "fade",
+                                }); toastedUsernameAlphanumerics = true;
+                                Toasted = true;
+                                return "<strong>Username must only use Alphanumeric Characters</strong>"
+                            } else {
+                                return "<strong>Username must only use Alphanumeric Characters</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: "minLength[6]",
+                        prompt: function() {
+                            if (toastedUsernameMinimum != true) {
+                                $("body").toast({
+                                    title: "Insufficient Username Length",
+                                    message: "Username cannot be less than 6 characters in length</strong>",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : "zoom",
+                                    hideMethod   : "fade",
+                                }); toastedUsernameMinimum = true;
+                                Toasted = true;
+                                return "<strong>Username needs to contain 6 or more characters</strong>"
+                            } else {
+                                return "<strong>Username needs to contain 6 or more characters</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: "maxLength[16]",
+                        prompt: function() {
+                            if (toastedUsernameMaximum != true) {
+                                $("body").toast({
+                                    title: "Excess Username Length",
+                                    message: "Username cannot use more than 16 characters",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : "zoom",
+                                    hideMethod   : "fade",
+                                }); toastedUsernameMaximum = true;
+                                Toasted = true;
+                                return "<strong>Username needs to contain less than 16</strong>"
+                            } else {
+                                return "<strong>Username needs to contain less than 16</strong>"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    })
+            // --- Email ---
+    //         Email: {
+    //             identifier: "data-email",
+    //             rules: [
+    //                 {
+    //                     type: "empty",
+    //                     prompt: "Username Field Required"
+    //                 },
+    //                 {
+    //                     type: "minLength[6]",
+    //                     prompt: "Username Must Contain 6 or More Characters"
+    //                 },
+    //                 {
+    //                     type: "regExp[/^[a-z0-9_-]{6,24}$/]",
+    //                     prompt: "Username Must Contain Alphanumerics and a Minimum of 6-24 Characters"
+    //                 },
+    //             ]
+    //         },
+    //         // Discord-Name
+    //         Username: {
+    //             identifier: "data-discord-username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Discord-ID
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Games
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Introduction
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         //Skills & Interests
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Steam-Link
+    //         Steam: {
+    //             identifier: "data-steamlink",
+    //             rules: [{
+    //                 type: "url",
+    //                 prompt: "Please Provide a Valid URL"
+    //             }]
+    //         },
+    //         // Country
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // State
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Agreement
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "checked",
+    //                 prompt: "Acceptence of the <strong><i>Terms & Conditions</i></strong> is Required to Continue"
+    //             }]
+    //         }
+    //     }
+    // });
+</script>

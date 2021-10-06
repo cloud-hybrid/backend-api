@@ -1,0 +1,1 @@
+git config alias.module-update '!'"git add --all && git commit -m \"\${1}\"; git pull; git submodule foreach 'git add .; git commit -m \"Abstract Module Update\"; git pull origin master; git checkout master; git push'" --replace-all

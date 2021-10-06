@@ -1,0 +1,1529 @@
+{% extends "Base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<!-- {{ Metadata.Title }} CSS -->
+<link nonce="{{ Metadata.JWN }}" type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./Cloud-Theme/Styles/_Dashboard.css') }}">
+<link nonce="{{ Metadata.JWN }}" type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./Cloud-Theme/Styles/AWS-EC2-Provision-Form.css') }}">
+
+<style>
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+.ui.table tbody tr td.selectable > a:not(.ui) {
+    text-align: center;
+    overflow-x: overlay;
+}
+.selectable { cursor: pointer; }
+
+.ui.tooltip.button {
+    z-index: 1;
+}
+
+span.under-development.tool-tip::after {
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* .ui.info.message {
+    color: rgb(64, 124, 255);
+} */
+
+.UUID-Control-Buttons.ui.icon.inverted.buttons > .UUID-Control-Button.ui.button {
+    height: 100%;
+    border-radius: 0em;
+}
+
+main {
+    min-height: 100vh;
+    padding-top: 1.0rem;
+    background: rgb(235, 235, 235)
+}
+
+main > section:first-child {
+    margin-top: calc(63px + 0.25rem);
+}
+.ui.inverted.table > tbody > tr > td, .ui.inverted.table > tfoot > tr > td, .ui.inverted.table > tr > td {
+    overflow-x: overlay;
+}
+
+main.ui.fluid.padded.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 4.0rem;
+    padding-right: 4.0rem;
+}
+
+/* .ui.toast:not(.vertical) > .icon:not(.close) + .content {
+    padding-left: 2.425rem;
+}
+.ui.toast:not(.vertical) > .icon:not(.close) + .content i {
+    padding-left: 3px;
+}
+.ui.toast-container .toast-box .ui.toast:not(.vertical) {
+    display: block;
+    min-width: 150px;
+}
+.inverted.ui.toast {
+    color: rgba(255, 255, 255, 1.0)
+} */
+/* .inverted.ui.toast.visible {
+    padding-right: 1.625rem;
+} */
+/* .inverted.ui.toast.visible .content .ui.header { font-size: 16px; }
+
+.ui.toast-container.top.right {
+    top: 4.91875rem;
+    right: 0.875rem;
+    margin-left: 0.85em;
+}
+.ui.toast:not(.vertical) > .centered.image, .ui.toast:not(.vertical) > .centered.icon {
+    font-size: 25px;
+    padding-right: 0.385rem;
+    padding-top: 0.25rem;
+} */
+
+.ui.toast-container.top.right {
+    top: calc(63px + 0.25em);
+    right: 0.875rem;
+    margin-left: 0.85em;
+}
+
+.ui.toast:not(.vertical) > .centered.image, .ui.toast:not(.vertical) > .centered.icon {
+    margin: auto;
+}
+
+.ui.toast > .icon:not(.close) {
+    font-size: 1.85em;
+}
+</style>
+
+{% endblock %}
+
+{% block sidemenu %}
+{% include "./Side-Menu.html" %}
+{% endblock %}
+
+{% block menu %}
+{% include "./Primary-Menu.html" %}
+{% endblock %}
+
+{% block pusher %}
+
+<main class="ui fluid padded container">
+    <section name="Header" class = "ui left aligned row">
+        <h1 class="ui big inline header">
+            Management Console
+        </h1>
+        <button class="circular ui icon large disabled button"><i class="red exclamation circle icon"></i></button>
+        <button class="circular ui icon large disabled button"><i class="yellow exclamation triangle icon"></i></button>
+        <button class="circular ui icon large disabled button"><i class="blue bell icon"></i></button>
+    </section>
+    <section name = "Overview" class = "ui left aligned two column grid">
+        <div class = "row">
+            <div class="ui blue fitted message">
+                Ensure to throughly review applicable documentation prior to resource modification(s)
+            </div>
+        </div>
+        <div class="ten wide column">
+            <h3 class="ui header">
+                Dashboard
+            </h3>
+            <div class = "row">
+                <div id = "API-Endpoints-Accordion" class="io ui styled fluid accordion">
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Overview
+                    </div>
+                    <div class="content">
+                        Terminology, Navigation, & Expectations
+                        <div class="accordion transition hidden">
+                            <div class="title">
+                                Dedicated Hosts <i class="dropdown icon"></i>
+                            </div>
+                            <div class="content">
+                                <p>Level 1A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 1A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 1A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 1A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 1A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 1B
+                            </div>
+                            <div class="content">
+                                Level 1B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 1C
+                            </div>
+                            <div class="content">
+                                Level 1C Contents
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Navigation & Controls
+                    </div>
+                    <div class="content">
+                        <p class="transition hidden">Welcome to level 2</p>
+                        <div class="accordion transition hidden">
+                            <div class="active title">
+                                <i class="dropdown icon"></i>
+                                Level 2A
+                            </div>
+                            <div class="active content">
+                                <p>Level 2A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2B
+                            </div>
+                            <div class="content">
+                                Level 2B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2C
+                            </div>
+                            <div class="content">
+                                Level 2C Contents
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Hosts, Instances, Servers
+                    </div>
+                    <div class="content">
+                        <p class="transition hidden">Welcome to level 2</p>
+                        <div class="accordion transition hidden">
+                            <div class="active title">
+                                <i class="dropdown icon"></i>
+                                Level 2A
+                            </div>
+                            <div class="active content">
+                                <p>Level 2A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2B
+                            </div>
+                            <div class="content">
+                                Level 2B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2C
+                            </div>
+                            <div class="content">
+                                Level 2C Contents
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="six wide column">
+            <h3 class="ui header">
+                Knowledge Base
+            </h3>
+            <div class = "row">
+                <div id = "Knowledge-Base-Accordion" class="io ui styled fluid accordion">
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Server Management
+                    </div>
+                    <div class="content">
+                        Terminology, Navigation, & Expectations
+                        <div class="accordion transition hidden">
+                            <div class="title">
+                                Dedicated Hosts <i class="dropdown icon"></i>
+                            </div>
+                            <div class="content">
+                                <p>Level 1A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 1A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 1A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 1A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 1A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 1B
+                            </div>
+                            <div class="content">
+                                Level 1B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 1C
+                            </div>
+                            <div class="content">
+                                Level 1C Contents
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Troubleshooting
+                    </div>
+                    <div class="content">
+                        <p class="transition hidden">Welcome to level 2</p>
+                        <div class="accordion transition hidden">
+                            <div class="active title">
+                                <i class="dropdown icon"></i>
+                                Level 2A
+                            </div>
+                            <div class="active content">
+                                <p>Level 2A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2B
+                            </div>
+                            <div class="content">
+                                Level 2B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2C
+                            </div>
+                            <div class="content">
+                                Level 2C Contents
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Remote Login (SSH)
+                    </div>
+                    <div class="content">
+                        <p class="transition hidden">Welcome to level 2</p>
+                        <div class="accordion transition hidden">
+                            <div class="active title">
+                                <i class="dropdown icon"></i>
+                                Level 2A
+                            </div>
+                            <div class="active content">
+                                <p>Level 2A Contents</p>
+                                <div class="accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-A
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-A Contents
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        Level 2A-B
+                                    </div>
+                                    <div class="content">
+                                        Level 2A-B Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2B
+                            </div>
+                            <div class="content">
+                                Level 2B Contents
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Level 2C
+                            </div>
+                            <div class="content">
+                                Level 2C Contents
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class = "ui center aligned two column grid">
+        <div class="ui sixteen wide column">
+            <h2 class="ui center aligned big header">
+                <strong>Dedicated Hosts</strong>
+            </h2>
+            <table class="ui selectable celled inverted striped single line fixed table">
+                <thead class="full-width">
+                    <tr>
+                        <th class="ui two wide center aligned small header">Host</th>
+                        <th class="ui one wide center aligned small header">⋮</th>
+                        <th class="ui one wide center aligned small header">User</th>
+                        <th class="ui two wide center aligned small header">IPv4</th>
+                        <th class="ui four wide center aligned small header">UUID</th>
+                        <th class="ui two wide center aligned small header">LAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for Host in Hosts %}
+                    <tr>
+                        <td class="host copy selectable ui center aligned">
+                            <a onclick="javascript:copyToClipboard('{{ Host.Name }}-Field-{{ loop.index }}')">
+                                <strong id="{{ Host.Name }}-Field-{{ loop.index }}">{{ Host.Name }}</strong>
+                            </a>
+                            </div>
+                        </td>
+                        <td class="selectable ui center aligned">
+                            <i class="large grey cogs icon"></i>
+                            <!-- <a href="./dashboard/hosts/{{ Host.UUID }}">
+                                <i class="large cogs icon"></i>
+                            </a> -->
+                        </td>
+                        <td class="host copy selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ Host.Username }}-Field-{{ loop.index }}')">
+                                <code id="{{ Host.Username }}-Field-{{ loop.index }}">{{ Host.Username }}</code>
+                            </a>
+                        </td>
+                        <td class="host copy selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ Host.Public }}-Field-{{ loop.index }}')">
+                                <code id="{{ Host.Public }}-Field-{{ loop.index }}">{{ Host.Public }}</code>
+                            </a>
+                        </td>
+                        <td class="host copy selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ Host.UUID }}-Field-{{ loop.index }}')">
+                                <code id="{{ Host.UUID }}-Field-{{ loop.index }}">{{ Host.UUID }}</code>
+                            </a>
+                        </td>
+                        <td class="host copy selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ Host.Local }}-Field-{{ loop.index }}')">
+                                <code id="{{ Host.Local }}-Field-{{ loop.index }}">{{ Host.Local }}</code>
+                            </a>
+                        </td>
+                        <!-- | Controls | -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="full-width">
+                    <tr>
+                        <th colspan="6">
+                            <button class="ui link right floated small inverted basic disabled button">
+                                <span class="ui inverted white text">Virtualization</span>
+                            </button>
+                            <button class="ui link right floated small inverted basic disabled button">
+                                <span class="ui inverted white text">System</span>
+                            </button>
+                            <button class="ui link left floated small inverted basic disabled button">
+                                <span class="ui inverted white text">Unlock</span>
+                            </button>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <h2 class="ui center aligned big header">
+                VPS Instances
+            </h2>
+            <table class="ui selectable celled inverted striped single line fixed table">
+                <thead class="full-width">
+                    <tr>
+                        <th class="ui one wide center aligned small header">Status</th>
+                        <th class="ui three wide center aligned small header">Name</th>
+                        <th class="ui one wide center aligned small header">⋮</th>
+                        <th class="ui two wide center aligned small header">IPv4</th>
+                        <th class="ui one wide center aligned small header">Key</th>
+                        <th class="ui one wide center aligned small header">User</th>
+                        <th colspan="3" class="ui two wide center aligned small header">Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for VPS in Instances %}
+                    {% set Name = VPS["Name"] %}
+                    {% set IP = VPS["Networking-Public-IP"] %}
+                    {% set Username = VPS["SSH-Username"] %}
+                    <tr class="vps selectable row">
+                        <td id="{{ VPS['UUID'] }}-Status-Indicator" class="selectable ui center aligned">
+                            <i class="large i-table center aligned green layer group cell-spinner icon"></i>
+                        </td>
+                        <td class="vps selectable ui center aligned">
+                            <a onclick="javascript:copyToClipboard('{{ Name }}-Field-{{ loop.index }}')">
+                                <strong id="{{ Name }}-Field-{{ loop.index }}">{{ Name }}</strong>
+                            </a>
+                        </td>
+                        <td class="vps selectable ui center aligned">
+                            <a href="./dashboard/vps/{{VPS.UUID}}">
+                                <i class="large i-table center aligned layer cog icon"></i>
+                            </a>
+                        </td>
+                        <td class="vps selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ IP }}-Field-{{ loop.index }}')">
+                                <code id="{{ IP }}-Field-{{ loop.index }}">{{ IP }}</code>
+                            </a>
+                        </td>
+                        <td id="{{ VPS['UUID'] }}-SSH-Key" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer download cell-spinner icon"></i>
+                        </td>
+                        <td class="vps selectable ui center aligned collapsing">
+                            <a onclick="javascript:copyToClipboard('{{ Username }}-Field-{{ loop.index }}')">
+                                <strong><code id="{{ Username }}-Field-{{ loop.index }}">{{ Username }}</code></strong>
+                            </a>
+                        </td>
+                        <!-- Controls -->
+                        <td id="{{ VPS['UUID'] }}-Power-On" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer green power cell-spinner-green icon"></i>
+                        </td>
+                        <td id="{{ VPS['UUID'] }}-Power-Off" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer red plug cell-spinner-red icon"></i>
+                        </td>
+                        <td id="{{ VPS['UUID'] }}-Power-Cycle" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer blue sync alternate cell-spinner-blue icon"></i>
+                        </td>
+                        <!-- | Controls | -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="9">
+                                <button id = "VPS-Decommission-Button" class="ui link right floated small inverted basic disabled button">
+                                    <span class="ui inverted white text">Decomission</span>
+                                </button>
+                                <button id = "VPS-Initialize-Button" class="ui link right floated small inverted basic disabled button">
+                                    <span class="ui inverted grey text">Initialize</span>
+                                </button>
+                                <button id = "VPS-Provision-Button" class="ui link right floated small inverted basic disabled button">
+                                    <span class="ui inverted grey text">Provision</span>
+                                </button>
+                            <div class="ui small button" id="VPS-Modifier-Button">
+                                Unlock
+                            </div>
+        
+                            <span class="under-development tool-tip" data-tooltip="Under Development"
+                                data-position="right center" data-variation="small basic" data-inverted="True">
+                                <div class="ui small basic inverted icon buttons">
+                                    <button class="ui disabled button"><i class="file icon"></i></button>
+                                    <button class="ui disabled button"><i class="save icon"></i></button>
+                                    <button class="ui disabled button"><i class="upload icon"></i></button>
+                                    <button class="ui disabled button"><i class="download icon"></i></button>
+                                </div>
+                            </span>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+            <h2 class="ui center aligned big header">
+                Server Daemons
+            </h2>
+            <table class="ui selectable celled inverted striped single line fixed table">
+                <thead class="full-width">
+                    <tr>
+                        <th class="ui one wide center aligned small one wide header">Status</th>
+                        <th class="ui four wide center aligned small header">Name</th>
+                        <th class="ui one wide center aligned small one wide header">⋮</th>
+                        <th class="ui three wide center aligned small header">VPS</th>
+                        <th colspan="3" class="ui two wide center aligned small header">Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for Server in Servers %}
+                    {% set Name = Server["Name"] %}
+                    {% set Instance = Server["VPS-Name"] %}
+                    <tr class="server selectable row">
+                        <td id="{{ Server['UUID'] }}-Status-Indicator" class="selectable ui center aligned">
+                            <span class="ui color green text">Online</span>
+                        </td>
+                        <td class="server selectable ui center aligned">
+                            <a onclick="javascript:copyToClipboard('{{ Name }}-Field-{{ loop.index }}')">
+                                <strong id="{{ Name }}-Field-{{ loop.index }}">{{ Name }}</strong>
+                            </a>
+                        </td>
+                        <td class="server selectable ui center aligned">
+                            <a href="./dashboard/server/{{ Server.UUID }}">
+                                <i class="large i-table center aligned layer cog icon"></i>
+                            </a>
+                        </td>
+                        <td class="server selectable ui center aligned">
+                            <a onclick="javascript:copyToClipboard('{{ Instance }}-Field-{{ loop.index }}')">
+                                <code id="{{ Instance }}-Field-{{ loop.index }}">{{ Instance }}</code>
+                            </a>
+                        </td>
+                        <!-- Controls -->
+                        <td id="{{ Server['UUID'] }}-Power-On" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer green power cell-spinner-green icon"></i>
+                        </td>
+                        <td id="{{ Server['UUID'] }}-Power-Off" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer red plug cell-spinner-red icon"></i>
+                        </td>
+                        <td id="{{ Server['UUID'] }}-Power-Cycle" class="selectable ui center aligned">
+                            <i class="large i-table center aligned layer blue sync alternate cell-spinner-blue icon"></i>
+                        </td>
+                        <!-- | Controls | -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7">
+                            <a href="../API/Database?Database=Cloud-API&Table=Server&Operation=Create">
+                                <button class="ui link right floated small inverted basic button">
+                                    <span class="ui inverted white text">Edit</span>
+                                </button>
+                            </a>
+                            <div class="ui small button" id="Server-Modifier-Button">
+                                Unlock
+                            </div>
+        
+                            <span class="under-development tool-tip" data-tooltip="Under Development"
+                                data-position="right center" data-variation="small basic" data-inverted="True">
+                                <div class="ui small basic inverted icon buttons">
+                                    <button class="ui disabled button"><i class="file icon"></i></button>
+                                    <button class="ui disabled button"><i class="save icon"></i></button>
+                                    <button class="ui disabled button"><i class="upload icon"></i></button>
+                                    <button class="ui disabled button"><i class="download icon"></i></button>
+                                </div>
+                            </span>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!--
+==============================
+    Server-Provision Modal
+==============================
+-->
+
+<div class="ui dimmer modals page transition hidden">
+    <div id="Modal-Provision-Server" class="ui inverted transition modal hidden">
+        <div class="ui icon small header">
+            <i class="server circle inverted icon"></i>
+        </div>
+        <div class="scrolling inverted content">
+            <div class="ui vertical raised segment">
+                <div class="ui middle aligned stackable grid">
+                    <div class="centered row">
+                        <div class="fourteen wide left aligned column">
+                            <div class="ui inverted raised segment form">
+                                <a href="https://aws.amazon.com/ec2/features/?trk=ec2_landing" rel="noreferrer noopener"
+                                    target="_blank" class="ui blue ribbon label">VPS</a>
+                                <span class="ui header"><strong>Provisioning Form</strong></span>
+                                <hr>
+                                <form class="ui inverted form" method="POST" autocomplete="off">
+                                    <div class="inverted field">
+                                        <label>Access ID<button id="AWS-Access-ID-Information"
+                                            Data-Link="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys"
+                                            Data-Tooltip = "An API Token-ID (Click for more details)"
+                                            Data-Variation="small basic"
+                                            Data-Position="right center"
+                                            Data-Inverted = "True"
+                                            class="ui tertiary small inverted icon button">
+                                            <i class="inverted field question circle outline icon"></i>
+                                        </button>
+                                        </label>
+                                        <input required name="AWS-Access-ID" value=""
+                                            placeholder="YVAJOGJ1UGGGCSYSRM3DXY2BS6K" data-validate="Data-AWS-Access-ID">
+                                    </div>
+                                    <div class="inverted field">
+                                        <label>Access Token<button id="AWS-Access-Key-Information"
+                                                Data-Link="https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys"
+                                                Data-Tooltip = "A Uniqute & Private Token (Click for more details)"
+                                                Data-Variation="small basic"
+                                                Data-Position="right center"
+                                                Data-Inverted = "True"
+                                                class="ui tertiary small inverted icon button">
+                                                <i class="inverted field question circle outline icon"></i>
+                                            </button>
+                                        </label>
+                                        <input required type="password" name="SSH-Username" value=""
+                                            placeholder="********************" data-validate="Data-AWS-Access-ID">
+                                    </div>
+                                    <div class="fields">
+                                        <div class="inverted five wide field">
+                                            <label>SSH Username<button id="AWS-SSH-Username-Information"
+                                                style = "color: lightgray;font-weight: bold;"
+                                                    Data-Link="https://www.ssh.com/ssh/key/"
+                                                    Data-Tooltip = "Login Username"
+                                                    Data-Variation="small basic"
+                                                    Data-Position="right center"
+                                                    Data-Inverted = "True"
+                                                    class="ui tertiary small inverted icon button">
+                                                    <i class="inverted field question circle outline icon"></i>
+                                                </button>
+                                            </label>
+                                            <input required type="text" name="SSH-Username" value=""
+                                                placeholder="VPS-Administrator" data-validate="Data-SSH-Username">
+                                        </div>
+                                        <div class="inverted eleven wide field">
+                                            <label>Public Access Key<button id="AWS-SSH-Public-Key-Information"
+                                                    Data-Link="https://www.ssh.com/cryptography/public-key"
+                                                    class="ui tertiary small inverted icon button">
+                                                    <i class="inverted field question circle outline icon"></i>
+                                                </button><button id="AWS-SSH-Public-Key-Generator"
+                                                    Data-Tooltip="Auto-Generate SSH Key-Pair"
+                                                    Data-Position="right center"
+                                                    Data-Variation="small basic"
+                                                    Data-Inverted="True"
+                                                    class="ui tertiary small inverted icon button">
+                                                    <i class="inverted field shield icon"></i>
+                                                </button>
+                                            </label>
+                                            <input required type="text" name="SSH-Public-Key" value=""
+                                                placeholder="ssh-rsa AAAAB3NC [...]" data-validate="Data-SSH-Public-Key">
+                                        </div>
+                                    </div>
+                                    <div class="inverted field">
+                                        <label>Private Access Key <button id="AWS-Private-SSH-Key-Information"
+                                                Data-Link="https://www.ssh.com/ssh/key/"
+                                                class="ui tertiary small inverted icon button">
+                                                <i class="inverted field question circle outline icon"></i>
+                                            </button>
+                                        </label>
+                                        <textarea required class="pre-wrap-field" type="password" name="SSH-Private-Key" value=""
+                                            placeholder="ssh-rsa [...]" data-validate="Data-SSH-Private-Key"></textarea>
+                                    </div>
+                                    <div class="field">
+                                        <label>VPS UUID <button id="UUID-Information"
+                                                Data-Link="https://en.wikipedia.org/wiki/Universally_unique_identifier"
+                                                class="ui tertiary small inverted icon button"
+                                                Data-Tooltip="General Overview & Usage" Data-Position="right center"
+                                                Data-Variation="small basic" Data-Inverted="True">
+                                                <i class="inverted field question circle outline icon"></i>
+                                            </button>
+                                        </label>
+                                        <div class="ui action input">
+                                            <input type="text" name="VPS-UUID" placeholder="a490695b-d07b-498e-baa2-f62b7254ad67"
+                                                Data-Validate="Data-VPS-UUID" value="">
+                                            <div class="UUID-Control-Buttons ui icon inverted buttons">
+                                                <button class="UUID-Control-Button ui button" Data-Tooltip="Generate"
+                                                    Data-Inverted="True" Data-Variation="small basic">
+                                                    <i class="cogs icon"></i>
+                                                </button>
+                                                <button class="UUID-Control-Button ui button" Data-Tooltip="Generate"
+                                                    Data-Inverted="True" Data-Variation="small basic">
+                                                    <i class="copy icon"></i>
+                                                </button>
+                                                <button class="UUID-Control-Button ui button" Data-Tooltip="Generate"
+                                                    Data-Inverted="True" Data-Variation="small">
+                                                    <i class="chain icon"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+            
+                                        <div class="field">
+                                            <label>Server Name</label>
+                                            <input required type="text" name="VPS-Name" placeholder="Web-Server-1"
+                                                data-validate="Data-VPS-Name">
+                                        </div>
+                                    </div>
+            
+                                    <div class="field">
+                                        <label>Payload(s)</label>
+                                        <select name="Payloads" multiple="" class="ui fluid search inverted selection dropdown"
+                                            data-validate="Data-Payload">
+                                            <option selected aria-disabled="true" aria-readonly="true" value="Payload">API
+                                                (Standard)</option>
+                                            <option value="Payload-NextCloud">NextCloud</option>
+                                            <option value="Payload-Apache">Apache</option>
+                                            <option value="Payload-Steam">Steam</option>
+                                            <option value="Payload-Mordhau">Mordhau</option>
+                                            <option value="Payload-Docker">Docker</option>
+                                            <option value="Payload-LXD">LXD</option>
+                                            <option value="Payload-ETCD">ETC-D</option>
+                                            <option value="Payload-NodeJS">Node-JS</option>
+                                            <option value="Payload-WordPress">WordPress</option>
+                                            <option value="Payload-MySQL">MySQL</option>
+                                            <option value="Payload-PostgreSQL">PostgreSQL</option>
+                                            <option value="Payload-Virtualization">Virtual-Tools</option>
+                                            <option value="Payload-AWS">AWS CLI+Shell</option>
+                                        </select>
+                                    </div>
+            
+                                    <div class="fields">
+                                        <div class="twelve wide field">
+                                            <label>Region <button id="EC2-Region-Information"
+                                                    Data-Link="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html"
+                                                    class="ui tertiary small inverted icon button">
+                                                    <i class="inverted field question circle outline icon"></i>
+                                                </button>
+                                            </label>
+                                            <div class="ui fluid search inverted selection dropdown">
+                                                <input type="hidden" name="Country" data-validate="data-country">
+                                                <i class="dropdown icon"></i>
+                                                <div class="default text">Datacenter</div>
+                                                <div class="menu">
+                                                    <div class="item" data-value="US-East-1"><i class="us flag"></i>US East 1
+                                                        (Virginia)</div>
+                                                    <div class="item" data-value="US-East-2"><i class="us flag"></i>US East 2 (Ohio)
+                                                    </div>
+                                                    <div class="item" data-value="US-West-1"><i class="us flag"></i>US West 1 (N.
+                                                        California)</div>
+                                                    <div class="item" data-value="US-West-2"><i class="us flag"></i>US West 2
+                                                        (Oregon)</div>
+                                                    <div class="item" data-value="CA-Central-1"><i class="ca flag"></i>CA Central 1
+                                                        (Canada)</div>
+                                                    <div class="item" data-value="EU-Central-1"><i class="de flag"></i>EU Central 1
+                                                        (Frankfurt)</div>
+                                                    <div class="item" data-value="EU-West-1"><i class="ie flag"></i>EU West 1
+                                                        (Ireland)</div>
+                                                    <div class="item" data-value="EU-West-2"><i class="gb uk flag"></i>EU West 2
+                                                        (London)</div>
+                                                    <div class="item" data-value="EU-West-3"><i class="fr flag"></i>EU West 3
+                                                        (Paris)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="four wide field">
+                                            <label>Hypervisor <button id="EC2-Hypervisor-Information"
+                                                    Data-Link="https://www.ibm.com/cloud/learn/hypervisors"
+                                                    class="ui tertiary small inverted icon button">
+                                                    <i class="inverted field question circle outline icon"></i>
+                                                </button>
+                                            </label>
+                                            <select name="Hypervisor" class="ui fluid search inverted selection dropdown"
+                                                data-validate="Data-Hypervisor">
+                                                <option value="">Type(s)</option>
+                                                <option value="Hypervisor-HVM">HVM</option>
+                                                <option value="Hypervisor-JVM">JVM</option>
+                                                <option value="Hypervisor-KVM">KVM</option>
+                                                <option value="Hypervisor-QEMU">QEMU</option>
+                                                <option value="Hypervisor-Microsoft">Microsoft</option>
+                                                <option value="Hypervisor-VMware">VMware</option>
+                                                <option value="Hypervisor-Native">Native</option>
+                                                <option value="Hypervisor-NA">N/A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+            
+                                    <div class="field">
+                                        <div class="ui inverted checkbox">
+                                            <input required type="checkbox" name="Aggrement" tabindex="0"
+                                                data-validate="data-terms-conditions">
+                                            <label>I agree to the Terms and Conditions</label>
+                                        </div>
+                                    </div>
+                                    <button class="ui button" type="submit">Submit</button>
+                                    <div class="ui error message"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="Modal-Close-Example" class="ui basic cancel inverted small red button">
+                <i class="remove icon"></i>
+                Close
+            </div>
+            <div id="Commit-Example" class="ui ok inverted small green button">
+                <i class="checkmark icon"></i>
+                Continue
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui dimmer modals page transition hidden">
+    <div id="Modal-Initialize-Server" class="ui inverted transition modal hidden">
+        <div class="ui icon small header">
+            <i class="exclamation circle yellow inverted icon"></i>
+        </div>
+        <div class="scrolling inverted content">
+            <div class="ui inverted large center aligned text container">
+                <span class="ui large text">
+                    The contents for <strong><code><span class="ui grey text">Example</span></code></strong> are
+                    scheduled for upload.
+                </span>
+            </div>
+            <div class="ui inverted large text container">
+                <span class="ui text">
+                    Please note these changes can have detrimental effects, and may cause system or service failure.
+                </span>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="Modal-Close-Example" class="ui basic cancel inverted button">
+                <i class="remove icon"></i>
+                Close
+            </div>
+            <div id="Commit-Example" class="ui ok inverted button">
+                <i class="checkmark icon"></i>
+                Continue
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui dimmer modals page transition hidden">
+    <div id="Modal-Decommission-Server" class="ui inverted transition modal hidden">
+        <div class="ui icon small header">
+            <i class="server circle yellow inverted icon"></i>
+        </div>
+        <div class="scrolling inverted content">
+            <div class="ui inverted large center aligned text container">
+                <span class="ui large text">
+                    The contents for <strong><code><span class="ui grey text">Example</span></code></strong> are
+                    scheduled for upload.
+                </span>
+            </div>
+            <div class="ui inverted large text container">
+                <span class="ui text">
+                    Please note these changes can have detrimental effects, and may cause system or service failure.
+                </span>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="Modal-Close-Example" class="ui basic cancel inverted button">
+                <i class="remove icon"></i>
+                Close
+            </div>
+            <div id="Commit-Example" class="ui ok inverted button">
+                <i class="checkmark icon"></i>
+                Continue
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script nonce="{{ Metadata.JWN }}">
+function copyToClipboard(ID) {
+    var element = document.getElementById(`${ID}`);
+    let data = element.textContent;
+    element.style.color = "gray";
+    console.log(`Clipboard Event ⭌ ${ID}: (${data})`);
+    $("body").toast({
+        title: `${data}`,
+        message: "<strong style='margin-left: 0.435em;margin-right:0.435em;font-size:1.25em;'>↳</strong><strong>Clipboard</strong>",
+        displayTime: 4250,
+        showProgress: "bottom",
+        progressUp: true,
+        classProgress: "blue",
+        compact: false,
+        showIcon: "copy outline",
+        opacity: 0.785,
+        class: "inverted",
+        closeIcon: false,
+        showMethod   : "zoom",
+        hideMethod   : "fade",
+    });
+    setTimeout(() => { element.style.color = "white"; }, 4250);
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", data);
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = data;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+};
+
+async function modifyVPSTable() {
+    console.log("VPS-Table-Modification Event");
+    
+    let VPSProvisionButton = document.getElementById("VPS-Provision-Button");
+    let VPSInitializeButton = document.getElementById("VPS-Initialize-Button");
+    let VPSDecommissionButton = document.getElementById("VPS-Decommission-Button");
+
+    if ($("tr.vps.row").children("td.vps").hasClass("selectable")) {
+        // $("tr.vps.row").children("td.vps").removeClass("selectable");
+        // $("tr.vps.row").children("td.vps").children("a").css("color", "gray");
+
+        // VPSProvisionButton.classList.remove("disabled");
+        //VPSInitializeButton.classList.remove("disabled");
+        // VPSDecommissionButton.classList.remove("disabled");
+        if ($("#VPS-Provision-Button").hasClass("disabled")) {
+            VPSProvisionButton.classList.remove("disabled");
+        } else {
+            VPSProvisionButton.classList.add("disabled");
+            VPSProvisionButton.classList.remove("selectable");
+        }
+        if ($("#VPS-Initialize-Button").hasClass("disabled")) {
+            VPSInitializeButton.classList.add("disabled");
+        } else {
+            VPSInitializeButton.classList.add("disabled")
+            VPSInitializeButton.classList.remove("selectable");
+        }
+        if ($("#VPS-Decommission-Button").hasClass("disabled")) {
+            VPSDecommissionButton.classList.add("disabled");
+        } else {
+            VPSDecommissionButton.classList.add("disabled");
+            VPSDecommissionButton.classList.remove("selectable");
+        }
+    } else {
+        try {
+            $("tr.vps.row").children("td.vps").addClass("selectable");
+            $("tr.vps.row").children("td.vps").children("a").css("color", "unset");
+        } catch {
+            $("tr.vps.row").children("td.vps").addClass("selectable");
+            $("tr.vps.row").children("td.vps").children("a").css("color", "unset");
+        } finally {
+            return true
+        }
+    }
+};
+
+document.getElementById("VPS-Modifier-Button").addEventListener("click", function() {
+    this.classList.add("loading");
+    modifyVPSTable().then(
+        setTimeout(() => {
+            this.classList.remove("loading");
+            this.textContent = "Lock";
+        }, 1000));
+});
+
+async function modifyServerTable() {
+    console.log("Server-Table-Modification Event");
+    if ($("tr.server.row").children("td.server").hasClass("selectable")) {
+        $("tr.server.row").children("td.server").removeClass("selectable");
+        $("tr.server.row").children("td.server").children("a").css("color", "gray");
+    } else {
+        try {
+            $("tr.server.row").children("td.server").addClass("selectable");
+            $("tr.server.row").children("td.server").children("a").css("color", "unset");
+        } catch {
+            $("tr.server.row").children("td.server").addClass("selectable");
+            $("tr.server.row").children("td.server").children("a").css("color", "unset");
+         } finally { return true; }
+    }
+};
+
+document.getElementById("Server-Modifier-Button").addEventListener("click", function() {
+    this.classList.add("loading");
+    modifyServerTable().then(
+        setTimeout(() => {
+            this.classList.remove("loading");
+            this.textContent = "Lock";
+        }, 1000));
+});
+
+</script>
+{% for VPS in Instances %}
+<script nonce="{{ Metadata.JWN }}">
+
+// @Task --> Create back-end variable that computes server online status
+//           - Using a state of `Offline` || `Online` || `Cycling` || `Unknown`,
+//             create a mapping STATUS < -- > COLOR of loading/status icon.
+// {{ VPS.Name }} (VPS) - Status Indicator
+document.getElementById("{{ VPS['UUID'] }}-Status-Indicator").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ VPS['UUID'] }}-Status-Indicator");
+    if ($("#{{ VPS['UUID'] }}-Status-Indicator").children("i").hasClass("active")) {
+        $("#{{ VPS['UUID'] }}-Status-Indicator").children("i").removeClass("active");
+        $("#{{ VPS['UUID'] }}-Status-Indicator").children("div").hide();
+        $("#{{ VPS['UUID'] }}-Status-Indicator").children("i").show();
+    } else {
+        try {
+            $("#{{ VPS['UUID'] }}-Status-Indicator").children("div").remove();
+        } catch { void(0); } finally {
+            $("#{{ VPS['UUID'] }}-Status-Indicator").children("i")
+                .after("<div class='ui active inline center slow green double loader'></div>" );
+            $("#{{ VPS['UUID'] }}-Status-Indicator").children("i").addClass("active");
+            $("#{{ VPS['UUID'] }}-Status-Indicator").children("i").hide();
+        }
+    }
+});
+
+// {{ VPS.Name }} (VPS) - SSH-Private-Key Download Button
+document.getElementById("{{ VPS['UUID'] }}-SSH-Key").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ VPS['UUID'] }}-SSH-Key");
+    if ($("#{{ VPS['UUID'] }}-SSH-Key").children("i").hasClass("active")) {
+        $("#{{ VPS['UUID'] }}-SSH-Key").children("i").removeClass("active");
+        $("#{{ VPS['UUID'] }}-SSH-Key").children("div").hide();
+        $("#{{ VPS['UUID'] }}-SSH-Key").children("i").show();
+    } else {
+        try {
+            $("#{{ VPS['UUID'] }}-SSH-Key").children("div").remove();
+        } catch { void(0); } finally {
+            $("#{{ VPS['UUID'] }}-SSH-Key").children("i")
+                .after("<div class='ui indeterminate active inline center small loader'></div>");
+            $("#{{ VPS['UUID'] }}-SSH-Key").children("i").addClass("active");
+            $("#{{ VPS['UUID'] }}-SSH-Key").children("i").hide();
+        }
+    }
+});
+
+// {{ VPS.Name }} (VPS) - Power Controls
+document.getElementById("{{ VPS['UUID'] }}-Power-On").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ VPS['UUID'] }}-Power-On");
+    if ($("#{{ VPS['UUID'] }}-Power-On").children("i").hasClass("active")) {
+        $("#{{ VPS['UUID'] }}-Power-On").children("i").removeClass("active");
+        $("#{{ VPS['UUID'] }}-Power-On").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ VPS['UUID'] }}-Power-On").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ VPS['UUID'] }}-Power-On").children("i").addClass("active");
+        }
+    }
+});
+
+document.getElementById("{{ VPS['UUID'] }}-Power-Off").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ VPS['UUID'] }}-Power-Off");
+    if ($("#{{ VPS['UUID'] }}-Power-Off").children("i").hasClass("active")) {
+        $("#{{ VPS['UUID'] }}-Power-Off").children("i").removeClass("active");
+        $("#{{ VPS['UUID'] }}-Power-Off").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ VPS['UUID'] }}-Power-Off").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ VPS['UUID'] }}-Power-Off").children("i").addClass("active");
+        }
+    }
+});
+
+document.getElementById("{{ VPS['UUID'] }}-Power-Cycle").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ VPS['UUID'] }}-Power-Cycle");
+    if ($("#{{ VPS['UUID'] }}-Power-Cycle").children("i").hasClass("active")) {
+        $("#{{ VPS['UUID'] }}-Power-Cycle").children("i").removeClass("active");
+        $("#{{ VPS['UUID'] }}-Power-Cycle").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ VPS['UUID'] }}-Power-Cycle").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ VPS['UUID'] }}-Power-Cycle").children("i").addClass("active");
+        }
+    }
+});
+</script>
+{% endfor %}
+{% for Server in Servers %}
+<script nonce="{{ Metadata.JWN }}">
+// {{ Server.Name }} (Server) - Status Indicator
+document.getElementById("{{ Server['UUID'] }}-Status-Indicator").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ Server['UUID'] }}-Status-Indicator");
+    if ($("#{{ Server['UUID'] }}-Status-Indicator").children("i").hasClass("active")) {
+        $("#{{ Server['UUID'] }}-Status-Indicator").children("i").removeClass("active");
+        $("#{{ Server['UUID'] }}-Status-Indicator").children("div").hide();
+        $("#{{ Server['UUID'] }}-Status-Indicator").children("i").show();
+    } else {
+        try {
+            $("#{{ Server['UUID'] }}-Status-Indicator").children("div").remove();
+        } catch { void(0); } finally {
+            $("#{{ Server['UUID'] }}-Status-Indicator").children("i")
+                .after("<div class='ui active inline center slow green double loader'></div>" );
+            $("#{{ Server['UUID'] }}-Status-Indicator").children("i").addClass("active");
+            $("#{{ Server['UUID'] }}-Status-Indicator").children("i").hide();
+        }
+    }
+});
+
+// {{ Server.Name }} (Server) - Power Controls
+document.getElementById("{{ Server['UUID'] }}-Power-On").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ Server['UUID'] }}-Power-On");
+    if ($("#{{ Server['UUID'] }}-Power-On").children("i").hasClass("active")) {
+        $("#{{ Server['UUID'] }}-Power-On").children("i").removeClass("active");
+        $("#{{ Server['UUID'] }}-Power-On").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ Server['UUID'] }}-Power-On").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ Server['UUID'] }}-Power-On").children("i").addClass("active");
+        }
+    }
+});
+
+document.getElementById("{{ Server['UUID'] }}-Power-Off").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ Server['UUID'] }}-Power-Off");
+    if ($("#{{ Server['UUID'] }}-Power-Off").children("i").hasClass("active")) {
+        $("#{{ Server['UUID'] }}-Power-Off").children("i").removeClass("active");
+        $("#{{ Server['UUID'] }}-Power-Off").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ Server['UUID'] }}-Power-Off").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ Server['UUID'] }}-Power-Off").children("i").addClass("active");
+        }
+    }
+});
+
+document.getElementById("{{ Server['UUID'] }}-Power-Cycle").addEventListener("click", function(){
+    console.log("Event-ID ⭌ {{ Server['UUID'] }}-Power-Cycle");
+    if ($("#{{ Server['UUID'] }}-Power-Cycle").children("i").hasClass("active")) {
+        $("#{{ Server['UUID'] }}-Power-Cycle").children("i").removeClass("active");
+        $("#{{ Server['UUID'] }}-Power-Cycle").children("i").addClass("inactive");
+    } else {
+        try {
+            $("#{{ Server['UUID'] }}-Power-Cycle").children("i").removeClass("inactive");
+        } catch { void(0); } finally {
+            $("#{{ Server['UUID'] }}-Power-Cycle").children("i").addClass("active");
+        }
+    }
+});
+</script>
+<script src="{{ url_for('static', filename='./Cloud-Theme/Components/accordion.js') }}"></script>
+<script>$("#API-Endpoints-Accordion").accordion();</script>
+<script>$("#Knowledge-Base-Accordion").accordion();</script>
+<!-- <script src="{{ url_for('static', filename='./Cloud-Theme/Components/sticky.js') }}"></script>
+<script>
+$("#Sticky-References").sticky({
+    context: "#Sticky-Context",
+    offset: 100,
+    bottomOffset: 50,
+    pushing: false,
+    setSize: true
+});
+</script> -->
+<script>
+// Button --> Modal Event(s)
+document.getElementById("VPS-Provision-Button").addEventListener("click", function () {
+    const VPSProvisionModal = document.getElementById("Modal-Provision-Server");
+    $(VPSProvisionModal).modal({
+        blurring: false,
+        transition: "fade up"
+    }).modal("show");
+});
+
+document.getElementById("VPS-Initialize-Button").addEventListener("click", function () {
+    const VPSInitializeModal = document.getElementById("Modal-Initialize-Server");
+    $(VPSProvisionModal).modal({
+        blurring: false,
+        transition: "fade up"
+    }).modal("show");
+});
+
+document.getElementById("VPS-Decommission-Button").addEventListener("click", function () {
+    const VPSProvisionModal = document.getElementById("Modal-Decommission-Server");
+    $(VPSDecommissionModal).modal({
+        blurring: false,
+        transition: "fade up"
+    }).modal("show");
+});
+</script>
+
+<script>   
+document.getElementById("AWS-Access-ID-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("AWS-Access-ID-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("AWS-Access-Key-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("AWS-Access-Key-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("AWS-SSH-Username-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("AWS-SSH-Username-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("AWS-SSH-Public-Key-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("AWS-SSH-Public-Key-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("AWS-Private-SSH-Key-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("AWS-Private-SSH-Key-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("UUID-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("UUID-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("EC2-Hypervisor-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("EC2-Hypervisor-Information").getAttribute("Data-Link")}`);
+});
+document.getElementById("EC2-Region-Information").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.open(`${document.getElementById("EC2-Region-Information").getAttribute("Data-Link")}`);
+});
+
+$("UUID-Information").popup({
+    inline: true,
+    hoverable: true,
+    position: 'right center',
+    delay: {
+        show: 3300,
+        hide: 800
+    }
+});
+
+$(".selection.dropdown").dropdown();
+
+var toastedUsernameRequirement = false;
+var toastedUsernameAlphanumerics = false;
+var toastedUsernameMinimum = false;
+var toastedUsernameMaximum = false;
+
+var Toasted = false;
+
+$(".ui.form").form({
+    fields: {
+        // --- Username ---
+        Username: {
+            identifier: "Username",
+            rules: [
+                {
+                    type: "empty",
+                    prompt: function () {
+                        if (toastedUsernameRequirement != true) {
+                            $("body").toast({
+                                title: "Username Field Required",
+                                message: "Invalid Form Entry",
+                                displayTime: "auto",
+                                showProgress: "top",
+                                progressUp: true,
+                                classProgress: "red",
+                                class: "inverted",
+                                closeIcon: true,
+                                showMethod: "zoom",
+                                hideMethod: "fade",
+                            }); toastedUsernameRequirement = true;
+                            Toasted = true;
+                            return "<strong><u>Username</u> is Required</strong>"
+                        } else {
+                            return "<strong><u>Username</u> is Required</strong>"
+                        }
+                    }
+                },
+                {
+                    type: "regExp[/^[a-zA-Z0-9_]*$/]",
+                    prompt: function () {
+                        if (toastedUsernameAlphanumerics != true) {
+                            $("body").toast({
+                                title: "Username Incorrectly Formatted",
+                                message: "Entry must only use Alphanumeric Characters \n and meet Minimum & Maximum Length Requirements",
+                                displayTime: "auto",
+                                showProgress: "top",
+                                progressUp: true,
+                                classProgress: "red",
+                                class: "inverted",
+                                closeIcon: true,
+                                showMethod: "zoom",
+                                hideMethod: "fade",
+                            }); toastedUsernameAlphanumerics = true;
+                            Toasted = true;
+                            return "<strong>Username must only use Alphanumeric Characters</strong>"
+                        } else {
+                            return "<strong>Username must only use Alphanumeric Characters</strong>"
+                        }
+                    }
+                },
+                {
+                    type: "minLength[6]",
+                    prompt: function () {
+                        if (toastedUsernameMinimum != true) {
+                            $("body").toast({
+                                title: "Insufficient Username Length",
+                                message: "Username cannot be less than 6 characters in length</strong>",
+                                displayTime: "auto",
+                                showProgress: "top",
+                                progressUp: true,
+                                classProgress: "red",
+                                class: "inverted",
+                                closeIcon: true,
+                                showMethod: "zoom",
+                                hideMethod: "fade",
+                            }); toastedUsernameMinimum = true;
+                            Toasted = true;
+                            return "<strong>Username needs to contain 6 or more characters</strong>"
+                        } else {
+                            return "<strong>Username needs to contain 6 or more characters</strong>"
+                        }
+                    }
+                },
+                {
+                    type: "maxLength[16]",
+                    prompt: function () {
+                        if (toastedUsernameMaximum != true) {
+                            $("body").toast({
+                                title: "Excess Username Length",
+                                message: "Username cannot use more than 16 characters",
+                                displayTime: "auto",
+                                showProgress: "top",
+                                progressUp: true,
+                                classProgress: "red",
+                                class: "inverted",
+                                closeIcon: true,
+                                showMethod: "zoom",
+                                hideMethod: "fade",
+                            }); toastedUsernameMaximum = true;
+                            Toasted = true;
+                            return "<strong>Username needs to contain less than 16</strong>"
+                        } else {
+                            return "<strong>Username needs to contain less than 16</strong>"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+})
+            // --- Email ---
+    //         Email: {
+    //             identifier: "data-email",
+    //             rules: [
+    //                 {
+    //                     type: "empty",
+    //                     prompt: "Username Field Required"
+    //                 },
+    //                 {
+    //                     type: "minLength[6]",
+    //                     prompt: "Username Must Contain 6 or More Characters"
+    //                 },
+    //                 {
+    //                     type: "regExp[/^[a-z0-9_-]{6,24}$/]",
+    //                     prompt: "Username Must Contain Alphanumerics and a Minimum of 6-24 Characters"
+    //                 },
+    //             ]
+    //         },
+    //         // Discord-Name
+    //         Username: {
+    //             identifier: "data-discord-username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Discord-ID
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Games
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Introduction
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         //Skills & Interests
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Steam-Link
+    //         Steam: {
+    //             identifier: "data-steamlink",
+    //             rules: [{
+    //                 type: "url",
+    //                 prompt: "Please Provide a Valid URL"
+    //             }]
+    //         },
+    //         // Country
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // State
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "empty",
+    //                 prompt: "Username Field Required"
+    //             }]
+    //         },
+    //         // Agreement
+    //         Username: {
+    //             identifier: "Username",
+    //             rules: [{
+    //                 type: "checked",
+    //                 prompt: "Acceptence of the <strong><i>Terms & Conditions</i></strong> is Required to Continue"
+    //             }]
+    //         }
+    //     }
+    // });
+</script>
+
+{% endfor %}
+{% endblock %}

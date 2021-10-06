@@ -1,0 +1,59 @@
+<!-- Server Instances (Cards) -->
+
+<div class = "row">
+    <div class = "center aligned middle aligned sixteen wide column">
+        <div class = "Segmented-Inverted-Segment ui raised segment">
+            <div class = "ui header centered">
+                <h3>
+                    Dedicated Instances
+                    <hr>
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class = "row">
+    <div class = "ui centered grid container">
+        <div class="ui inverted cards" style="margin-left: auto;margin-right: auto;display: contents;">
+            {% for instance, server in Servers.items() %}
+                <div class="Segmented ui centered card">
+                    <div class="content">
+                        <div class="header">
+                            <strong> 
+                                {{ instance }}
+                                <hr>
+                            </strong>
+                            {% if (server) %}
+                                {{ server[0][-2] }}
+                            {% endif %}
+                        </div>
+                        <div class="description">
+                            <div class="ui header">
+                                <div class="ui horizontal divider" style="color:white;">Servers</div>
+                            </div>
+                            {% for service in server %}
+                                <p> 
+                                    {{ service[1] }}
+                                    <br>
+                                </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <a href="https://cloudhybrid.io/management/{{ server[0][-2] }}">
+                        <div class="ui bottom attached labeled icon button">
+                            <i class="black server icon"></i>
+                            <strong style="color:black;">Server Management</strong>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .Segmented.ui.centered.card {
+        margin: 1.0em;
+    }
+</style>

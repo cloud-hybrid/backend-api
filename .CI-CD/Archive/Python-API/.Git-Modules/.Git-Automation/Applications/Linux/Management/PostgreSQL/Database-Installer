@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+
+# -*- Coding: UTF-8 -*- #
+# -*- System: Linux -*- #
+# -*- Usage:   *.*  -*- #
+
+#
+# ========================================================================
+# PostgreSQL Server Installer
+# ========================================================================
+#
+
+set -e
+
+Update () {
+    sudo apt update --yes \
+        && DEBIAN_FRONTEND=noninteractive apt-get --yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \
+        && sudo apt autoremove --yes \
+        && sudo apt clean --yes \
+        && sudo apt autoclean --yes
+}
+
+Name-Servers () {
+    local IP=$(grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" /etc/netplan/01-netcfg.yaml | head -1)
+    local FILE=$(cat << EOF -
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens2:
+      addresses: [ 172.16.128.25/16 ]
+      gateway4: 172.16.0.1
+      nameservers:
+          search: [ vps.cloudhbrid.io ]
+          addresses:
+              - "172.16.0.1"
+EOF
+)}
+
+
+Update && sudo apt upgrade --yes
+
+sudo apt install wget \
+    curl \
+    ca-certificates \
+    gnupg2 \
+    lsb-release \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+sudo apt install net-tools \
+    git \
+    tree \
+    zip \
+    unzip \
+    glances \
+    wget \
+    ufw \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+sudo apt install python-dev \
+    python3 \
+    python3-doc \
+    python3-examples \
+    python3-pip \
+    python3-dev \
+    python3-doc \
+    python3-dbg \
+    python3.8 \
+    python3.8-dbg \
+    python3.8-dev \
+    python3.8-venv \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+sudo bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main' >> /etc/apt/sources.list.d/pgdg.list"
+
+Update && sudo apt install postgresql \
+    postgresql-contrib \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+echo "Y" | sudo ufw enable
+
+sudo ufw allow 22/tcp
+sudo ufw allow 80/udp
+sudo ufw allow 443/tcp
+sudo ufw allow 5000
+sudo ufw allow 6585/tcp 
+
+sudo ufw reload
+
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
+
+sudo cat << EOF > /etc/ssh/SSH-Banner
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃              Cloud Hybrid - Security Notice             ┃
+┃             --------------------------------            ┃
+┃   The following source file(s) contains confidential,   ┃
+┃  proprietary information. Unauthorized use is strictly  ┃
+┃    prohibited. No portions may be copied, reproduced,   ┃
+┃      or incorporated outside of this domain without     ┃
+┃         Cloud Hybrid LLC's prior written consent.       ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+EOF
+
+sudo cat << EOF > /etc/ssh/sshd_config
+#                                             #
+#          ┏━━━━━━━━━━━━━━━━━━━━━━━┓          #
+#          ┃ Cloud-Hybrid Settings ┃          #
+#          ┗━━━━━━━━━━━━━━━━━━━━━━━┛          #
+#                                             #
+#         OpenBSD: SSH Configuration(s)       #
+#                                             #
+
+UsePAM yes
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+X11Forwarding yes
+X11UseLocalhost yes
+PermitTTY yes
+PrintMotd no
+TCPKeepAlive yes
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+Banner /etc/ssh/SSH-Banner
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+SyslogFacility AUTH
+LogLevel INFO
+PermitRootLogin no
+
+EOF
+
+sudo service ssh reload
+
+touch .hushlogin && Update

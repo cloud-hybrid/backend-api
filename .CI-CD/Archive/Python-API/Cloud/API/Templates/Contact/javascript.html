@@ -1,0 +1,57 @@
+<script nonce="{{ Metadata.JWN }}">
+
+    $(".menu .item").tab();
+
+    var callToActionHeaderRow = document.getElementById("call-to-action-header-row");
+    var callToActionImageRow = document.getElementById("call-to-action-image-row");
+    var callToActionInfoRow = document.getElementById("call-to-action-info-row");
+    var callToActionDiscordForm = document.getElementById("call-to-action-discord-form");
+
+    var transitioned = false;
+
+    function flip() {
+        flipCallToActionHeaderRow();
+        fadeCallToActionImageRow();
+        fadeCallToActionInfoRow();
+        fadeCallToActionDiscordForm();
+
+        transitioned = transitioned == true ? false : true;
+    }
+
+    function flipCallToActionHeaderRow() {
+        if (transitioned == false) {
+            callToActionHeaderRow.classList.add("transition-left");
+        } else {
+            callToActionHeaderRow.classList.remove("transition-left");
+        }
+    }
+
+    function fadeCallToActionImageRow() {
+        if (transitioned == false) {
+            callToActionImageRow.classList.add("fade-out");
+
+        } else {
+            callToActionImageRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionInfoRow() {
+        if(transitioned == false) {
+            callToActionInfoRow.classList.add("fade-out");
+        } else {
+            callToActionInfoRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionDiscordForm() {
+        if(transitioned == false) {
+            callToActionDiscordForm.classList.add("fade-in");
+        } else {
+            callToActionDiscordForm.classList.remove("fade-in");
+        }
+    }
+
+    function Open(url) {
+        window.open(url, '_blank');
+    }
+</script>

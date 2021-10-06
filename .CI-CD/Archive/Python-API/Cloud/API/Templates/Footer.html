@@ -1,0 +1,68 @@
+<div class="ui center aligned container">
+    <footer id="Footer" class="ui stackable inverted divided center aligned grid">
+        <div class="four wide column">
+            <h4 class="ui inverted header">Company</h4>
+            <div class="ui inverted link list">
+                <a href="#" class="item">About Us</a>
+                <a href="#" class="item">Managed Services</a>
+                <a href="#" class="item">Blogs & Tutorials</a>
+                <a href="#" class="item">Automated Solutions</a>
+                <a href="#" class="item">Product Pricing</a>
+                <a href="#" class="item">Partners & Affilates</a>
+                <a href="#" class="item">Leadership</a>
+            </div>
+        </div>
+        <div class="four wide column">
+            <h4 class="ui inverted header">Services</h4>
+            <div class="ui inverted link list">
+                <a href="#" class="item">Cloud Hosting</a>
+                <a href="#" class="item">Development & APIs</a>
+                <a href="#" class="item">Game Server Hosting</a>
+                <a href="#" class="item">Dedicated Server Hosting</a>
+                <a href="#" class="item">Virtual-Machines</a>
+                <a href="#" class="item">Wordpress CMS</a>
+                <a href="#" class="item">Shared Webservers</a>
+                <a href="#" class="item">Databases & Storage</a>
+            </div>
+        </div>
+        <div class="four wide column">
+            <h4 class="ui inverted header">Open Source</h4>
+            <div class="ui inverted link list">
+                <a href="#" class="item">APIs</a>
+                <a href="#" class="item">Sensitive Data</a>
+                <a href="#" class="item">Git Management</a>
+                <a href="#" class="item">Virtual Machines</a>
+                <a href="#" class="item">Mobile Authentication</a>
+                <a href="#" class="item">Linux Virtualization</a>
+                <a href="#" class="item">Code Documentation</a>
+            </div>
+        </div>
+        <div class="four wide column">
+            <h4 class="ui inverted header">Powered via <strong><a href="/" target="_blank">Cloud Hybrid</a></strong></h4>
+            <img src="/artifacts/Images/Logo_4.svg" class="ui centered small image">
+        </div>
+    </footer>
+    <div class="ui inverted section footer divider"></div>
+
+    <img src="/artifacts/Images/20r-logo.png" class="ui centered mini image">
+
+    <div class="ui horizontal inverted small divided link list">
+        <a class="item" href="{{url_for('static', filename='./documents/Site-Map.xml')}}" target="_blank">Site Map</a>
+        <a class="item" href="{{url_for('static', filename='./documents/Acceptable-Usage-Policy.pdf')}}" target="_blank">Acceptable Usage Policy</a>
+        <a class="item" href="{{url_for('static', filename='./documents/Terms-and-Conditions.pdf')}}" target="_blank">Terms and Conditions</a>
+        <a class="item" href="{{url_for('static', filename='./documents/Privacy-Policy.md')}}" target="_blank">Privacy Policy</a>
+    </div>
+    <br><br>
+    <div class="ui inverted text">Copyright &copy; 2020 - The 20th Regiment of Foot & Cloud Hybrid. All rights reserved.</div>
+</div>
+
+<style>
+    .ui.inverted.section.footer.divider {
+        margin: 1.5em;
+        margin-top: 2.5em;
+        color: pink;
+    }
+    #Footer > .ui.inverted.divided.grid:not([class*="vertically divided"]) > .column:not(.row), .ui.inverted.divided.grid:not([class*="vertically divided"]) > .row > .column {
+        box-shadow: -2px 0 0 0 rgb(255, 255, 255);
+    }
+</style>

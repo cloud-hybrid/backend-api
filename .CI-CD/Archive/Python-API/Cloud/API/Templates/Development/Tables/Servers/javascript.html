@@ -1,0 +1,17 @@
+<script>
+    let headerRow = document.getElementById('header-row');
+    let flip = document.getElementById('flip-button');
+
+    let transitioned = false;
+
+    flip.addEventListener('click', () => {
+        if(transitioned == false) {
+            headerRow.classList.add('transition-left');
+            transitioned = true;
+        }
+        else {
+            headerRow.classList.remove('transition-left');
+            transitioned = false;
+        }
+    });
+</script>

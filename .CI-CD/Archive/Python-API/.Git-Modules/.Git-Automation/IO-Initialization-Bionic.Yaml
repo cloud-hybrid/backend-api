@@ -1,0 +1,39 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# Owner:    Jacob B. Sanders
+# Source:   code.cloud-technology.io
+# License:  BSD 3-Clause License
+
+#
+# ========================================================================
+# Pipeline: Continuous Integration & Deployment Configuration(s)
+# ========================================================================
+#
+
+---
+
+# ------------------------------------------------------------------------
+# Ubuntu - Bionic Exportable Configuration
+# ------------------------------------------------------------------------
+
+# - - - - - - - - - - - -
+# Primary Configuration
+# - - - - - - - - - - - -
+
+.Container: &Bionic-Container "ubuntu:bionic"
+
+.Initialization: &Bionic-Packages
+    - sudo apt update && sudo apt upgrade --yes
+    - sudo add-apt-repository ppa:deadsnakes/ppa
+    - sudo apt update && sudo apt upgrade --yes
+    - sudo apt install --yes bash
+    - sudo apt install --yes git
+    - sudo apt install --yes curl
+    - sudo apt install --yes wget
+    - sudo apt install --yes jq
+    - sudo apt install --yes python3
+    - sudo apt install --yes software-properties-common

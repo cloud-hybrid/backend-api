@@ -1,0 +1,58 @@
+{% extends "Base.html" %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .ui.large.primary.main.header {
+        margin-top: calc(63.0px + 1.0rem);
+        color: black;
+        padding: 0.25em;
+    }
+    .ui.left.aligned.divided.selection.list {
+        text-align: left;
+    }
+</style>
+{% endblock %}
+
+{% block sidemenu %}
+{% include "./Side-Menu.html" %}
+{% endblock %}
+
+{% block menu %}
+{% include "./Primary-Menu.html" %}
+{% endblock %}
+
+{% block pusher %}
+
+<!-- Primary Content (Body) -->
+
+<div class="ui middle horizontally aligned center aligned very padded stackable primary grid container">
+    <div class="row">
+        <div class="ui large primary main center aligned header">
+            <h1>
+                {{ Metadata["Title"] }}
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ui left aligned divided selection list">
+            <a class="item">
+                <div class="ui red horizontal label">Fruit</div>
+                Kumquats
+            </a>
+            <a class="item">
+                <div class="ui purple horizontal label">Candy</div>
+                Ice Cream
+            </a>
+            <a class="item">
+                <div class="ui red horizontal label">Fruit</div>
+                Orange
+            </a>
+            <a class="item">
+                <div class="ui horizontal label">Dog</div>
+                Poodle
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

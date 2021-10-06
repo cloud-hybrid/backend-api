@@ -1,0 +1,67 @@
+<!-- Primary Content (Body) -->
+
+<div class="ui main grid container">
+    <div class="row">
+        <div class="Null vertically centered ui two column doubling stackable grid container">
+            <div class="ui center aligned middle aligned sixteen wide column">
+                <div class="Null ui inverted raised padded segment">
+                    <h1 class="ui header large centered">
+                        {{company}}
+                        <hr>
+                        <span name="C-VM-Header">
+                            <i name="C-VM-Icon-Subscript" class="large green microchip icon"></i>
+                            VM
+                        </span>
+                        <span name="C-VM-Subheader">
+                            Management
+                            <i name="C-VM-Icon-Superscript" class="large blue server icon"></i>
+                        </span>
+                        {{server}}
+                        <br>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "row">
+        {% include "./Server/statistics.html" %}
+    </div>
+    <div class = "row">
+        {% include "./Server/servers.html" %}
+    </div>
+    <div class = "row">
+        {% include "./Server/controls.html" %}
+    </div>
+    <div class = "row"></div>
+</div>
+
+<script>
+    var serverheader = document.getElementsByName("Server-Header");
+    serverheader.forEach( function(title) {
+        title.style.color = "white";
+        title.style.fontSize = "1.75em";
+    });
+    var cvmheader = document.getElementsByName("C-VM-Header");
+    cvmheader.forEach( function(title) {
+        title.style.color = "#21BA45";
+        title.style.fontSize = "2.0em";
+    });
+    var cvmsubheader = document.getElementsByName("C-VM-Subheader");
+    cvmsubheader.forEach( function(title) {
+        title.style.color = "#2185D0";
+        title.style.fontSize = "1.0em";
+    });
+    var subscripts = document.getElementsByName("C-VM-Icon-Subscript");
+    subscripts.forEach( function(icon) {
+        icon.style.verticalAlign = "text-top";
+        icon.style.fontSize = "0.65em";
+        icon.style.marginRight = "0.0em";
+    });
+    var superscripts = document.getElementsByName("C-VM-Icon-Superscript");
+    superscripts.forEach( function(icon) {
+        icon.style.verticalAlign = "text-bottom";
+        icon.style.fontSize = "0.5em";
+        icon.style.marginLeft = "0.0em";
+    });
+</script>

@@ -1,0 +1,513 @@
+﻿#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# Owner: Jacob B. Sanders
+# Source: code.cloud-technology.io
+# License: BSD 3-Clause License
+
+#
+# Copyright 2020 Jacob B. Sanders - Cloud Hybrid LLC. & Affiliates
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted
+# provided that the following conditions are met:
+#
+# 1.  Redistributions of source code must retain the above copyright notice, this list of
+#     conditions and the following disclaimer.
+#
+# 2.  Redistributions in binary form must reproduce the above copyright notice, this list of
+#     conditions and the following disclaimer in the documentation and/or other materials
+#     provided with the distribution.
+#
+# 3.  Neither the name of the copyright holder nor the names of its contributors may be used
+#     to endorse or promote products derived from this software without specific prior written
+#     permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+# OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER
+# OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+# OF SUCH DAMAGE.
+#
+# References & Documentation
+# ------------------------------------------------------------------------
+#
+# GitLab CICD Reference(s):
+#   - YAML: https://docs.gitlab.com/ce/ci/yaml/
+#
+# Runner Autoscaling and Caching
+#   - https://docs.gitlab.com/runner/configuration/autoscale.html
+#
+# GitLab Runner Commands
+#   - https://docs.gitlab.com/runner/commands/README.html
+#
+# MacOS Runner Setup
+#   - https://docs.gitlab.com/runner/register/index.html#macos
+#
+# Non-Interactive Runner Registration Full Example
+# >>> sudo gitlab-runner register \
+# >      --non-interactive \
+# >      --url "https://gitlab.com/" \
+# >      --registration-token "PROJECT_REGISTRATION_TOKEN" \
+# >      --executor "docker" \
+# >      --docker-image alpine:latest \
+# >      --description "docker-runner" \
+# >      --tag-list "docker,aws" \
+# >      --run-untagged="true" \
+# >      --locked="false" \
+# >      --access-level="not_protected"
+#
+# Advanced GitLab Runner Configuration
+#   - https://docs.gitlab.com/runner/configuration/advanced-configuration.html
+#
+# Runners Behind Proxies
+#   - https://docs.gitlab.com/runner/configuration/proxy.html
+#
+# AWS Autoscaling
+#   - https://docs.gitlab.com/runner/configuration/runner_autoscale_aws/
+#
+# Official Gitlab Runner
+#   - https://gitlab.com/gitlab-org/gitlab-runner/-/tree/master
+#
+# Great Runner Overview Docs
+#   - https://docs.gitlab.com/runner/#compatibility-with-gitlab-versions
+#
+# Container Registry $ Cache Server
+#   - https://docs.gitlab.com/runner/install/registry_and_cache_servers.html
+#
+# Updating Runners
+# >>> URL="https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh"
+# >>> curl -L "${URL}" | sudo bash
+#
+# Legacy AWS Script
+# >>> bash -c "chmod a+x ./Applications/AWS/Initialize && ./Applications/AWS/Initialize"
+#
+# Secret-Leaks:
+#   - https://docs.gitlab.com/ee/user/application_security/secret_detection/#available-variables
+#   - SECRET_DETECTION_COMMIT_FROM: The commit a Gitleaks scan starts at.
+#   - SECRET_DETECTION_COMMIT_TO: The commit a Gitleaks scan ends at.
+#   - SECRET_DETECTION_EXCLUDED_PATHS: Exclude vulnerabilities from output based on the paths.
+#   - SECRET_DETECTION_HISTORIC_SCAN: Flag to enable a historic Gitleaks scan.
+#   - SECURE_LOG_LEVEL: Output log verbosity
+#
+# Releases
+#   - https://docs.gitlab.com/ce/user/project/releases/index.html
+#   - https://docs.gitlab.com/ce/policy/maintenance.html#versioning
+#   - https://docs.gitlab.com/ce/ci/yaml/README.html#workflowrules
+#
+# Building Docker Images
+#   - https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-workflow-with-docker-executor
+#   - Requires
+#
+# `dotenv` Artifact Reports
+#   - https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html#artifactsreportsdotenv
+#
+# Downloading Artifacts
+#   - https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html#downloading-the-latest-artifacts
+#
+# Downstream Pipelines: Triggers
+#   - https://docs.gitlab.com/ee/ci/multi_project_pipelines.html#mirroring-status-from-triggered-pipeline
+#   - https://docs.gitlab.com/ee/ci/parent_child_pipelines.html
+#
+#   - *Over-Riding an External Template's Value(s)*
+#       - https://docs.gitlab.com/ee/ci/yaml/includes.html#overriding-external-template-values
+#
+# Task-Board
+# ------------------------------------------------------------------------
+# - [x] @Task: Create a Default `retry` Pointer
+#       - https://docs.gitlab.com/ee/ci/yaml/README.html#retry
+#       - Example: `retry: { max: 2, when: [ "runner_system_failure", "data_integrity_failure" ] }`
+# - [ ] @Task: Configure a `matrix` Job
+#       - https://docs.gitlab.com/ee/ci/yaml/README.html#parallel-matrix-jobs
+# - [x] @Task: Configure a `trigger` Job
+#       - https://docs.gitlab.com/ee/ci/yaml/README.html#trigger
+#       - Example: `*Trigger-Example`
+#       Trigger-Job: &Trigger-Example
+#           stage: *Stage
+#           variables: { EXAMPLE: "Example-Value" }
+#           trigger: { project: "Nexus/Axon", strategy: "depend", branch: "master" }
+# - [x] @Task: Configure a `release` Job
+#       - https://docs.gitlab.com/ee/ci/yaml/README.html#release
+#       - Example: `*Release-Example-Initialize`
+#         Release-Job: &Release-Example:
+#             tags: *Runner
+#             stage: Versioning
+#             rules: *Releasing
+#             artifacts: { reports: { dotenv: ".IO/Environment.env" }, paths: [ ".IO/Environment.env" ] }
+#             before_script: [ "apk add git bash" ]
+#             script:
+#                 - apk add git bash
+#                 - git submodule sync --recursive
+#                 - git submodule update --init --remote --recursive --force
+#                 - chmod a+x "./.IO/Environment"
+#                 - .IO/Environment "${NAME}" "${MAJOR}.${MINOR}.${PATCH}" "${SHA}"
+#         Release: `*Release-Example-Final`
+#             tags: *Runner
+#             image: registry.gitlab.com/gitlab-org/release-cli:latest
+#             stage: Distribution
+#             rules: *Releasing
+#             needs: [ { job: Tag, artifacts: True } ]
+#             before_script: [ "" ]
+#             script: [ *Colors, "Warning 'Creating Release'" ]
+#             release:
+#                 name: "${NAME} - ${PROJECT_VERSION}"
+#                 tag_name: "${PROJECT_VERSION}-${SHA}"
+#                 ref: "${SHA}"
+#                 description: "> Automated Release"
+# - [x] @Task: Configure a GIT_SUBMODULE_STRATEGY
+#       - https://docs.gitlab.com/ee/ci/yaml/README.html#git-strategy
+#       - Example: `variables: { GIT_SUBMODULE_STRATEGY:  }`
+#
+
+---
+
+#
+# ========================================================================
+# --> Pipeline: Continuous Integration & Deployment Configuration(s)
+# ========================================================================
+#
+
+# - - - - - - - - -
+# Global Variables
+# - - - - - - - - -
+
+variables:
+# --> Semantic Versioning
+    MAJOR:  0                  # --> Breaking Change(s)         - Manual Assignment
+    MINOR:  7                  # --> Non-Breaking Change(s)     - Manual Assignment
+    PATCH:  $CI_PIPELINE_ID    # --> Automated Build Version    - Do not Override
+    NAME:   $CI_PROJECT_NAME   # --> Repository Name            - Can Manually Override
+    SHA:    $CI_COMMIT_SHA     # --> Commit SHA Hash            - Do not Override
+# --> Git
+    GIT_DEPTH:              "10"
+    GIT_STRATEGY:           "clone"
+    GIT_SUBMODULE_STRATEGY: "normal"
+# --> Python
+    PIP_CACHE_DIR: "/cache/pip"
+    VIR_CACHE_DIR: "/cache/venv"
+# --> Dependencies
+    IO_GIT:    "https://code.cloud-technology.io/Automata/.IO.git"
+    IO_BRANCH: "master"
+    IO_TARGET: ".IO"
+# --> Debugging
+    CI_DEBUG_TRACE: "true"
+
+# - - - - - - - - - - -
+# Runner Trigger Tags
+# - - - - - - - - - - -
+
+.Tags: &Runner
+    - "Cloud-Hybrid"
+    - "AWS"
+    - "Python"
+    - "Docker"
+    - "Alpine"
+
+# ------------------------------------------------------------------------
+# Setup & Utility Callables
+# ------------------------------------------------------------------------
+
+.Initialization: &Alpine [ "apk add curl jq rsync" ]
+
+.Initialization: &Bionic [ "sudo apt install curl jq --yes" ]
+
+.Initialization: &GCC [ "apk add libc-dev linux-headers build-base" ]
+
+.Initialization: &Sphinx [ "python3 -m pip install Sphinx" ]
+
+.Initialization: &Colors
+    - X="\\33[0m"    # --> Reset
+    - R="\\33[91m"   # --> Red
+    - G="\\33[32m"   # --> Green
+    - B="\\33[34m"   # --> Blue
+    - Y="\\33[33m"   # --> Yellow
+    - Z="\\33[90m"   # --> Grey
+    - X="\\33[0m"    # --> Reset
+    - D="\\33[2m"    # --> Dim
+    - L="\\33[4m"    # --> Link
+    - H="\\33[1m"    # --> Bold (Highlight)
+    - I="\\33[3m"    # --> Italicize
+    - S="\\33[7m"    # --> Select
+    - U="\\033[4m"   # --> Underline
+    - Error ()       { printf "${R}\n\t ➡ %s${X}\n\n" "${@}"; }
+    - Auxiliary ()   { printf "${B}\n\t ➡ %s${X}\n\n" "${@}"; }
+    - Success ()     { printf "${G}\n\t ➡ %s${X}\n\n" "${@}"; }
+    - Warning ()     { printf "${Y}\n\t ➡ %s${X}\n\n" "${@}"; }
+
+# - - - - - - - - - - -
+# Git Runner Strategy
+# - - - - - - - - - - -
+
+.Git: &Git-Strategy
+    GIT_DEPTH:              "10"
+    GIT_STRATEGY:           "clone"
+    GIT_SUBMODULE_STRATEGY: "recursive"
+
+# - - - - - - - - - - - -
+# Python Configurations
+# - - - - - - - - - - - -
+
+.Python: &Python-Variables
+    PIP_CACHE_DIR: "/cache/pip"
+    VIR_CACHE_DIR: "/cache/venv"
+
+.Python: &Python-3
+    - mkdir -p ./Cache/Packages
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install --upgrade setuptools
+    - python3 -m pip install wheel
+    - python3 -m pip install virtualenv
+    - python3 -m virtualenv Environment
+    - source ./Environment/bin/activate
+    - mkdir -p ./Cache/Environment
+
+.Python: &Objects
+    - find . -name "*.pyc"      -print -exec rm -r -f {} +
+    - find . -name "*.pyo"      -print -exec rm -r -f {} +
+    - find . -name "*.egg*"     -print -exec rm -r -f {} +
+    - find . -name "*.egg-info" -print -exec rm -r -f {} +
+    - find . -name "*.PYC"      -print -exec rm -r -f {} +
+    - find . -name "*.PYO"      -print -exec rm -r -f {} +
+    - find . -name "*.O"        -print -exec rm -r -f {} +
+
+.Python: &Stubs
+    - find . -name "*.pyc"      -print -exec rm -r -f {} +
+    - find . -name "*.pyo"      -print -exec rm -r -f {} +
+    - find . -name "*.egg*"     -print -exec rm -r -f {} +
+    - find . -name "*.egg-info" -print -exec rm -r -f {} +
+    - find . -name "*.PYC"      -print -exec rm -r -f {} +
+    - find . -name "*.PYO"      -print -exec rm -r -f {} +
+    - find . -name "*.O"        -print -exec rm -r -f {} +
+
+.Python: &Cache
+    - find . -type d -name "build"          -print -exec rm -r -f {} +
+    - find . -type d -name "dist"           -print -exec rm -r -f {} +
+    - find . -type d -name "Build"          -print -exec rm -r -f {} +
+    - find . -type d -name "Distribution"   -print -exec rm -r -f {} +
+    - find . -type d -name "__pycache__"    -print -exec rm -r -f {} +
+    - find . -type d -name ".PYC"           -print -exec rm -r -f {} +
+
+# - - - - - - - - - - -
+# Cloud Configurations
+# - - - - - - - - - - -
+
+.Cloud: &AWS
+    - python3 -m pip install awscli
+    - export _AWS_TOKEN=$(curl --silent -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds:21600")
+    - echo "$(curl --silent -H "X-aws-ec2-metadata-token:$_AWS_TOKEN" -v http://169.254.169.254/latest/meta-data/)"
+    - echo "Local Hostname - $(curl --silent http://169.254.169.254/latest/meta-data/local-hostname)"
+    - echo "Public IPv4 - $(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4)"
+    - echo "Instance ID = $(curl --silent http://169.254.169.254/latest/meta-data/instance-id)"
+    - echo "General Hostname - $(curl --silent http://169.254.169.254/latest/meta-data/hostname)"
+    - echo "IAM Information - $(curl --silent http://169.254.169.254/latest/meta-data/iam/info)"
+    - echo "IAM Security Groups - $(curl --silent http://169.254.169.254/latest/meta-data/security-groups)"
+    - echo "Service(s) Domain - $(curl --silent http://169.254.169.254/latest/meta-data/services/domain)"
+    - echo "Instance Type - $(curl --silent http://169.254.169.254/latest/meta-data/instance-type)"
+    - echo "Virtual Machine Image - $(curl --silent http://169.254.169.254/latest/meta-data/ami-id)"
+    - echo "VPS Initialization - $(curl --silent http://169.254.169.254/latest/user-data)"
+    - export AWS_IAM_ROLE="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/)"
+    - export AWS_ACCESS_KEY_ID="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.AccessKeyId')"
+    - export AWS_SECRET_ACCESS_KEY="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.SecretAccessKey')"
+    - export AWS_SECURITY_TOKEN="$(curl --silent --location http://169.254.169.254/latest/meta-data/iam/security-credentials/$AWS_IAM_ROLE/ | jq -r '.Token')"
+    - export AWS_SESSION_TOKEN="${AWS_SECURITY_TOKEN}"
+    - aws configure set aws_access_key_id       "${AWS_ACCESS_KEY_ID}"
+    - aws configure set aws_secret_access_key   "${AWS_SECRET_ACCESS_KEY}"
+    - aws configure set aws_session_token       "${AWS_SESSION_TOKEN}"
+
+# - - - - - - - - - - - - - - -
+# Regular Expression Triggers
+# - - - - - - - - - - - - - - -
+
+.Regular-Expressions: &Trigger
+    -   if:     "$CI_PIPELINE_SOURCE == 'api'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'chat'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'external'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'external_pull_request_event'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'merge_request_event'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'parent_pipeline'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'pipeline'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'push'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'schedule'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'trigger'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'web'"
+    -   if:     "$CI_PIPELINE_SOURCE == 'webide'"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Production)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Prod)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Master)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(UAT)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Certification)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Certificate)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Cert)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Quality-Assurance)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(QA)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Testing)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Test)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Development)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Develop)?(-|:)?($)?(.*)/imU"
+    -   if:     "$CI_COMMIT_BRANCH =~ /^(Dev)?(-|:)?($)?(.*)/imU"
+        when:   manual
+    -   if:     "$CI_COMMIT_MESSAGE =~ /Manual.*/U"
+        when:   manual
+    -   if:     "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+    -   if:     "$CI_COMMIT_MESSAGE =~ /No-Build.*/iU"
+        when:   never
+    -   if:     "$CI_COMMIT_MESSAGE =~ /Build.*/iU"
+        when:   always
+
+.Regular-Expressions: &Build
+    -   if:     "$CI_COMMIT_MESSAGE =~ /No-Build.*/iU"
+        when:   never
+    -   if:     "$CI_COMMIT_MESSAGE =~ /Build.*/iU"
+        when:   always
+
+.Regular-Expressions: &Never
+    -   if:     "$CI_PIPELINE_SOURCE == 'push'"
+        when:   never
+    -   if:     "$CI_PIPELINE_SOURCE == 'web'"
+        when:   never
+    -   if:     "$CI_PIPELINE_SOURCE == 'merge_request_event'"
+        when:   never
+
+.Regular-Expressions: &Releasing
+    -   if:     "$CI_COMMIT_TAG"
+        when:   never   # --> Never Run on Manual Release(s)
+    -   if:     "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+
+.Regular-Expressions: &Tag
+    -   if:     "$CI_COMMIT_TAG"
+        when:   always  # --> Always Run on Manual, New Tags
+
+.Regular-Expressions: &Branch
+    -   if:     "$CI_COMMIT_BRANCH"
+        when:   always  # --> Always Run on Branch Pushes
+
+.Regular-Expressions: &Master
+    -   if:     "$CI_COMMIT_BRANCH == 'master'"
+        when:   always  # --> Always Run if Push on `master` Branch
+
+.Regular-Expressions: &Default
+    -   if:     "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+        when:   always  # --> Always Run if Push on `DEFAULT` Branch
+
+# - - - - - - - - - - - - -
+# Debugging Configurations
+# - - - - - - - - - - - - -
+
+.Environment: &Trace
+    stage: Trace
+    tags: *Runner
+    script: [ "export || dir" ]
+    variables: { GIT_STRATEGY: "none" }
+
+# ------------------------------------------------------------------------
+# Primary Entry-Point (Jobs + Stages + Triggers)
+# ------------------------------------------------------------------------
+
+stages:
+    - Trace
+    - Clean
+    - Versioning
+    - Setup
+    - Analysis
+    - UAT
+    - Staging
+    - Compilation
+    - Distribution
+    - Deployment
+    - Tag
+    - Go-Live
+
+default: { image: { name: "python:alpine" }, before_script: [ *Python-3 ] }
+include: [ { local: ".IO-Code-Quality.Yaml" }, { local: ".IO-Secrets-Detection.Yaml" } ]
+
+# - - - - - - - - -
+# Executable Jobs
+# - - - - - - - - -
+
+Initialization:
+    tags: *Runner
+    stage: Setup
+    rules: *Trigger
+    script: [ "python -m pip install --requirement Dependencies", "python setup.py build" ]
+    artifacts: { paths: [ ".IO/Build" ], expire_in: "1 hour" }
+    variables: { GIT_STRATEGY: "clone" }
+    before_script: [ *GCC, *Python-3 ]
+
+Compile (Dry):
+    tags: *Runner
+    stage: UAT
+    rules: *Trigger
+    needs: [ { job: Initialization, artifacts: True } ]
+    script: [ "python -m pip install --requirement Dependencies", "python setup.py bdist --dry-run" ]
+    variables: { GIT_STRATEGY: "none"}
+    allow_failure: True
+    before_script: [ *GCC, *Python-3 ]
+
+Archive (Dry):
+    tags: *Runner
+    stage: UAT
+    rules: *Trigger
+    needs: [ { job: Initialization, artifacts: True } ]
+    script: [ "python setup.py sdist" ]
+    variables: { GIT_STRATEGY: "none"}
+    allow_failure: True
+    before_script: [ *GCC, *Python-3 ]
+
+Install (Dry):
+    tags: *Runner
+    stage: UAT
+    rules: *Trigger
+    needs:  [ { job: Initialization, artifacts: True } ]
+    script: [ "python setup.py install --dry-run" ]
+    variables: { GIT_STRATEGY: "clone" }
+    allow_failure: True
+    before_script: [ *GCC, *Python-3 ]
+
+Compile:
+    tags: *Runner
+    stage: Distribution
+    rules: *Trigger
+    needs: [ { job: Initialization, artifacts: True } ]
+    script: [ "python -m pip install --requirement Dependencies", "python setup.py bdist" ]
+    artifacts: { paths: [ ".IO/Distribution" ] }
+    resource_group: Distributable
+
+Version:
+    tags: *Runner
+    stage: Distribution
+    rules: *Releasing
+    needs: [ { job: Initialization, artifacts: False } ]
+    script:
+        - *Colors
+        - Auxiliary "Initializing Git-Modules"
+        - git submodule sync --recursive
+        - git submodule update --init --remote --recursive --force
+        - Auxiliary "Setting up Environment Variables"
+        - Warning ./.IO/Environment ${NAME} ${MAJOR}.${MINOR}.${PATCH} ${SHA}
+        - chmod a+x ./.IO/Environment
+        - .IO/Environment ${NAME} ${MAJOR}.${MINOR}.${PATCH} ${SHA}
+    artifacts: { reports: { dotenv: ".IO/Environment.env" }, paths: [ ".IO/Environment.env" ] }
+    before_script: [ "apk add git tree bash" ]
+
+Release:
+    tags: *Runner
+    image: "registry.gitlab.com/gitlab-org/release-cli:latest"
+    stage: Tag
+    rules: *Releasing
+    needs: [
+        { job: Compile, artifacts: True },
+        { job: Version, artifacts: True }
+    ]
+    script: [ *Colors, "Success 'Creating Release'" ]
+    before_script: [ "" ]
+    release:
+        ref: "${CI_COMMIT_SHA}"
+        name: "${NAME} - ${MAJOR}.${MINOR}.${CI_PIPELINE_ID}"
+        tag_name: "${MAJOR}.${MINOR}.${CI_PIPELINE_ID}-${CI_COMMIT_SHA}"
+        description: "**Automated Release Generation**"

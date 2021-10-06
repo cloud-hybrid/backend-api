@@ -1,0 +1,243 @@
+# ---
+# version: "2"
+# prepare:
+#     fetch:
+#         -   url: https://raw.githubusercontent.com/codeclimate/styleguide/master/ruby/rubocop.yml
+#             path: base_rubocop.yml
+# plugins:
+#     rubocop:
+#         enabled: true
+#         channel: rubocop-0-67
+#     fixme:
+#         enabled: true
+#         exclude_patterns:
+#             - config/engines.yml
+#     markdownlint:
+#         enabled: true
+#         checks:
+#             MD002:
+#                 enabled: false
+#     shellcheck:
+#         enabled: true
+
+# exclude_patterns:
+#     - .bundle/
+#     - spec/**/*
+#     - benchmarks/**/*
+---
+version: "2"
+checks:
+    argument-count:
+        config:
+            threshold: 8
+    complex-logic:
+        config:
+            threshold: 5
+    file-lines:
+        config:
+            threshold: 1500
+    method-complexity:
+        config:
+            threshold: 5
+    method-count:
+        config:
+            threshold: 35
+    method-lines:
+        config:
+            threshold: 40
+    nested-control-flow:
+        config:
+            threshold: 4
+    return-statements:
+        config:
+            threshold: 10
+
+plugins:
+    fixme:
+        enabled: true
+        exclude_patterns:
+            - "config/engines.yml"
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    eslint:
+        enabled: false
+    git-legal:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    markdownlint:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    pylint:
+        enabled: false
+    grep:
+        enabled: false
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    bandit:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    credo:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    duplication:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+    shellcheck:
+        enabled: true
+        exclude_patterns:
+            - "Cloud/API/Static"
+            - "Cloud/API/Static/"
+            - "Cloud/API/Static/*"
+            - "Cloud/API/Static**"
+            - "Cloud/API/Static**/*"
+            - "./Cloud/API/Static"
+            - "./Cloud/API/Static/"
+            - "./Cloud/API/Static/*"
+            - "./Cloud/API/Static**"
+            - "*/Cloud/API/Static"
+            - "*/Cloud/API/Static/"
+            - "*/Cloud/API/Static/*"
+            - "*/Cloud/API/Static**"
+            - "**/Cloud/API/Static"
+            - "**/Cloud/API/Static/"
+            - "**/Cloud/API/Static/*"
+            - "**/Cloud/API/Static**"
+
+exclude_patterns:
+    - "config/engines.yml"
+    - "Cloud/API/Static"
+    - "Cloud/API/Static/"
+    - "Cloud/API/Static/*"
+    - "Cloud/API/Static**"
+    - "Cloud/API/Static**/*"
+    - "./Cloud/API/Static"
+    - "./Cloud/API/Static/"
+    - "./Cloud/API/Static/*"
+    - "./Cloud/API/Static**"
+    - "*/Cloud/API/Static"
+    - "*/Cloud/API/Static/"
+    - "*/Cloud/API/Static/*"
+    - "*/Cloud/API/Static**"
+    - "**/Cloud/API/Static"
+    - "**/Cloud/API/Static/"
+    - "**/Cloud/API/Static/*"
+    - "**/Cloud/API/Static**"
+    - ".bundle/"
+    - "spec/**/*"
+    - "benchmarks/**/*"

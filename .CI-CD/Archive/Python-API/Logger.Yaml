@@ -1,0 +1,23 @@
+=================================================================================
+[%(ctime)] - %(var.HTTP_X_REAL_IP) : %(HTTP_X_REAL_PORT) (%(msecs).0 ∙ 10⁻³s, ∆ᵗ)
+Request: %(status) :: %(method) :: %(size) Bytes
+Proxied:
+  - Referer:          %(referer)
+  - Packet Size:      %(pktsize)
+  - ASYNC Switches:   %(switches)
+  - RSS Memory:       %(rss)
+Metrics:
+  - Average Response: %(metric.core.avg_response_time)
+  - Up-Time (Total):  %(metric.core.total_running_time)
+  - Listening Queue:  %(metric.socket.0.listen_queue)
+  - Idle Workers:     %(metric.core.idle_workers)
+Variables:
+  - URI:              %(var.HTTP_X_ORIGINAL_URI)
+  - IP:               %(var.HTTP_X_REAL_IP)
+  - Agent:            %(var.HTTP_USER_AGENT)
+  - Control-Methods:  %(var.HTTP_X_ACCESS_CONTROL_ALLOW_METHODS)
+  - Request Target:   %(var.HTTP_X_DOCUMENT_URI)
+  - Protocol:         %(var.HTTP_X_FORWARDED_PROTO)
+  - Query:            %(var.QUERY_STRING)
+  - Path:             %(var.PATH_INFO)
+  - Total Requests:   %(var.totalRequests)

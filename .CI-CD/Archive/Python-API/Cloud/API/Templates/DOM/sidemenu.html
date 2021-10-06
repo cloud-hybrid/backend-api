@@ -1,0 +1,513 @@
+{% if session["Authenticated"] == True %}
+<div class="ui left vertical inverted menu">
+    <div class="item">
+        <div class="ui inverted transparent left icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+        </div>
+    </div>
+    <div class="Null item">
+        <div class="menu">
+            <div class="Null ui left aligned padded header">
+                API
+            </div>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Server/Hardware" class="item">Hardware</a>
+            </div>
+            <hr>
+            <a href="/API/Server/Hardware" class="item">CPU</a>
+            <a href="/API/Server/Hardware" class="item">RAM</a>
+            <a href="/API/Server/Hardware" class="item">Disk</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Server/System" class="item">System</a>
+            </div>
+            <hr>
+            <a href="/API/Server/System/Network" class="item">Network</a>
+            <a href="/API/Server/System/Uptime" class="item">Uptime</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Network" class="item">LAN</a>
+            </div>
+            <hr>
+            <a href="/API/Network/Ping" class="item">Ping</a>
+            <a href="/API/Network/Scanner" class="item">Scanner</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Security/PEM" class="item">Security</a>
+            </div>
+            <hr>
+            <a href="/API/Security/PEM" class="item">PEM</a>
+            <a href="/API/Security/RSA" class="item">RSA</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Virtualization/Preseed" class="item">Virtualization</a>
+            </div>
+            <hr>
+            <a href="/API/Virtualization/Preseed" class="item">Preseed</a>
+
+        </div>
+    </div>
+
+    <div class="Null ui inverted left aligned padded header">
+        Administration
+    </div>
+
+    <hr>
+
+    <a class="item"><i class="grid layout icon"></i>Blog</a>
+    <a class="item"><i class="grid layout icon"></i>Dashboard</a>
+    <a class="item"><i class="grid layout icon"></i>Financial</a>
+    <a class="item"><i class="grid layout icon"></i>Statistics</a>
+    <a class="item"><i class="grid layout icon"></i>IAM Management</a>
+
+    <div class="Null ui inverted left aligned padded header">
+        Development
+    </div>
+
+    <hr>
+
+    <a href="/development/dashboard" class="item">
+        <i class="grid layout icon"></i>
+        Dashboard
+    </a>
+
+</div>
+{% else %}
+<div class="Null ui top fixed inverted fluid menu">
+    <div class="ui container">
+        <a class="ui link item" href="/">
+            <img class="logo"src="{{ url_for('static', filename='./Images/20r-logo.png') }}"/>{{Metadata["Company"]}}
+        </a>
+
+        <a href="" class="item">
+            &nbsp;&nbsp;&nbsp;&nbsp;Store&nbsp;&nbsp;&nbsp;&nbsp;
+        </a>
+
+        <div class="ui simple dropdown inverted item">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gaming
+            <i class="large dropdown icon"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="inverted menu">
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Mordhau
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/mordhau">Home</a>
+                        <hr>
+                        <a class="item" href="/mordhau#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/mordhau#administrators">Administrators</a>
+                        <a class="item" href="/mordhau#calendar">Calendar</a>
+                        <a class="item" href="/mordhau#events">Events</a>
+                        <a class="item" href="/mordhau#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/mordhau#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/mordhau/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Squad
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/squad">Home</a>
+                        <hr>
+                        <a class="item" href="/squad#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/squad#administrators">Administrators</a>
+                        <a class="item" href="/squad#calendar">Calendar</a>
+                        <a class="item" href="/squad#events">Events</a>
+                        <a class="item" href="/squad#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/squad#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/squad/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Rust
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rust">Home</a>
+                        <hr>
+                        <a class="item" href="/rust#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rust#administrators">Administrators</a>
+                        <a class="item" href="/rust#calendar">Calendar</a>
+                        <a class="item" href="/rust#events">Events</a>
+                        <a class="item" href="/rust#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rust#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rust/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Tarkov
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/tarkov">Home</a>
+                        <hr>
+                        <a class="item" href="/tarkov#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/tarkov#administrators">Administrators</a>
+                        <a class="item" href="/tarkov#calendar">Calendar</a>
+                        <a class="item" href="/tarkov#events">Events</a>
+                        <a class="item" href="/tarkov#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/tarkov#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/tarkov/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Rocket League
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rocket-league">Home</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#administrators">Administrators</a>
+                        <a class="item" href="/rocket-league#calendar">Calendar</a>
+                        <a class="item" href="/rocket-league#events">Events</a>
+                        <a class="item" href="/rocket-league#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rocket-league#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rocket-league/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Bannerlord
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/bannerlord">Home</a>
+                        <hr>
+                        <a class="item" href="/bannerlord#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/bannerlord#administrators">Administrators</a>
+                        <a class="item" href="/bannerlord#calendar">Calendar</a>
+                        <a class="item" href="/bannerlord#events">Events</a>
+                        <a class="item" href="/bannerlord#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/bannerlord#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/bannerlord/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Rainbow 6ix
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege">Home</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#administrators">Administrators</a>
+                        <a class="item" href="/rainbow-6ix-siege#calendar">Calendar</a>
+                        <a class="item" href="/rainbow-6ix-siege#events">Events</a>
+                        <a class="item" href="/rainbow-6ix-siege#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/rainbow-6ix-siege#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/rainbow-6ix-siege/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Halo
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/halo">Home</a>
+                        <hr>
+                        <a class="item" href="/halo#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/halo#administrators">Administrators</a>
+                        <a class="item" href="/halo#calendar">Calendar</a>
+                        <a class="item" href="/halo#events">Events</a>
+                        <a class="item" href="/halo#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/halo#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/halo/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Last Oasis
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/last-oasis">Home</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#administrators">Administrators</a>
+                        <a class="item" href="/last-oasis#calendar">Calendar</a>
+                        <a class="item" href="/last-oasis#events">Events</a>
+                        <a class="item" href="/last-oasis#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/last-oasis#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/last-oasis/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Minecraft
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="/minecraft">Home</a>
+                        <hr>
+                        <a class="item" href="/minecraft#servers">Servers</a>
+                        <hr>
+                        <a class="item" href="/minecraft#administrators">Administrators</a>
+                        <a class="item" href="/minecraft#calendar">Calendar</a>
+                        <a class="item" href="/minecraft#events">Events</a>
+                        <a class="item" href="/minecraft#recruitment">Recruitment</a>
+                        <hr>
+                        <a class="item" href="/minecraft#discord">Discord</a>
+                        <hr>
+                        {% if session["Authenticated"] == True %}
+                        <a class="item" href="/minecraft/administration">Administration</a>
+                        <hr>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <a class="featured item">
+            Resources
+            <i class="dropdown icon"></i>
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted three column relaxed fluid divided grid">
+                <div class="Null ui center aligned column">
+                    <i class="user icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Login</a>
+                        <a class="item">Sign Up</a>
+                        <a class="item">Dashboard</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                Cloud
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned column">
+                    <i class="chart pie icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Advertising</a>
+                        <a class="item">Outreach</a>
+                        <a class="item">Partners</a>
+                        <a class="item">Twitch</a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned column">
+                    <i class="edit icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Blog</a>
+                        <a class="item">Videos</a>
+                        <a class="item">Tutorials</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                References
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="servers item">
+            Servers
+            <i class="dropdown icon"></i>
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted four column divided grid">
+                <div class="Null ui center aligned column">
+                    &nbsp;&nbsp;Community&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Mordhau</a>
+                        <a class="item">Rust</a>
+                        <a class="item">Minecraft</a>
+                        <a class="item">Squad</a>
+                        <a class="item">Bannerlord</a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned fluid column">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Internal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Administration</a>
+                        <a class="item">Dashboard</a>
+                        <a class="item">Modding</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                Schedule
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned column">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hosting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Gaming</a>
+                        <a class="item">Services</a>
+                        <a class="item">Purchasing</a>
+                        <hr>
+                        <a class="item">
+                            <strong>Demo</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned column">
+                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                    <!-- (Continued) -->
+                    &nbsp;
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">
+                            Affiliates
+                        </a>
+                        <a class="item">
+                            Contact
+                        </a>
+                        <a class="item">
+                            Guides
+                        </a>
+                        <a class="item">
+                            Security
+                        </a>
+                        <a class="item">
+                            References
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="" class="item">
+            Blog
+        </a>
+
+        <a href="" class="item">
+            Contact
+        </a>
+
+        <a href="" class="item">
+            Team
+        </a>
+
+        <div class="ui inverted flowing popup bottom center transition hidden">
+            <div class="ui inverted three column relaxed fluid divided grid">
+                <div class="Null ui center aligned column">
+                    <i class="gamepad icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Mordhau</a>
+                        <a class="item">Squad</a>
+                        <a class="item">Rust</a>
+                        <a class="item">Escape from Tarkov</a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned fluid column">
+                    <i class="ghost icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">Rocket League</a>
+                        <a class="item">Call of Duty</a>
+                        <a class="item">Rainbow 6ix Siege</a>
+                        <a class="item">Minecraft</a>
+                    </div>
+                </div>
+                <div class="Null ui center aligned column">
+                    <i class="headset icon"></i>
+                    <div class="ui inverted divider"></div>
+                    <div class="Null ui inverted link list">
+                        <a class="item">League</a>
+                        <a class="item">CS: GO</a>
+                        <a class="item">Planet Side 2</a>
+                        <hr>
+                        <a class="item">
+                            <strong>
+                                All&nbsp;
+                                <i class="green gamepad icon"></i>
+                            </strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right inverted user-menu-control menu item">
+            {% if session["Authenticated"] != True %}
+                <a class="ui green basic inverted button" href="/login">Login</a>
+                <a class="ui blue basic inverted button" href="/sign-up">Sign Up</a>
+            {% else %}
+                <a class="ui green basic inverted button" href="/login">Dashboard</a>
+                <a class="ui red basic inverted button" href="/logout">Logout</a>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endif %}

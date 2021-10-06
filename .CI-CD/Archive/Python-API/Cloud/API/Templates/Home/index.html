@@ -1,0 +1,282 @@
+{% extends "Base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<!-- {{ Metadata.Title }} CSS -->
+<link nonce="{{ Metadata.JWN }}" type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Home.css') }}">
+
+<style>
+    .ui.inverted.dark.transparent.video.segment.raised.hidden {
+        visibility: hidden;
+    }
+    .ui.basic.justified.video.segment {
+        padding: 5px;
+        background: transparent;
+        margin: auto;
+        padding: 5px 5px 0px 5px;
+        border-width: 0;
+        color: white;
+        height: inherit;
+        max-width: 645px;
+    }
+</style>
+
+{% endblock %}
+
+{% block sidemenu %}
+{% include "./Side-Menu.html" %}
+{% endblock %}
+
+{% block menu %}
+{% include "./Primary-Menu.html" %}
+{% endblock %}
+
+{% block pusher %}
+<div class="ui very padded inverted vertical center aligned sizer jumbotron segment">
+    <div class="ui container">
+        <img nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Images/20r-logo.png') }}" class="ui centered medium image">
+        <h1 class="ui inverted header">{{ Metadata.Company }}</h1>
+        <hr>
+        <h2 class="ui inverted header">Community & Competition</h2>
+    </div>
+</div>
+<div id="landing-divit" class="ui very padded violet inverted vertical segment landing-divit">
+    <div class="ui home container position-relative">
+        <div id="call-to-action-header-row" class="display-flex position-relative call-to-action-header-transition" hidden>
+            <div class="four wide column">
+            <div class="my-header header-left">
+                Enhanced Gaming Experience
+            </div>
+        </div>
+            <div class="my-header header-right">
+                {{ Metadata.Shortname }} — Discord
+            </div>
+        </div>
+        <div class="ui sixteen wide column">
+            <div id="call-to-action-discord-form" class="discord-form-container discord-form-transition" hidden>
+                <iframe nonce="{{ Metadata.JWN }}" src="https://discordapp.com/widget?id=531243268256694313&theme=dark" width="1200" height="700" allowtransparency="true" frameborder="0"></iframe>
+            </div>
+        </div>
+        <div class="ui centered stackable grid">
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="row"></div>
+            <div id="call-to-action-info-row" class="left aligned row call-to-action-fade">
+                <div class="eight wide left aligned text column inverted transparent segment">
+                    <p>
+                        <strong>{{ Metadata.Company }}</strong> is an organization that promotes online, multiplayer gaming through quality events, servers, and services for both the amateur and professional player base.
+                    </p>
+                    <p>
+                        The 20R provides quality <u>casual & competitive</u> experiences for our members — achieved through
+                        years of experience, strong administrative foundations, and a robust staff structure.
+                    </p>
+                </div>
+                <div class="Home-Video eight wide center aligned video column" style="display:inline-flex;">
+                    <div class="ui basic justified video segment">
+                    <p>
+                        Since 2014, we’ve organized <i>thousands</i> of unique events, hosted professional competitive matches,
+                        and continue to raise money for various charities. With drastic, recent growth
+                        and our <u>sustained player-base</u>, {{ Metadata.Company }} will continue 
+                        to bring the same incredible events to our community and related public.
+                    </p>
+                    </div>
+                    <!-- <div class="ui inverted dark transparent video segment raised">
+                        <div class="Home-Video-Dimmer ui active light dimmer" style="height: content;">
+                            <div class="ui active large slow double loader"></div>
+                        </div>
+                        <video nonce="{{ Metadata.JWN }}" autoplay loop muted onloadedmetadata="removeVideoDimmer()" preload="none" >
+                            <source nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Video/Mordhau-Showcase.webm') }}" type="video/webm">
+                            <source nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Video/Mordhau-Showcase-Optimized.mp4') }}" type="video/mp4">
+                        </video>
+                    </div> -->
+                </div>
+            </div>
+            <div id="call-to-action-image-row" class="center aligned centered row call-to-action-fade">
+                <div class="ui fourteen wide tabular column">
+                    <div class="ui top attached white tabular menu">
+                        <div class="item active" data-tab="one">Community</div>
+                        <div class="center item" data-tab="two">Partners</div>
+                        <div class="item" data-tab="three">Competition</div>
+                    </div>
+                    <div class="ui bottom attached tab segment active" data-tab="one">
+                        <h3 class="ui large center aligned header">
+                            {{ Metadata.Company }}
+                            <div class="ui horizontal divider">
+                                Community
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            {{ Metadata.Shortname }} provides some of the most <a href="/server-performance-white-page">optimized,
+                            performant game servers</a>, enabling communities to play to the best of their abilities via the highest
+                            server-side performance possible. Offering such infrastructure, publically and without charge, to our gaming
+                            communities is an obligation we proudly hold.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            Visit our <a href="technology-infrastructure">Technology & Infrastructure</a> page for a white-page and
+                            additional information regarding our sever environment(s).
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            Playing with the public communities is another important focus for {{ Metadata.Shortname }} — especially
+                            regarding recruitment. Our recruitment goal is to provide quality over quantity. Understanding that quality
+                            is invested and produced, our members have always shown willingness and proven their efficacy to ensure
+                            the best communications and sociability.
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="two">
+                        <h3 class="ui large center aligned header">
+                            {{ Metadata.Company }}
+                            <div class="ui horizontal divider">
+                                Partnerships
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            The partners we keep are of utmost importance.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            No partnership is too small for the greatness that's capable from co-creations and partnerships,
+                            so we look forward to speaking more about developing something together. Please
+                            drop us a <a href="/contact">note</a> with any details that will help us understand your interests.
+                        </p>
+                        <p class="ui paragraph bold centered text">
+                            To learn about partnership opportunities, please send an inquiry via our <a href="/contact">Contact Page.</a>
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="three">
+                        <h3 class="ui large center aligned header">
+                            {{ Metadata.Shortname }}
+                            <div class="ui horizontal divider">
+                                Competition
+                            </div>
+                        </h3>
+                        <p class="ui paragraph bold centered text">
+                            Lead by passion to recognize and foster the growth of up-and-coming talent,
+                            the vast amount of competitve {{ Metadata.Shortname }} rosters have occupied a commanding place
+                            over the last six years. We continue to
+                            grow talent that has directly funneled into popular streaming channels, game-wide events,
+                            and eSports scenes.
+                        </p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="ui centered stackable grid">
+            </div>
+
+            <div class="discord row">
+                <div class="sixteen wide center aligned column">
+                    <button nonce="{{ Metadata.JWN }}" id="Home-Discord-Button" class="ui left aligned right labeled icon large fitted huge inverted button" onclick="flip();">
+                        <span>Discord</span>
+                        <i id="Home-Discord-Button-Icon" class="discord icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cloud home ui very padded vertical segment">
+    <div class="ui middle aligned very padded stackable grid">
+        <div class="home event information row">
+            <div class="ten wide event home column">
+                <h2 class="ui header">Events</h2>
+                <p>
+                    {{ Metadata.Shortname }} actively holds events across a variety of public and private servers.
+                    Additionally, we may reserve time-slots on our privately owned servers. Please check
+                    the applicable game's web-page for availability and scheduling options.
+                </p>
+                <p>
+                    Depending on the event, {{ Metadata.Company }} may be willing to provide time and space for an outside
+                    organization -- events such as fundraisers or charities are among such events. Please reach out
+                    to a member of the administration team for further information.
+                </p>
+                <p>
+                    Established representives and members can sign in and schedule an event via the event calendars.
+                </p>
+            </div>
+            <div class="six wide events image column"></div>
+        </div>
+    </div>
+</div>
+
+<div class="cloud news ui stackable full-width grid flex container">
+    <div class="cloud-row">
+        <div class="sixteen wide column">
+            <h2 class="ui header">News</h2>
+            {% include "./Home/Steam-News.html" %}
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="cloud ui news breadcrumb">
+            <a id="news-breadcrumb-1" class="active section">Page 1</a>
+            <i class="right chevron icon divider"></i>
+            <a id="news-breadcrumb-2" class="section">Page 2</a>
+        </div>
+    </div> -->
+</div>
+
+<script nonce="{{ Metadata.JWN }}">
+    // Divit
+    $(".menu .item").tab();
+
+    var callToActionHeaderRow = document.getElementById("call-to-action-header-row");
+    var callToActionImageRow = document.getElementById("call-to-action-image-row");
+    var callToActionInfoRow = document.getElementById("call-to-action-info-row");
+    var callToActionDiscordForm = document.getElementById("call-to-action-discord-form");
+
+    var transitioned = false;
+
+    function flip() {
+        flipCallToActionHeaderRow();
+        fadeCallToActionImageRow();
+        fadeCallToActionInfoRow();
+        fadeCallToActionDiscordForm();
+
+        transitioned = transitioned == true ? false : true;
+    }
+
+    function flipCallToActionHeaderRow() {
+        if (transitioned == false) {
+            callToActionHeaderRow.classList.add("transition-left");
+        } else {
+            callToActionHeaderRow.classList.remove("transition-left");
+        }
+    }
+
+    function fadeCallToActionImageRow() {
+        if (transitioned == false) {
+            callToActionImageRow.classList.add("fade-out");
+
+        } else {
+            callToActionImageRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionInfoRow() {
+        if(transitioned == false) {
+            callToActionInfoRow.classList.add("fade-out");
+        } else {
+            callToActionInfoRow.classList.remove("fade-out");
+        }
+    }
+
+    function fadeCallToActionDiscordForm() {
+        if(transitioned == false) {
+            callToActionDiscordForm.classList.add("fade-in");
+        } else {
+            callToActionDiscordForm.classList.remove("fade-in");
+        }
+    }
+
+    function removeVideoDimmer() {
+        setTimeout(function() {
+            $(".Home-Video-Dimmer").fadeOut("slow", function() {
+                $(this).removeClass("active");
+            });
+        }, 750);
+    }
+</script>
+
+{% endblock %}

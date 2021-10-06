@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Landing, Canonical Domain -->
+    <url>
+
+        <loc>https://cloudhybrid.io</loc>
+
+        <lastmod>2020-02-22</lastmod>
+
+        <changefreq>monthly</changefreq>
+
+        <priority>1.0</priority>
+
+    </url>
+
+    <!-- Login(s) -->
+   <url>
+
+      <loc>https://cloudhybrid.io/login</loc>
+
+      <lastmod>2020-02-22</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.1</priority>
+
+   </url>
+
+   <url>
+
+      <loc>https://cloudhybrid.io/dashboard</loc>
+
+      <lastmod>2020-02-22</lastmod>
+
+      <changefreq>always</changefreq>
+
+      <priority>0.0</priority>
+
+   </url>
+
+</urlset> 

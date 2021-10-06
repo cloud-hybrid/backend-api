@@ -1,0 +1,250 @@
+<!-- Primary Menu Component -->
+
+<div class="Null ui sidebar left inverted vertical menu">
+    <div class="item">
+        <div class="ui inverted transparent left icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+        </div>
+    </div>
+    {% if session["Authenticated"] == True %}
+    <div class="Null item">
+        <div class="menu">
+
+            <!-- <div class="Null menu-divider ui inverted horizontal divider">API</div> -->
+            <div class="Null ui left aligned padded header">
+                API
+            </div>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Server/Hardware" class="item">Hardware</a>
+            </div>
+            <hr>
+            <a href="/API/Server/Hardware" class="item">CPU</a>
+            <a href="/API/Server/Hardware" class="item">RAM</a>
+            <a href="/API/Server/Hardware" class="item">Disk</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Server/System" class="item">System</a>
+            </div>
+            <hr>
+            <a href="/API/Server/System/Network" class="item">Network</a>
+            <a href="/API/Server/System/Uptime" class="item">Uptime</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Network" class="item">LAN</a>
+            </div>
+            <hr>
+            <a href="/API/Network/Ping" class="item">Ping</a>
+            <a href="/API/Network/Scanner" class="item">Scanner</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Security/PEM" class="item">Security</a>
+            </div>
+            <hr>
+            <a href="/API/Security/PEM" class="item">PEM</a>
+            <a href="/API/Security/RSA" class="item">RSA</a>
+
+            <div class="Null ui small left aligned padded header">
+                <a href="/API/Virtualization/Preseed" class="item">Virtualization</a>
+            </div>
+            <hr>
+            <a href="/API/Virtualization/Preseed" class="item">Preseed</a>
+
+        </div>
+    </div>
+    <div class="Null ui inverted left aligned padded header">
+        Administration
+    </div>
+    <hr>
+    <a class="item"><i class="grid layout icon"></i>Browse</a>
+    <a class="item"><i class="grid layout icon"></i>Browse</a>
+    <a class="item"><i class="grid layout icon"></i>Browse</a>
+    <a class="item"><i class="grid layout icon"></i>Browse</a>
+    <a class="item">
+        Blog
+    </a>
+    <div class="ui dropdown item">
+        Services
+    </div>
+    {% endif %}
+</div>
+
+<div class="Null ui fixed inverted compact menu">
+    <div class="ui icon item">
+        <i class="large bars link icon"></i>
+    </div>
+    <div class="ui container">
+        <a href = "/" class="header item">
+        <img class="logo" nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Images/20r-logo.png') }}">
+        {{company}}
+        </a>
+        <a href="/" class="item">Home</a>
+        <!-- <div class="ui simple dropdown inverted item padded"> -->
+        <div class="ui simple dropdown inverted item">
+            Gaming
+            <i class="large dropdown icon"></i>
+            <div class="inverted menu">
+
+                <div class="item">
+                    Mordhau
+                    <i class="dropdown icon"></i>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="#">Home</a>
+                        <a class="item" href="#">Members</a>
+                        <hr>
+                        <a class="item" href="#">Calendar</a>
+                        <a class="item" href="#">Server List</a>
+                        <a class="item" href="#">Private Events</a>
+                        <hr>
+                        <a class="item" href="#">Discord Information</a>
+                        <hr>
+                        <a class="item" href="#">Administration</a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Rust
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="#">Home</a>
+                        <hr>
+                        <a class="item" href="#">EU - Europe</a>
+                        <hr>
+                        <a class="item" href="#">Calendar</a>
+                        <a class="item" href="#">Server List</a>
+                        <a class="item" href="#">Private Events</a>
+                        <hr>
+                        <a class="item" href="#">Discord Information</a>
+                        <hr>
+                        <a class="item" href="#">Administration</a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="item">
+                    Tarkov
+                    <i class="dropdown icon"></i>
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="#">Home</a>
+                        <hr>
+                        <a class="item" href="#">Overview</a>
+                        <a class="item" href="#">Squads</a>
+                        <a class="item" href="#">Tutorials</a>
+                        <hr>
+                        <a class="item" href="#">Discord Information</a>
+                        <hr>
+                        <a class="item" href="#">Administration</a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="item">
+                    <i class="dropdown icon"></i>
+                    Squad
+                    <div class="inverted menu">
+                        <hr>
+                        <a class="item" href="#">Home</a>
+                        <hr>
+                        <a class="item" href="#">Official Servers</a>
+                        <hr>
+                        <a class="item" href="#">Calendar</a>
+                        <a class="item" href="#">Contacts</a>
+                        <a class="item" href="#">Infrastructure</a>
+                        <hr>
+                        <a class="item" href="#">Discord Information</a>
+                        <hr>
+                        <a class="item" href="#">Administration</a>
+                        <hr>
+                    </div>
+                </div>
+                <hr>
+                <div class="ui mini centered header">Divisions</div>
+                <div class="ui inverted divider"></div>
+                <a class="item" href="#">Rocket League</a>
+                <a class="item" href="#">Call of Duty</a>
+                <a class="item" href="#">Arma 3</a>
+                <a class="item" href="#">Minecraft</a>
+                <a class="item" href="#">Minecraft</a>
+                <hr>
+                <a class="item" href="#">More</a>
+                <hr>
+            </div>
+        </div>
+        <div class="right user-menu-control item">
+            {% if session["Authenticated"] != True %}
+                <a class="ui green basic inverted button" href="/login">Login</a>
+                <a class="ui blue basic inverted button" href="#">Sign Up</a>
+            {% else %}
+                <a class="ui green basic inverted button" href="/dashboard">Dashboard</a>
+                <a class="ui red basic inverted button" href="/logout">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style type="text/css" nonce="{{ Metadata.JWN }}">
+    .sidebar .sidebar-title {
+        font-size: 16px;
+        line-height: 60px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 7px;
+        color: #eee;
+        background: teal;
+    }
+
+    .Null.ui.left.aligned.padded.header {
+        padding-left: 0.5em;
+        margin-bottom: 0.0em;
+    }
+
+    .Null.ui.small.left.aligned.padded.header {
+        margin-top: 0.75em;
+        padding-left: 0.0em;
+        margin-bottom: 0.15em;
+    }
+
+    .Null.ui.small.left.aligned.padded.header > .item {
+        margin-left: 0.15em;
+        padding-left: 0.5em;
+    }
+
+    .Null.menu-divider.ui.inverted.horizontal.divider {
+        padding-left: 1.0em;
+        padding-right: 1.0em;
+    }
+
+    .Null.item > .menu > hr {
+        width: 75%;
+        margin-left: 0.5em;
+        padding-left: 0.0em;
+    }
+
+    .hidden.menu {
+        display: none;
+    }
+    .ui.menu .ui.button {
+        margin-left: 0.5em;
+    }
+
+    .secondary.pointing.menu .toc.item {
+        display: none;
+    }
+
+    .right.user-menu-control.item .ui.button {
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .ui.fixed.menu {
+            display: none !important;
+        }
+    }
+</style>
+
+<script type="Application/JavaScript" nonce="{{ Metadata.JWN }}">
+    $(".ui.sidebar").first().sidebar("attach events", ".ui.icon.item .bars");
+</script>

@@ -1,0 +1,510 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<div class="row">
+    <div class="ui inverted raised darker segment">
+        <div class="header-featured">
+            <h2>
+                <div class="ui horizontal centered small header" style="color:white;">
+                    Statistics
+                    <hr>
+                    <br>
+                </div>
+            </h2>
+        </div>
+        <div id="Statistics-Loading-Overlay" class="ui grid" style="margin-top: -2.5em;">
+            <div class="ui active dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+        </div>
+        <div class="ui grid" style="margin-top: -1.5em;">
+            <div class="row">
+                <div class="eight wide column">
+                    <canvas id="CPU-Utilization-Chart" height="225"></canvas>
+                </div>
+                <div class="eight wide column">
+                    <canvas id="RAM-Utilization-Chart" height="225"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="eight wide column">
+                    <canvas id="RAM-Utilization-Piechart" height="300"></canvas>
+                </div>
+                <div class="eight wide column">
+                    <canvas id="Disk-Utilization-Piechart" height="300"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function removeDimmer() {
+        try { document.getElementById("Statistics-Loading-Overlay").remove(); }
+        catch { void(0); }
+    }
+</script>
+<script>
+    function getHardwareStatistics(){
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "GET",
+            url: "http://10.0.0.5:5000/API/Server/System",
+            contentType: "application/json;charset=UTF-8",
+            data: true,
+            crossDomain: true,
+            success: function(response) {
+                console.log(response);
+
+                updateCPUData(response.CPU.Percentage);
+                updateRAMData(response.RAM.Percentage);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
+    };
+</script>
+
+<script>
+    function getPieChartStatistics(){ 
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "GET",
+            url: "http://10.0.0.5:5000/API/Server/System",
+            contentType: "application/json;charset=UTF-8",
+            data: true,
+            success: function(response) {
+                console.log(response);
+
+                updateRAMTotalData(response.RAM.Total);
+                updateRAMFreeData(response.RAM.Free);
+                updateRAMUsedData(response.RAM.Used);
+
+                updateDiskTotalData(response.Disk.Total);
+                updateDiskFreeData(response.Disk.Free);
+                updateDiskUsedData(response.Disk.Used);
+            },
+            error: function(response) { console.log(response)}
+        });
+    };
+</script>
+
+<script>
+    function getSystemStatistics(){ 
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "GET",
+            url: "http://10.0.0.5:5000/API/Server/System",
+            contentType: "application/json;charset=UTF-8",
+            data: true,
+            success: function(response) {
+                console.log(response);
+
+                // updateNetworkConnections(response.Network["Connections"]);
+                // updateNetworkInput(response.Network["IO-Input"]);
+                // updateNetworkOutput(response.Network["IO-Output"]);
+                // updateNetworkPacketsInputLoss(response.Network["Packets-Input-Dropped"]);
+                // updateNetworkPacketsOutputLoss(response.Network["Packets-Output-Dropped"]);
+            },
+            error: function(response) { console.log(response)}
+        });
+    };
+</script>
+
+<script>
+    var _data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+    var ctx = document.getElementById('CPU-Utilization-Chart').getContext('2d');
+    var CPUUtilizationChart = new Chart(ctx, {
+        type: 'line',
+        options: {
+            title: {
+                display: true,
+                text: "CPU Utilization",
+                color: "rgb(255,255,255)",
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stacked: true,
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        callback: function(value, index, values) {
+                            return value + ".0 %";
+                        }
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        drawTicks: false,
+                        display: false,
+                    }
+                }]
+            }
+        },
+        data: {
+            labels: [
+                "Interval(0)",
+                "Interval(1)",
+                "Interval(2)",
+                "Interval(3)",
+                "Interval(4)",
+                "Interval(5)",
+                "Interval(6)",
+                "Interval(7)",
+                "Interval(8)",
+                "Interval(9)",
+            ],
+            datasets: [
+                {
+                label: " - Load Average",
+                backgroundColor: "rgb(0, 35, 255)",
+                hoverBackgroundColor: "rgb(0, 105, 255)",
+                borderColor: 'rgb(255, 255, 255)',
+                data: _data.slice(_data.length - 10),
+        }]
+    }});
+    CPUUtilizationChart.update();
+</script>
+
+<script>
+    var _data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    var ctx = document.getElementById('RAM-Utilization-Chart').getContext('2d');
+    var RAMUtilizationChart = new Chart(ctx, {
+        type: 'line',
+        options: {
+            title: {
+                display: true,
+                text: "RAM Usage",
+                color: "rgb(255,255,255)",
+            },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        callback: function(value, index, values) {
+                            return value + ".0 %";
+                        }
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        drawTicks: false,
+                        display: false,
+                    }
+                }]
+            }
+        },
+        data: {
+            labels: [
+                "Interval(0)",
+                "Interval(1)",
+                "Interval(2)",
+                "Interval(3)",
+                "Interval(4)",
+                "Interval(5)",
+                "Interval(6)",
+                "Interval(7)",
+                "Interval(8)",
+                "Interval(9)",
+            ],
+            datasets: [
+            {
+                label: " - Memory Usage",
+                backgroundColor: "rgb(0,135,0)",
+                hoverBackgroundColor: "rgb(0,195,0)",
+                borderColor: 'rgb(255, 255, 255)',
+                data: _data.slice(_data.length - 10, _data.length),
+            }
+        ]
+    }});
+    RAMUtilizationChart.update();
+</script>
+
+<script>
+    var RAMFreePieData = [Number()];
+    var RAMUsedPieData = [Number()];
+    var RAMTotalPieData = [Number()];
+
+    var ctx = document.getElementById('RAM-Utilization-Piechart').getContext('2d');
+
+    var data = {
+        datasets: [{
+            data: [
+                RAMFreePieData,
+                RAMUsedPieData,
+                RAMTotalPieData
+            ],
+            backgroundColor: [
+                "rgb(50, 50, 50)",
+                "rgb(75, 75, 75)",
+                "rgb(100, 100, 100)"
+            ],
+            borderAlign: [
+                "inner",
+                "inner",
+                "inner",
+            ],
+            borderColor: [
+            "rgb(255, 255, 255)",
+            "rgb(255, 255, 255)",
+            "rgb(255, 255, 255)"
+            ],
+            hoverBorderColor: [
+                "rgb(255, 255, 255)",
+                "rgb(255, 255, 255)",
+                "rgb(255, 255, 255)"
+            ],
+            hoverBackgroundColor: [
+                "#21BA45",
+                "#DB2828",
+                "#2185D0"
+            ]
+        }],
+        labels: [
+            " - Available (GB)",
+            " - Used (GB)",
+            " - Total (GB)"
+        ]
+    };
+    var options = {
+            title: {
+                display: true,
+                text: "RAM Polar Metrics",
+                color: "rgb(255,255,255)",
+            },
+            legend: {
+                display: true,
+                onHover: function(value, index, values) {
+                    if (index["text"] == " - Available (GB)"){
+                        index["fillStyle"] = "#21BA45";
+                    } else if (index["text"] == " - Used (GB)"){
+                        index["fillStyle"] = "#DB2828";
+                    } else if (index["text"] == " - Total (GB)"){
+                        index["fillStyle"] = "#2185D0";
+                    }
+                },
+                onLeave: function(value, index, values) {
+                    if (index["text"] == " - Available (GB)"){
+                        index["fillStyle"] = "rgb(50, 50, 50)";
+                    } else if (index["text"] == " - Used (GB)"){
+                        index["fillStyle"] = "rgb(75, 75, 75)";
+                    } else if (index["text"] == " - Total (GB)"){
+                        index["fillStyle"] = "rgb(100, 100, 100)";
+                    }
+                },
+            },
+            startAngle: 0.0 + 1.5675
+    };
+
+    var type = "polarArea";
+
+    RAMUtilizationPiechart = new Chart(ctx, {
+        data: data,
+        type: type,
+        options: options
+    });
+</script>
+
+<script>
+    var DiskFreePieData = [Number()];
+    var DiskUsedPieData = [Number()];
+    var DiskTotalPieData = [Number()];
+
+    var ctx = document.getElementById('Disk-Utilization-Piechart').getContext('2d');
+
+    var data = {
+        datasets: [{
+            data: [
+                DiskFreePieData,
+                DiskUsedPieData,
+                DiskTotalPieData
+            ],
+            backgroundColor: [
+                "rgb(50, 50, 50)",
+                "rgb(75, 75, 75)",
+                "rgb(100, 100, 100)"
+            ],
+            borderAlign: [
+                "inner",
+                "inner",
+                "inner",
+            ],
+            borderColor: [
+            "rgb(255, 255, 255)",
+            "rgb(255, 255, 255)",
+            "rgb(255, 255, 255)"
+            ],
+            hoverBorderColor: [
+                "rgb(255, 255, 255)",
+                "rgb(255, 255, 255)",
+                "rgb(255, 255, 255)"
+            ],
+            hoverBackgroundColor: [
+                "#21BA45",
+                "#DB2828",
+                "#2185D0"
+            ]
+        }],
+        labels: [
+            " - Available (GB)",
+            " - Used (GB)",
+            " - Total (GB)"
+        ]
+    };
+    var options = {
+            title: {
+                display: true,
+                text: "Disk (HDD Storage) Polar Metrics",
+                color: "rgb(255,255,255)",
+            },
+            legend: {
+                display: true,
+                onHover: function(value, index, values) {
+                    if (index["text"] == " - Available (GB)"){
+                        index["fillStyle"] = "#21BA45";
+                    } else if (index["text"] == " - Used (GB)"){
+                        index["fillStyle"] = "#DB2828";
+                    } else if (index["text"] == " - Total (GB)"){
+                        index["fillStyle"] = "#2185D0";
+                    }
+                },
+                onLeave: function(value, index, values) {
+                    if (index["text"] == " - Available (GB)"){
+                        index["fillStyle"] = "rgb(50, 50, 50)";
+                    } else if (index["text"] == " - Used (GB)"){
+                        index["fillStyle"] = "rgb(75, 75, 75)";
+                    } else if (index["text"] == " - Total (GB)"){
+                        index["fillStyle"] = "rgb(100, 100, 100)";
+                    }
+                },
+            },
+            startAngle: 0 - 0.525
+    };
+
+    var type = "polarArea";
+
+    DiskUtilizationPiechart = new Chart(ctx, {
+        data: data,
+        type: type,
+        options: options
+    });
+</script>
+
+<script>
+    var CPUData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    var RAMData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+    function updateCPUData(value, data = CPUData, chart = CPUUtilizationChart) {
+        data.push(Number(value) + 0.0);
+
+        chart.data.datasets[0]["data"] = data.slice(data.length - 10, data.length)
+        chart.options.title.text = "CPU Utilization";
+        chart.options.title.display = true;
+        chart.update();
+    };
+
+    function updateRAMData(value, data = RAMData, chart = RAMUtilizationChart) {
+        data.push(Number(value) + 0.0);
+
+        chart.data.datasets[0]["data"] = data.slice(data.length - 10, data.length)
+        chart.options.title.text = "RAM Usage";
+        chart.options.title.display = true;
+        chart.update();
+    };
+
+    function updateRAMFreeData(value) {
+        RAMFreePieData.pop();
+        RAMFreePieData.push(value);
+        RAMUtilizationPiechart.update();
+    };
+
+    function updateRAMUsedData(value) {
+        RAMUsedPieData.pop();
+        RAMUsedPieData.push(value);
+        RAMUtilizationPiechart.update();
+    };
+
+    function updateRAMTotalData(value) {
+        RAMTotalPieData.pop();
+        RAMTotalPieData.push(value);
+        RAMUtilizationPiechart.update();
+    };
+
+    function updateDiskFreeData(value) {
+        DiskFreePieData.pop();
+        DiskFreePieData.push(value);
+        DiskUtilizationPiechart.update();
+    };
+
+    function updateDiskUsedData(value) {
+        DiskUsedPieData.pop();
+        DiskUsedPieData.push(value);
+        DiskUtilizationPiechart.update();
+    };
+
+    function updateDiskTotalData(value) {
+        DiskTotalPieData.pop();
+        DiskTotalPieData.push(value);
+        DiskUtilizationPiechart.update();
+    };
+
+    // function updateNetworkConnections(value) {
+        // console.log(value);
+        // document.getElementById("Network-Connections").innerHTML = value;
+    // };
+
+    // function updateNetworkInput(value) {
+        // console.log(value);
+        // document.getElementById("Network-Input").innerHTML = value;
+    // };
+    // function updateNetworkOutput(value) {
+        // console.log(value);
+        // document.getElementById("Network-Output").innerHTML = value;
+    // };
+
+    // function updateNetworkPacketsInputLoss(value) {
+        // console.log(value);
+        // document.getElementById("Network-Packets-Input-Loss").innerHTML = value;
+    // };
+
+    // function updateNetworkPacketsOutputLoss(value) {
+        // console.log(value);
+        // document.getElementById("Network-Packets-Output-Loss").innerHTML = value;
+    // };
+    
+</script>
+
+<script>
+    getHardwareStatistics();
+    getPieChartStatistics();
+    getSystemStatistics();
+    $(document).ready(function(){
+        setInterval(getHardwareStatistics, 5000);
+        setInterval(getSystemStatistics, 5000);
+        setInterval(getPieChartStatistics, 5000);
+        setInterval(removeDimmer, 5000);
+    });
+</script>

@@ -1,0 +1,161 @@
+<!-- Primary Content (Body) -->
+
+<div class="ui padded  vertical center aligned inverted segment">
+    <div class="ui top fill"></div>
+    <img src="/artifacts/Images/Servers.jpg" class="ui centered circular massive image">
+    <h2 class="ui header">
+        Cloud Hybrid — Dashboard
+    </h2>
+</div>
+
+<div class="ui padded center aligned grid">
+    <div class="ui center aligned raised segment">
+        <h2 class = "ui center aligned big header">
+            <strong>Dedicated Hosts</strong>
+        </h2>
+        <table class="ui celled inverted striped single line fixed table">
+            <thead class="full-width">
+                <tr>
+                    <th class="ui one wide center aligned small header">Status</th>
+                    <th class="ui two wide center aligned small header">Host</th>
+                    <th class="ui one wide center aligned small header">⋮</th>
+                    <th class="ui one wide center aligned small header">User</th>
+                    <th class="ui three wide center aligned small header">IPv4</th>
+                    <th class="ui three wide center aligned small header">UUID</th>
+                    <th class="ui two wide center aligned small header">LAN</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for Host in Hosts %}
+                <tr>
+                    <td class="ui center aligned collapsing">
+                        Online
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <a href="./dashboard/MaaS/{{Host.UUID}}">
+                            <strong>{{ Host.Name }}</strong>
+                        </a>
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <a href="./dashboard/MaaS/{{Host.UUID}}">
+                            <i class="large cogs icon"></i>
+                        </a>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <code>{{ Host.Username }}</code>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <code>{{ Host.Public }}</code>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <code>{{ Host.UUID }}</code>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <code>{{ Host.Local }}</code>
+                    </td>
+                    <!-- | Controls | -->
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot class="full-width">
+                <tr>
+                    <th colspan="7">
+                        <a href="../API/Database/Management?Database=Cloud-API&Table=VPS&Operation=Create">
+                            <button class="ui link right floated small inverted basic button">
+                                <span class="ui inverted white text">Insert</span>
+                            </button>
+                        </a>
+                        <div class="ui small button">
+                            Unlock
+                        </div>
+                        <div class="ui small basic inverted icon buttons">
+                            <button class="ui disabled button"><i class="file icon"></i></button>
+                            <button class="ui disabled button"><i class="save icon"></i></button>
+                            <button class="ui disabled button"><i class="upload icon"></i></button>
+                            <button class="ui disabled button"><i class="download icon"></i></button>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+        <h2 class = "ui center aligned big header">
+            Server Instances 
+        </h2>
+        <table class="ui celled inverted striped single line fixed table">
+            <thead class="full-width">
+                <tr>
+                    <th class="ui one wide center aligned small header">Status</th>
+                    <th class="ui three wide center aligned small header">Name</th>
+                    <th class="ui one wide center aligned small header">⋮</th>
+                    <th class="ui two wide center aligned small header">IPv4</th>
+                    <th class="ui one wide center aligned small header">Key</th>
+                    <th class="ui one wide center aligned small header">User</th>
+                    <th colspan="3" class="ui two wide center aligned small header">Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for VPS in Instances %}
+                <tr>
+                    <td class="selectable ui center aligned">
+                        <i class="large i-table center aligned green layer group icon"></i>
+                    </td>
+                    <td class="ui center aligned">
+                        <a href="./dashboard/vps/{{VPS.Instance}}">
+                            <strong>{{ VPS.Name }}</strong>
+                        </a>
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <a href="./dashboard/vps/{{VPS.Instance}}">
+                            <i class="large i-table center aligned layer cog icon"></i>
+                        </a>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <code>{{VPS.IP}}</code>
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <i class="large i-table center aligned layer download icon"></i>
+                    </td>
+                    <td class="ui center aligned collapsing">
+                        <strong><code>{{VPS.Username}}</code></strong>
+                    </td>
+                    <!-- Controls -->
+                    <td class="selectable ui center aligned">
+                        <i class="large i-table center aligned layer green power icon"></i>
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <i class="large i-table center aligned layer red plug icon"></i>
+                    </td>
+                    <td class="selectable ui center aligned">
+                        <i class="large i-table center aligned layer blue sync alternate icon"></i>
+                    </td>
+                    <!-- | Controls | -->
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="9">
+                        <a href="../API/Database/Management?Database=Cloud-API&Table=VPS&Operation=Create">
+                            <button class="ui link right floated small inverted basic button">
+                                <span class="ui inverted white text">Insert</span>
+                            </button>
+                        </a>
+                        <div class="ui small button">
+                            Unlock
+                        </div>
+                        
+
+                        <div class="ui small basic inverted icon buttons">
+                            <button class="ui disabled button"><i class="file icon"></i></button>
+                            <button class="ui disabled button"><i class="save icon"></i></button>
+                            <button class="ui disabled button"><i class="upload icon"></i></button>
+                            <button class="ui disabled button"><i class="download icon"></i></button>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="ui bottom fill"></div>
+</div>
+

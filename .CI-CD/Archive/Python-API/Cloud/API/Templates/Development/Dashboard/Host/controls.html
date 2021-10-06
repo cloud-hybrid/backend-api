@@ -1,0 +1,407 @@
+<div class = "ui sixteen wide center column">
+    <div class="Null ui inverted raised segment">
+        <div class="ui inverted header">
+            <h2>
+                <div class="ui horizontal inverted divider small header">
+                    Virtual Machine Controls
+                </div>
+            </h2>
+        </div>
+    </div>
+    <div id="Host-Status" style="background:rgba(50, 50, 50, 0.815) none repeat scroll 0% 0%;" class="ui icon hidden inverted message" hidden>
+        <i id="Host-Status-Close" class="close icon"></i>
+        <i id="Host-Loader" class="notched circle loading icon"></i>
+        <div class="content">
+            <div id="Host-Status-Header" class="header"></div>
+            <p id="Host-Status-Body"></p>
+        </div>
+    </div>
+    <div class = "row">
+        <div class="ui inverted compact raised centered segment">
+            <div class="ui centered inverted header">
+                <h2>
+                    <div class="ui inverted small header">
+                        Host Controls
+                        <hr>
+                    </div>
+                </h2>
+            </div>
+            <div class = "ui centered grid">
+                <div class = "row" id="Shadowed-Row">
+                    <div class="shadowed-button centered">
+                        <h6>Start</h6>
+                        <div class="shadowed-button-container">
+                            <div class="shadowed-button-icon">
+                                <a name="start-button" id="start-button" href="javascript:start();">
+                                    <i class="green power on icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shadowed-button centered">
+                        <h6>Restart</h6>
+                        <div class="shadowed-button-container">
+                            <div class="shadowed-button-icon">
+                                <a id="restart-button" href="javascript:restart();">
+                                    <i class="blue sync icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shadowed-button centered">
+                        <h6>Stop</h6>
+                        <div class="shadowed-button-container">
+                            <div id="stop-button" class="shadowed-button-icon">
+                                <a name="stop-button" id="stop-button" href="javascript:stop();">
+                                    <i class="red plug icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #Shadowed-Row {
+        display: inline-flex;
+        margin-bottom: 1.25em;
+    }
+    #Shadowed-Button-Section {
+        display: block;
+    }
+.shadowed-button {
+    text-align: center;
+}
+.shadowed-button h6 {
+    padding-top: 0.0em;
+    margin-bottom: 0.25em;
+    text-align: center;
+    font-size: 1.0em;
+    padding-bottom: 1.00em;
+}
+.shadowed-button-icon {
+    display: inline;
+    font-size: 3em;
+    margin: 0.05em 0.75em 0.25em 0.75em;
+}
+.shadowed-button a {
+    padding: 0.25em;
+    text-decoration: none;
+    color: #555;
+    border-radius: 0.25em;
+}
+.shadowed-button i {
+    margin-bottom: -0.3em;
+}
+.shadowed-button a:link, a:visited {
+    background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
+    background-image: -moz-linear-gradient(top, #d5d2d2, #fffdfd); 
+    background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
+    background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+}
+.shadowed-button a:hover {
+    background: #fff;
+}
+.shadowed-button-container {
+    margin-top: 1.5em;
+}
+
+</style>
+
+
+<script>
+    function start() {
+        try {
+            document.getElementById("Host-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        var _button = document.getElementById("start-button")
+            .getElementsByTagName("i").item(0);
+
+        _button.classList.add("loading");
+        _button.classList.add("green");
+
+        var _message = document.getElementById("Host-Status");
+        var _body = document.getElementById("Host-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "<span style='color:rgb(6, 194, 40)'>Initializing Host Connection</span>";
+        _message.getElementsByTagName("p").item(0)
+            .innerHTML = "Instance-ID: <strong>{{Server.Host}}</strong>";
+
+        _message.getElementsByTagName("p").item(0)
+            .getElementsByTagName("strong").item(0)
+                .style.color = "white";
+        _message.getElementsByTagName("i").item(1).classList.add("loading");
+
+        document.getElementById("Host-Loader").classList.add("green");
+
+        _body.innerHTML = "{{Server.Host}} - System is Beginning Boot Sequences";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "HEAD",
+            url: "/API/Server/Control/Start?Server={{Server.Host}}",
+            timeout: 300000,
+            contentType: "application/json;charset=UTF-8",
+            data: true,
+            success: function(message = _message, button = _button) {
+                console.log("Start-Success: {{Server.Host}}");
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:rgb(6, 194, 40)'>Stable</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{server}}</strong> - Instance state is stable and running";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("green");
+                
+                document.getElementById("start-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            },
+            error: function(response, button = _button) {
+                console.log("Start-Failure: {{Server.Host}}");
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:red'>Failure</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{Server.Host}}</strong> - Instance Error";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("red");
+                document.getElementById("start-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            }
+        });
+    };
+</script>
+
+<script>
+    function restart() {
+        try {
+            document.getElementById("Host-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        var _button = document.getElementById("restart-button")
+            .getElementsByTagName("i").item(0);
+
+        _button.classList.add("loading");
+        _button.classList.add("blue");
+
+        var _message = document.getElementById("Host-Status");
+        var _body = document.getElementById("Host-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "<span style='color:rgb(22, 122, 197)'>Initializing Host Connection</span>";
+        _message.getElementsByTagName("p").item(0)
+            .innerHTML = "Instance-ID: <strong>{{Server.Host}}</strong>";
+
+        _message.getElementsByTagName("p").item(0)
+            .getElementsByTagName("strong").item(0)
+                .style.color = "white";
+        _message.getElementsByTagName("i").item(1).classList.add("loading");
+
+        document.getElementById("Host-Loader").classList.add("blue");
+
+        _body.innerHTML = "{{Server.Host}} - System is Entering Reboot Sequences";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "HEAD",
+            url: "/API/Server/Control/Reboot",
+            timeout: 300000,
+            contentType: "application/json;charset=UTF-8",
+            data: "Server={{Server.Host}}",
+            success: function(message = _message, button = _button) {
+                console.log("Restart-Success: {{Server.Host}}");
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:rgb(6, 194, 40)'>Stable</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{Server.Host}}</strong> - Instance restarted and has reached a stable state";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("green");
+                document.getElementById("restart-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            },
+            error: function(message = _message, button = _button) {
+                console.log("Restart-Failure: {{Server.Host}}");
+                console.log("Start-Failure: {{Server.Host}}");
+
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:red'>Failure</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{Server.Host}}</strong> - Instance Error";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("red");
+                document.getElementById("restart-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            }
+        });
+    };
+</script>
+
+<script>
+    function stop() {
+        try {
+            document.getElementById("Host-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Host-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        var _button = document.getElementById("stop-button")
+            .getElementsByTagName("i").item(0);
+
+        _button.classList.add("loading");
+        _button.classList.add("red");
+
+        var _message = document.getElementById("Host-Status");
+        var _body = document.getElementById("Host-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "<span style='color:rgb(215, 5, 5)'>Initializing Host Connection</span>";
+        _message.getElementsByTagName("p").item(0)
+            .innerHTML = "Instance-ID: <strong>{{Server.Host}}</strong>";
+
+        _message.getElementsByTagName("p").item(0)
+            .getElementsByTagName("strong").item(0)
+                .style.color = "white";
+        _message.getElementsByTagName("i").item(1).classList.add("loading");
+
+        document.getElementById("Host-Loader").classList.add("red");
+
+        _body.innerHTML = "{{Server.Host}} - System is Shutting Down";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            async: true,
+            cache: true,
+            type: "HEAD",
+            url: "/API/Server/Control/Stop",
+            timeout: 300000,
+            contentType: "application/json;charset=UTF-8",
+            data: "Server={{Server.Host}}",
+            success: function(message = _message, button = _button) {
+                console.log("Stop-Success: {{Server.Host}}");
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:rgb(6, 194, 40)'>Stopped</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{Server.Host}}</strong> - Instance has reached a stopped state";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("green");
+                document.getElementById("stop-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            },
+            error: function(message = _message, button = _button) {
+                console.log("Stop-Failure: {{Server.Host}}");
+
+                message.getElementsByClassName("header").item(0)
+                    .innerHTML = "<span style='color:red'>Failure</span>";
+                message.getElementsByTagName("p").item(0)
+                    .innerHTML = "<strong>{{Server.Host}}</strong> - Instance Error";
+                message.getElementsByTagName("p").item(0)
+                    .getElementsByTagName("strong").item(0)
+                        .style.color = "rgb(6, 194, 40)";
+                message.getElementsByTagName("i").item(1).classList.remove("loading");
+                message.getElementsByTagName("i").item(1).classList.add("red");
+                document.getElementById("stop-button")
+                    .getElementsByTagName("i").item(0).classList.remove("loading");
+            }
+        });
+
+        // const CloudStopTarget = new WebSocket("ws://127.0.0.1:11000/Stop?name={{ server }}");
+
+        // CloudStopTarget.addEventListener("message", function (event, message = _message, button = _button) {
+        //     var _current = JSON.parse(event.data).StoppingInstances[0].CurrentState.Name;
+        //     var _instance = JSON.parse(event.data).StoppingInstances[0].InstanceId;
+        //     var _previous = JSON.parse(event.data).StoppingInstances[0].PreviousState.Name;
+
+        //     console.log("Current State: ", _current);
+        //     console.log("Instance-ID", _instance);
+        //     console.log("Previous State: ", _previous);
+
+        //     if (_current == "stopped" & _previous == "stopped") {
+        //         message.getElementsByClassName("header").item(0)
+        //             .innerHTML = "<span style='color:rgb(255, 0, 0)'>Stopped</span>"
+        //         message.getElementsByTagName("p").item(0)
+        //             .innerHTML = "<strong>{{server}}</strong> - Instance is Shutdown";
+        //         message.getElementsByTagName("p").item(0)
+        //             .getElementsByTagName("strong").item(0)
+        //                 .style.color = "rgb(215, 5, 5)";
+        //         message.getElementsByTagName("i").item(1).classList.remove("loading");
+        //         message.getElementsByTagName("i").item(1).classList.add("red");
+
+        //         button.classList.remove("loading");
+        //     } else {
+        //         message.getElementsByClassName("header").item(0)
+        //             .innerHTML = "<span style='color:rgb(255, 0, 0)'>Offline</span>"
+        //         message.getElementsByTagName("p").item(0)
+        //             .innerHTML = "<strong>{{server}}</strong> - <strong>Host has reached a Stopped State</strong>.";
+        //         message.getElementsByTagName("p").item(0)
+        //             .getElementsByTagName("strong").item(0)
+        //                 .style.color = "rgb(215, 5, 5)";
+        //         message.getElementsByTagName("i").item(1).classList.remove("loading");
+        //         message.getElementsByTagName("i").item(1).classList.add("red");
+
+        //         button.classList.remove("loading");
+        //     }
+        // });
+    };
+</script>
+
+<script>
+$(document).ready(function() {
+    $("#Host-Status-Close").on("click", function(){
+        var statusMessage = document.getElementById("Host-Status");
+        statusMessage.classList.add("hidden");
+    });
+});
+</script>

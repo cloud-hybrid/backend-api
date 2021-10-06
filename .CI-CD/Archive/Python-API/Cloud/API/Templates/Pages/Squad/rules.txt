@@ -1,0 +1,45 @@
+Rules - https://cloudhybrid.io/squad/rules
+=====
+
+General Server Rules
+--------------------
+  - Intentional team-killing (TKs) may result in a ban -- regardless of
+  retaliation. Ensure to apologize for accidental TKs in [All Chat].
+  - Do not share ticket count information to the opposing team.
+  - Any player caught Hacking, Cheating, Exploiting or Ghosting will be banned.
+  - No mic spamming, griefing or intentional assest wasting.
+  - Racism, Sexism, or malicious comments -- written or verbal -- will not be tolerated.
+  - Do not impersonate server administration, 20R Gaming staff, or misuse the [20r] tag.
+  - Please do not advertise outside groups.
+  - Adhere to all Server-Administrative instruction(s) regarding server issues or otherwise.
+  - Lastly, Play hard and have fun!
+
+Squad Leader (SL) Rules
+-----------------------
+  - Squad-Leaders must use the Squad-Leader (SL) Kit, as well as have a microphone and speak English.
+  - Squad Member(s) may be kicked from their squad by the Squad-Leader for any reason.
+  - Do not create a Squad unless there's a plan to lead it.
+  - SLs must play the objectives and play, cooperate, and communicate as a team.
+  - Infantry must be led by an Infantry Squad Leader.
+Vehicle Rules
+  - All vehicles requiring crewman must be manned by a minimum of 2 people -- Helicopters are exempt.
+  - Squads named after a specific vehicle and/or asset have claiming priority over such an asset.
+  E.g.) Tank, BMP, Stryker, BTR.
+  - Vehicle-Claim-Priority (VCP) is determined by squad number in the case of duplicate claims. VCP
+  may only be invoked when the original squad states their claim in voice, chat, or via the console
+  command(s) to the other squad(s).
+  - Squads with Helicopter-Claim-Priority -- Squad(s) with helicopter-based resource names -- must stay
+  with their respective choppers at all times and for the full duration of such claim(s). Ensure to
+  alter the Squad's name and park resources back in Main if un-claiming.
+  - Intentional abandonment of vehicle assets may result in a ban. Overall, avoid any and all types of
+  vehicle-related abondonment.
+
+Server Seeding Rules
+--------------------
+  - Fight over the Middle cap zone.
+  - Habs must be at least 100m away from the central objective.
+  - Do not destroy, camp, and do not attack HABS/FOBS.
+  - No emplacements such as mortars, machine-gun nests, etc. .
+  - Please only use transportation-specific vehicles.
+  - The server is officially live when -- and only when -- server administration has globally communicated
+  the go-ahead. Sequentially, the seeding rules no longer apply.

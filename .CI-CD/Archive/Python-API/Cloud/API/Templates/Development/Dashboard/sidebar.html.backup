@@ -1,0 +1,41 @@
+<div class = "ui four wide column sticky computer only">
+    <div class="ui sticky table-of-contents fixed top">
+        <div class="Null stuck ui center aligned raised inverted segment">
+            <div id="Sidebar" class="ui grid centered container">
+                <strong>Documentation</strong>
+                {% include "./Development/Dashboard/documentation.html" %}
+            </div>
+        </div>
+        <a id="scrollToTop">
+            <button class="ui icon black button">
+                <i class="ui up arrow icon" style="color:white;"></i>
+            </button>
+        </a>
+    </div>
+</div>
+
+<script>
+    $(".ui.sticky.table-of-contents").sticky("refresh");
+
+    $(".ui.sticky.table-of-contents")
+      .sticky({
+        offset: 75
+    })
+</script>
+
+
+<script>
+    $(document).ready(function(){
+        $("#scrollToTop").click(function(){
+            $(window).scrollTop(0);
+        });
+    });
+</script>
+
+<style>
+    #Sidebar {
+        margin-top: 1.0em;
+        margin-bottom: 0.5em;
+        text-align: left;
+    }
+</style>

@@ -1,0 +1,449 @@
+{% if Servers %}
+<div class = "ui sixteen wide column">
+    <div class="Null ui inverted raised segment">
+        <div class="ui inverted header">
+            <h2>
+                <div class="ui horizontal inverted divider small header">
+                    Servers
+                </div>
+            </h2>
+        </div>
+    </div>
+    <div id="Service-Status" style="background:rgba(50, 50, 50, 0.815) none repeat scroll 0% 0%;" class="ui icon hidden inverted message" hidden>
+        <i id="Service-Status-Close" class="close icon"></i>
+        <i id="Status-Loader" class="notched circle loading icon"></i>
+        <div class="content">
+            <div id="Service-Status-Header" class="header"></div>
+            <p id="Service-Status-Body"></p>
+        </div>
+    </div>
+    <div id="row">
+        <div class="ui inverted cards">
+            {% for server in Servers %}
+                <div name = "server-card" class="ui centered card">
+                    <div class="content">
+                        <div id="Header-{{server[1]}}" class="header">
+                            {{ server[1] }}
+                        </div>
+                        <div class="meta">
+                            {{ server[2] }}
+                        </div>
+                        <div class="description">
+                            {{ server[6] }}
+                        </div>
+                    </div>
+
+                    <div class="extra content">
+                        <div class="ui small centered header">
+                            Controls
+                            <hr>
+                        </div>
+                        <div class="ui buttons">
+                            <button id="Run-{{server[1]}}" class="ui labeled green icon button" data-tooltip="Start the {{server[1]}} Server" data-position="bottom center">
+                                <i class="left inverted power on icon"></i>
+                                Run
+                            </button>
+                            <button id="Restart-{{server[1]}}" class="ui blue button" data-tooltip="Restart the {{server[1]}} Server" data-position="bottom center">
+                                Reload
+                            </button>
+                            <button id="End-{{server[1]}}" class="ui right labeled red icon button" data-tooltip="End the {{server[1]}} Server" data-position="bottom center">
+                                End
+                                <i class="right inverted plug icon"></i>
+                            </button>
+                        </div>
+                        <br>
+                        <br>
+                        <hr>
+                        <a href="/management/{{server[-2]}}/{{server[1]}}">
+                        <button id="Settings-{{ server[1] }}" class="ui fluid grey button">
+                            <i style="color:white;" class="cog icon"></i>
+                            Settings
+                        </button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    var server_cards = document.getElementsByName("server-card");
+    server_cards.forEach( function(server) {
+        server.style.display = "inline-table";
+        server.style.marginBottom = "2.5em";
+    });
+</script>
+
+{% for _server in Servers %}
+<script>
+    $("#Settings-{{_server[1]}}").on("click", function(){
+        document.getElementById("Settings-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("loading");
+        document.getElementById("Settings-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("active");
+
+        var _message = document.getElementById("Service-Status");
+        var _body = document.getElementById("Service-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "Loading Configuration File(s)";
+        _message.style.color = "rgb(6, 194, 40)";
+        _message.getElementsByTagName("i").item(1).classList.add("green");
+
+        document.getElementById("Status-Loader").classList.add("green");
+
+        _body.innerHTML = "{{_server[1]}} - Creating a Secure Connection";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+    });
+</script>
+
+<script>
+    $("#Run-{{_server[1]}}").on("click", function(){
+        try {
+            document.getElementById("Status-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        document.getElementById("Status-Loader").classList.add("loading");
+
+        document.getElementById("Run-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("loading");
+
+        document.getElementById("Run-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("active");
+
+        var _message = document.getElementById("Service-Status");
+        var _body = document.getElementById("Service-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "Signaling Runner";
+        _message.style.color = "rgb(6, 194, 40)";
+        _message.getElementsByTagName("i").item(1).classList.add("green");
+
+        document.getElementById("Status-Loader").classList.add("green");
+
+        _body.innerHTML = "{{_server[1]}} - System is Executing Service Start Sequences";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            type: "HEAD",
+            url: "/management/{{server}}/{{_server[1]}}/run",
+            data: false,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("Success: ", "{{_server[1]}}");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                var _message = document.getElementById("Service-Status");
+                var _body = document.getElementById("Service-Status-Body");
+
+                _message.classList.remove("loading");
+                _message.getElementsByClassName("header").item(0)
+                    .innerHTML = "Runner Sequences Complete";
+
+                _message.style.color = "rgb(6, 194, 40)";
+                _message.getElementsByTagName("i").item(1).classList.remove("loading");
+                _message.getElementsByTagName("i").item(1).classList.add("green");
+
+                _body.textContent = "{{ _server[1] }} - Service has successfully started";
+                _body.style.color = "White";
+                _body.style.fontWeight = "bold";
+
+                document.getElementById("Run-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("loading");
+                document.getElementById("Status-Loader").classList.remove("loading");
+                document.getElementById("Run-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("active");
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+            },
+            error: function(data) {
+                console.log("Failure: ", "{{_server[1]}}");
+                document.getElementById("Run-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("loading");
+                document.getElementById("Run-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("active");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+
+                document.getElementById("Status-Loader").classList.remove("red");
+                _message.getElementsByTagName("i").item(1).classList.add("red");
+            },
+        });
+    });
+</script>
+<script>
+    $("#Restart-{{_server[1]}}").on("click", function(){
+        try {
+            document.getElementById("Status-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        document.getElementById("Status-Loader").classList.add("loading");
+
+        var _message = document.getElementById("Service-Status");
+        var _body = document.getElementById("Service-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "Signaling Reload";
+        _message.style.color = "rgb(22, 122, 197)";
+        _message.getElementsByTagName("i").item(1).classList.add("blue");
+
+        document.getElementById("Status-Loader").classList.add("blue");
+
+        _body.innerHTML = "{{_server[1]}} - System is Executing Service Reload Sequences";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            type: "HEAD",
+            url: "/management/{{server}}/{{_server[1]}}/restart",
+            data: false,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("Success: ", "{{_server[1]}}");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                var _message = document.getElementById("Service-Status");
+                var _body = document.getElementById("Service-Status-Body");
+
+                _message.classList.remove("loading");
+                _message.getElementsByClassName("header").item(0)
+                    .innerHTML = "Reload Complete";
+                
+                _message.style.color = "rgb(22, 122, 197)";
+                _message.getElementsByTagName("i").item(1).classList.remove("loading");
+                _message.getElementsByTagName("i").item(1).classList.add("green");
+
+                _body.textContent = "{{_server[1]}} - Service has reloaded configuration files";
+                _body.style.color = "White";
+                _body.style.fontWeight = "bold";
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+            },
+            error: function(data) {
+                console.log("Failure: ", "{{_server[1]}}");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+
+                document.getElementById("Status-Loader").classList.remove("red");
+                _message.getElementsByTagName("i").item(1).classList.add("red");
+            },
+        });
+    });
+</script>
+<script>
+    $("#End-{{_server[1]}}").on("click", function(){
+        try {
+            document.getElementById("Status-Loader").classList.remove("red");
+            _message.getElementsByTagName("i").item(1).classList.remove("red");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("blue");
+            _message.getElementsByTagName("i").item(1).classList.remove("blue");
+        } catch { void(0); }
+        try {
+            document.getElementById("Status-Loader").classList.remove("green");
+            _message.getElementsByTagName("i").item(1).classList.remove("green");
+        } catch { void(0); }
+
+        document.getElementById("Status-Loader").classList.add("loading");
+
+        document.getElementById("End-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("loading");
+
+        document.getElementById("End-{{ _server[1] }}")
+            .getElementsByTagName("i").item(0)
+                .classList.add("active");
+
+        var _message = document.getElementById("Service-Status");
+        var _body = document.getElementById("Service-Status-Body");
+
+        _message.classList.remove("hidden");
+        _message.getElementsByClassName("header").item(0)
+            .innerHTML = "Signaling Shutdown";
+        _message.style.color = "Red"
+        _message.getElementsByTagName("i").item(1).classList.add("red");
+
+        document.getElementById("Status-Loader").classList.add("red");
+
+        _body.innerHTML = "{{ _server[1] }} - System is Executing Service Shutdown Sequences";
+        _body.style.color = "White";
+        _body.style.fontWeight = "bold";
+
+        $.ajax({
+            type: "HEAD",
+            url: "/management/{{server}}/{{_server[1]}}/end",
+            data: false,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("Success: ", "{{server[1]}}");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                document.getElementById("End-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("loading");
+                document.getElementById("End-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("active");
+
+                var _message = document.getElementById("Service-Status");
+                var _body = document.getElementById("Service-Status-Body");
+
+                _message.classList.remove("loading");
+                _message.getElementsByClassName("header").item(0)
+                    .innerHTML = "Shutdown Complete";
+                _message.style.color = "Red"
+                _message.getElementsByTagName("i").item(1).classList.remove("loading");
+                _message.getElementsByTagName("i").item(1).classList.add("red");
+
+                _body.textContent = "{{ _server[1] }} - Service is no longer running on the target system";
+                _body.style.color = "White";
+                _body.style.fontWeight = "bold";
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+            },
+            error: function(data) {
+                console.log("Failure: ", "{{_server[1]}}");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                document.getElementById("End-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("loading");
+                document.getElementById("End-{{ _server[1] }}")
+                    .getElementsByTagName("i").item(0)
+                        .classList.remove("active");
+
+                document.getElementById("Status-Loader").classList.remove("loading");
+
+                try {
+                    document.getElementById("Status-Loader").classList.remove("red");
+                    _message.getElementsByTagName("i").item(1).classList.remove("red");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("blue");
+                    _message.getElementsByTagName("i").item(1).classList.remove("blue");
+                } catch { void(0); }
+                try {
+                    document.getElementById("Status-Loader").classList.remove("green");
+                    _message.getElementsByTagName("i").item(1).classList.remove("green");
+                } catch { void(0); }
+
+                document.getElementById("Status-Loader").classList.remove("red");
+                _message.getElementsByTagName("i").item(1).classList.add("red");
+            },
+        });
+    });
+</script>
+{% endfor %}
+
+<script>
+$(document).ready(function() {
+    $("#Service-Status-Close").on("click", function(){
+        var statusMessage = document.getElementById("Service-Status");
+        statusMessage.classList.add("hidden");
+    });
+});
+</script>
+
+{% endif %}

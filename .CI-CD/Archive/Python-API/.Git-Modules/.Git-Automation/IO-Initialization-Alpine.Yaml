@@ -1,0 +1,33 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# Owner:    Jacob B. Sanders
+# Source:   code.cloud-technology.io
+# License:  BSD 3-Clause License
+
+#
+# ========================================================================
+# Pipeline: Continuous Integration & Deployment Configuration(s)
+# ========================================================================
+#
+
+---
+
+# ------------------------------------------------------------------------
+# Alpine - Latest Exportable Configuration
+# ------------------------------------------------------------------------
+
+# - - - - - - - - - - - -
+# Primary Configuration
+# - - - - - - - - - - - -
+
+.Container: &Alpine-Container "alpine:latest"
+
+.Initialization: &Alpine-Packages [ "apk add bash curl git jq" ]
+    - apk add --silent bash
+    - apk add --silent curl
+    - apk add --silent git
+    - apk add --silent jq

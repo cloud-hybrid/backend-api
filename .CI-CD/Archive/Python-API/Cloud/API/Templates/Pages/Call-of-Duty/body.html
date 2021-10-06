@@ -1,0 +1,412 @@
+<!-- Primary Content (Body) -->
+
+<link nonce="{{ Metadata.JWN }}" href="https://cloudhybrid.io/artifacts/Styles/Calendar.css" rel="stylesheet">
+<link nonce="{{ Metadata.JWN }}" href="https://cloudhybrid.io/artifacts/Styles/Cloud-Hybrid.css" rel="stylesheet">
+<!-- Jumbotron -->
+
+<div class="squad">
+    <div class = "cloud ui fitted center aligned grid container">
+        <div class="cloud jumbotron ui center aligned segment">
+            <div class = "cloud ui dark inverted segment">
+                <h1 class="SEO ui header">
+                    <img src = "./artifacts/Images/Squad-Logo.png">
+                    <span> — The 20th Regiment of Foot</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- | Jumbotron | -->
+
+<!-- Primary Content -->
+{% if session["Authenticated"] == True %}
+<div class="cloud ui stackable full-width grid flex padded container">
+    <div class="row">
+        <div class="cloud ui twelve wide centered aligned padded x bottom flex section">
+            <div class="ui centered center aligned stackable grid context">
+                <div class = "ui sixteen wide column">
+                    <div class="row">
+                        <div class="ui sixteen wide column">
+                            <h2 class="ui left aligned header">
+                                Internal Member Information
+                                <div class="ui divider"></div>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui sixteen wide column">
+                            <h3 class="ui left aligned large header">
+                                Announcements
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="cloud ui placeholder">
+                        <div class="image">
+                        </div>
+                        <div class="header">
+                            <div class="line"></div>
+                        </div>
+                        <div class="paragraph">
+                            <div class="short line"></div>
+                            <div class="medium line"></div>
+                            <div class="long line"></div>
+                        </div>
+                        <div class="paragraph">
+                            <div class="full line"></div>
+                            <div class="very long line"></div>
+                            <div class="long line"></div>
+                            <div class="medium line"></div>
+                            <div class="short line"></div>
+                        </div>
+                        <div class="paragraph">
+                            <div class="very short line"></div>
+                        </div>
+                        <div class="paragraph">
+                            <div class="medium line"></div>
+                            <div class="long line"></div>
+                            <div class="short line"></div>
+                            <div class="medium line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cloud ui three wide centered marginalized aligned padded horizontal flex section">
+            <div class="cloud ui dark inverted raised segment">
+                <div class="cloud ui left aligned inverted basic segment">
+                    <div class="cloud ui list">
+                        <a class="cloud item">Administration</a>
+                        <a class="cloud item">Discord Channel</a>
+                        <a class="cloud item">Leadership Structure</a>
+                        <div class="ui inverted divider"></div>
+                        <a class="cloud item">Private Servers</a>
+                        <a class="cloud item">Staff Applications</a>
+                        <a class="cloud item">Tutorials & References</a>
+                    </div>
+                </div>
+                <div class="ui left aligned raised inverted segment">
+                    <div class="ui list">
+                        <div class="ui inverted header horizontal divider">Archive</div>
+                        <a class="item">April, 2020</a>
+                        <a class="item">March, 2020</a>
+                        <a class="item">Feburary, 2020</a>
+                        <a class="item">Janurary, 2020</a>
+                        <div class="ui inverted divider"></div>
+                        <a class="item">2019</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="cloud ui stackable full-width grid flex container">
+    <!-- Calendar -->
+    <div class="row">
+        <div class="cloud ui four wide marginalized centered padded x bottom flex section">
+            <div class="cloud ui calendar">
+                <div class="ui dark inverted raised center aligned segment">
+                    <div class="ui inverted large header">
+                        Upcoming
+                    </div>
+                    <div class="ui left aligned inverted basic segment">
+                        <div class="ui inverted center aligned fluid cards">
+                            <div class="raised center aligned card">
+                                <div class="content">
+                                    <div class="cloud ui red divider"></div>
+                                    <div class="cloud card primary center aligned header">Skirmish vs Apemen</div>
+                                    <div class="meta">
+                                        <span class="date left floated">April 29th, 2020</span>
+                                        <span class="time right floated">9:00PM (ET)</span>
+                                        <span><br></span>
+                                    </div>
+
+                                    <div class="center aligned description">
+                                        6v6. No Respawn. First to Seven.
+                                    </div>
+                                    <hr>
+                                    <span class="left floated"><i class="users icon"></i> <a><strong>12 Attendees</strong></a></span>
+                                    <span class="right floated"><i class="wheelchair icon"></i> <a><strong>B Team</strong></a></span>
+                                </div>
+
+                                <div class="extra content">
+                                    <span class="left floated">
+                                        <button class="ui basic blue button">Event</button>
+                                    </span>
+                                    <span class="right floated">
+                                        <button class="ui basic green button">Contact</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cloud ui eleven wide fluid centered flex section">
+            <div class="cloud dark calendar">
+                <div class="ui dark inverted raised aligned segment">
+                    <div class="ui inverted large header">
+                        Event Schedule
+                    </div>
+                    <table class="ui compact celled inverted fixed table">
+                        <tr class="ui center aligned row">
+                            <th class="day-name">Sun</th>
+                            <th class="day-name">Mon</th>
+                            <th class="day-name">Tue</th>
+                            <th class="day-name">Wed</th>
+                            <th class="day-name">Thu</th>
+                            <th class="day-name">Fri</th>
+                            <th class="day-name">Sat</th>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">31</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">1</span>
+                                <span class="event"></span>
+                                <span class="event blue"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">2</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">3</span>
+                                <span class="event event-multiday-start"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">4</span>
+                                <span class="event event-multiday"></span>
+                                <span class="event-multiday-start blue"></span>
+                                <span class="event"></td>
+                            <td class="day">
+                                <span class="number">5</span>
+                                <span class="event event-multiday-finish"></span>
+                                <span class="event event-multiday blue"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">6</span>
+                                <span class="event event-ghost"></span>
+                                <span class="event event-multiday-finish blue"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">7</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">8</span>
+                                <span class="event"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">9</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">10</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">11</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">12</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">13</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">14</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">15</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">16</span>
+                                <span class="event"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">17</span>
+                                <span class="event"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">18</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">19</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">20</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">21</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">22</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">23</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">24</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">25</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">26</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">27</span>
+                                <span class="event event-multiday-start red">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">28</span>
+                                <span class="event event-multiday red">
+                            </td>
+                            <td class="day today">
+                                <span class="number">29</span>
+                                <span class="event event-multiday-finish red">
+                            </td>
+                            <td class="day">
+                                <span class="number">30</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">1</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">2</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">3</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">4</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="day">
+                                <span class="number">5</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">6</span>
+                                <span class="event"></span>
+                            </td>
+                            <td class="day">
+                                <span class="number">7</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">8</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">9</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">10</span>
+                            </td>
+                            <td class="day">
+                                <span class="number">11</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- | Calendar | -->
+<div class="cloud ui stackable full-width grid flex container">
+    <!-- Calendar -->
+    <div class="row">
+        <div class="cloud ui eleven wide centered padded x bottom flex section">
+            <div class="cloud ui dark inverted raised segment">
+                <div class="ui large header">
+                    <code>20R [Recruiting] - Compute Optimized - 20r.gg</code>
+                </div>
+                <div class="ui horizontal inverted large divider">Official Server</div>
+                <div class="ui center aligned grid">
+
+                    <div class="cloud row justified evenly ">
+                        <div class="ui two wide left aligned column"></div>
+                        <div class="ui four wide left aligned column">
+                            <div class="ui inverted list column">
+                                <div class="item">
+                                    <i class="green power icon"></i>
+                                    <div class="content">
+                                        <strong>
+                                            Online
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="grey globe icon"></i>
+                                    <div class="content">
+                                        <strong>Licensed</strong>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="blue chart bar outline icon"></i>
+                                    <div class="content">
+                                        <strong>
+                                            100% Uptime
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="inverted linux icon"></i>
+                                    <div class="content">
+                                        <strong>
+                                            Linux
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui five wide left aligned column">
+                            <div class="ui inverted list column">
+                                <div class="item">
+                                    <i class="purple globe icon"></i>
+                                    <div class="content">
+                                        13 <strong>Administrators</strong> 
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="teal mail icon"></i>
+                                    <div class="content">
+                                        <a href="mailto:20throf@gmail.com">Contact (<strong>Email</strong>)</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="red user icon"></i>
+                                    <div class="content">
+                                        <strong>
+                                            ~ 80 Players
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="orange marker icon"></i>
+                                    <div class="content">
+                                        <strong>Ohio</strong>, U.S.A
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Javascript/Calendar.js') }}"></script>
+
+<!-- | Primary Content | -->

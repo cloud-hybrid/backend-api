@@ -1,0 +1,76 @@
+<style>
+    .position-relative {
+        position: relative;
+    }
+
+    .display-flex {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .landing-divit {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .landing-divit::before,
+    .landing-divit::after {
+        position: absolute;
+        content: '';
+        width: 200px;
+        height: 200px;
+        background-color: #1B1C1D;
+        top: -11em;
+    }
+
+    .landing-divit::before {
+        right: 50%;
+        transform: skew(0, 30deg);
+    }
+
+    .landing-divit::after {
+        left: 50%;
+        transform: skew(0, -30deg);
+    }
+
+    .my-header {
+        font-family: 'Montserrat';
+        font-size: 2em;
+        position: absolute;
+        top: 1vh;
+    }
+
+    .header-transition {
+        left: 0;
+        transition: all 1.5s ease;
+    }
+
+    .header-left {
+        left: 0;
+    }
+
+    .header-right {
+        right: -50vw;
+    }
+
+    .transition-left {
+        left: -50vw;
+    }
+
+    .center.marginalized.row {
+        margin: auto;
+    }
+
+    #Server-List-Header {
+        min-height: 32.5rem;
+        background-image: url("{{ url_for('static', filename='./Images/Servers.jpg') }}");
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+    }
+    #Server-List-Header > .container {
+        height: 100%;
+    }
+</style>

@@ -1,0 +1,546 @@
+<link href="https://cloudhybrid.io/artifacts/Styles/Syntax/Atom-One-Light.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<script nonce="{{ Metadata.JWN }}" src="https://cloudhybrid.io/artifacts/Javascript/Syntax.js"></script>
+
+<div class="{{ Metadata.Generator }} ui schedule modal">
+    <div class="header">
+       {{ Metadata.Generator }} — Event Scheduler
+    </div>
+    <div class="content">
+        <div class="cloud ui stackable full-width grid">
+            <div class="row">
+                <div class="cloud ui stackable full-width grid flex padded container">
+                    <div class="cloud ui full-width left aligned inverted segment">
+                        <div class="ui inverted breadcrumb">
+                            <a href="{{ Metadata.Domain }}" class="section">Home</a>
+                            <i class="right chevron icon divider"></i>
+                            <a href="{{ Metadata.Domain }}/{{ Metadata.Page }}" class="section">{{ Metadata.Generator }}</a>
+                            <i class="right chevron icon divider"></i>
+                            <div class="active section">Event Card Modal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cloud ui horizontal basic segments">
+                    <div class="ui center aligned left segment">
+                        <table class="cloud demonstration table">
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="ui red text">Event Color &nbsp;<strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui chevron right icon"></i></strong></span>
+                                </td>
+                            </tr>
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="cloud ui dark grey text">&nbsp; &nbsp; Date & Time &nbsp;<strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui chevron right icon"></i></strong></span>
+                                </td>
+                            </tr>
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="cloud ui dark blue text">Confirmations &nbsp;<strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui chevron right icon"></i></strong></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ui center aligned centered segment">
+                        <div class="cloud demonstration ui center aligned inverted card">
+                            <div class="content">
+                                <div class="cloud ui red divider"></div>
+                                <div class="cloud card primary center aligned header">Skirmish vs Apemen</div>
+                                <div class="meta">
+                                    <span class="date left floated">April 29th, 2020</span>
+                                    <span class="time right floated">9:00PM (ET)</span>
+                                    <span><br></span>
+                                </div>
+
+                                <div class="center aligned description">
+                                    6v6. No Respawn. First to Seven.
+                                </div>
+                                <hr>
+                                <span class="left floated"><i class="users icon"></i> <a><strong>12 Attendees</strong></a></span>
+                                <span class="right floated"><i class="wheelchair icon"></i> <a><strong>B Team</strong></a></span>
+                            </div>
+                            <div class="extra content">
+                                <span class="left floated">
+                                    <button class="ui basic blue button">Event</button>
+                                </span>
+                                <span class="right floated">
+                                    <button class="ui basic green button">Contact</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui center aligned right segment">
+                        <table class="cloud demonstration table">
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="cloud ui absolute black text"><strong><i class="ui chevron left icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong> Title</span>
+                                </td>
+                            </tr>
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="cloud ui dark grey text"><strong><i class="ui chevron left icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong> Description</span>
+                                </td>
+                            </tr>
+                            <tr class="cloud demonstration row">
+                                <td class="cloud demonstration cell">
+                                    <span class="cloud ui dark blue text"><strong><i class="ui chevron left icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong><strong><i class="ui minus icon"></i></strong> Group</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ui sixteen wide column">
+                    <div class="cloud ui inverted dark transparent segment secondary">
+                        <div class="cloud ui sixteen wide fluid centered padded flex section">
+                            <div id="schedule-editor" class="ql-container ql-editor ql-syntax ql-snow" contenteditable="true" spellcheck="true">
+        <pre spellcheck="false"><code id="schedule-code" class="language-yaml">---
+        Title: "Skirmish vs Apemen"
+
+        Color: "Red"
+
+        Date: "04-29-2020"
+        Time: "9:00 PM"
+        Zone: "ET"
+
+        Description: "6v6. No Respawn. First to Seven."
+
+        Group: "B Team"
+
+        Coordinator: "Null Byte"
+
+        Private: True
+        </code></pre>
+                            </div>
+                        </div>
+                        <div class="ui styled center aligned accordion">
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Event(s)
+                            </div>
+                            <div class="light content">
+                                <p class="transition hidden">
+                                    <i>Content in Development</i>
+                                </p>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Modal
+                            </div>
+                            <div class="light content">
+                                <p class="transition hidden">
+                                    A <u>Modal</u> is a type special <i>window</i> that gets displayed on top of
+                                    the current page, and are typically only displayed upon an <u>event</u> — such
+                                    as <i>clicking a button or link</i>.
+                                </p>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Persistence
+                            </div>
+                            <div class="light content">
+                                <p class="transition hidden">
+                                    <i>Content in Development</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cloud row justified evenly">
+                <button id="Save" class="ui big secondary button segmented button" data-tooltip="Upload Changes to Server" data-position="right center">
+                    <strong>
+                        Save
+                    </strong>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="{{ Metadata.Generator }} ui announcement longer modal">
+    <div class="header">
+        {{ Metadata.Generator }} — Announcement Writer
+    </div>
+    <div class="content">
+        <div class="cloud ui stackable full-width grid">
+            <div class="row">
+                <div class="cloud ui stackable full-width grid flex padded container">
+                    <div class="cloud ui full-width left aligned inverted segment">
+                        <div class="ui inverted breadcrumb">
+                            <a href="{{ Metadata.Domain }}" class="section">Home</a>
+                            <i class="right chevron icon divider"></i>
+                            <a href="{{ Metadata.Domain }}/{{ Metadata.Page }}" class="section">{{ Metadata.Generator }}</a>
+                            <i class="right chevron icon divider"></i>
+                            <div class="active section">Announcement Modal</div>
+                        </div>
+                    </div>
+                    <div class="ui attached segment">
+                        <div class="ui attached segment">
+                            <div class="cloud ui placeholder">
+                                <div class="image">
+                                </div>
+                                <div class="header">
+                                    <div class="line"></div>
+                                </div>
+                                <div class="paragraph">
+                                    <div class="short line"></div>
+                                    <div class="medium line"></div>
+                                    <div class="long line"></div>
+                                </div>
+                                <div class="paragraph">
+                                    <div class="full line"></div>
+                                    <div class="very long line"></div>
+                                    <div class="long line"></div>
+                                    <div class="medium line"></div>
+                                    <div class="short line"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cloud form content">
+        <div class="cloud ui stackable full-width grid flex container">
+            <div class="row">
+                <div class="cloud ui sixteen wide fluid centered padded flex section">
+                    <div class="cloud ui inverted dark transparent segment">
+                        <div class="cloud ui lighter inverted raised segment editor container">
+
+                            <form class="ui large form" method="POST">
+                                <div class = "two fields">
+                                    <div class="inverted field">
+                                        <label class="ui left aligned header">Game</label>
+                                        <input class="ui form input inverted radial" placeholder="{{ Metadata.Generator }} (Read-Only)" readonly="{{ Metadata.Generator }}" type="text" >
+                                    </div>
+                                    <div class="field">
+                                        <label class="ui left aligned header">Category</label>
+                                        <select name="Games" multiple="" class="ui fluid search inverted selection dropdown" data-validate="data-game-selections">
+                                            <option value="">Announcement(s)</option>
+                                            <option value="Event">Community</option>
+                                            <option value="Giveaway">Giveaway</option>
+                                            <option value="Accolade">Accolades</option>
+                                            <option value="Ceremony">Ceremony</option>
+                                            <option value="Update">Update</option>
+                                            <option value="Update">Showcase</option>
+                                            <option value="Reminder">Reminder</option>
+                                            <option value="gta-v">Fundraising</option>
+                                            <option value="hell-let-loose">Donations</option>
+                                            <option value="league-of-legends">Tutorial</option>
+                                            <option value="minecraft">Guide</option>
+                                            <option value="mordhau">Event</option>
+                                            <option value="osrs">Leadership</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="ui left aligned header">Announcement</label>
+                                    <div id="content-editor" class="ql-container ql-editor" contenteditable="true" spellcheck="true" style="resize: block; height: 250px;background:white;color:black;"></div>
+                                    <textarea name="Announcement" placeholder="" data-validate="data-introduction" hidden></textarea>
+                                </div>
+                                <button class="ui button" type="submit">Submit</button>
+                                <div class="ui error message"></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class = "row">
+                        <div class="cloud ui styled center aligned accordion">
+                            <div class="title active">
+                                <i class="dropdown icon"></i>
+                                Categories
+                            </div>
+                            <div class="content active">
+                                <p class="visible">
+                                    An <u>Announcement</u> may contain <u>one or more</u> categories.
+                                    Announcement categories enable users and administrators to parse through
+                                    the archives and create filters for specific <u>types</u> of announcements.
+                                </p>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Modal
+                            </div>
+                            <div class="content">
+                                <p class="transition hidden">
+                                    A <u>Modal</u> is a type special <i>window</i> that gets displayed on top of
+                                    the current page, and are typically only displayed upon an <u>event</u> — such
+                                    as <i>clicking a button or link</i>.
+                                </p>
+                            </div>
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                Persistence
+                            </div>
+                            <div class="content">
+                                <p class="transition hidden">
+                                    <i>Content in Development</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script nonce="{{ Metadata.JWN }}" src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script nonce="{{ Metadata.JWN }}">
+hljs.initHighlightingOnLoad()
+
+$(document).ready(function() {
+    $(".{{ Metadata.Generator }}.modal.scheduler.button.item").on("click", function(){
+            $(".{{ Metadata.Generator }}.ui.schedule.modal").modal("show");
+    })
+})
+
+$(document).ready(function() {
+    $(".{{ Metadata.Generator }}.modal.announcements.button.item").on("click", function(){
+        $(".{{ Metadata.Generator }}.ui.announcement.longer.modal").modal("show");
+    })
+})
+
+hljs.configure({
+    languages: ["YAML"]
+});
+
+var contentTools = [
+    ["bold", "italic", "underline", "strike"],        // toggled buttons
+    ["blockquote", "code-block"],
+
+    [{ "header": 1 }, { "header": 2 }],               // custom button values
+    [{ "list": "ordered"}, { "list": "bullet" }],
+    [{ "script": "sub"}, { "script": "super" }],      // superscript/subscript
+    [{ "indent": "-1"}, { "indent": "+1" }],          // outdent/indent
+    [{ "direction": "rtl" }],                         // text direction
+
+    [{ "size": ["small", false, "large", "huge"] }],  // custom dropdown
+    [{ "header": [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ "color": [] }, { "background": [] }],          // dropdown with defaults from theme
+    [{ "font": [] }],
+    [{ "align": [] }],
+
+    ["clean"]                                         // remove formatting button
+];
+
+var contentDelta = Quill.import("delta");
+
+var contentQuill = new Quill("#content-editor", {
+    placeholder: "",
+    theme: "snow",
+    modules: {
+        history: {
+            "delay": 2000,
+            "maxStack": 500,
+            "userOnly": true
+        },
+        syntax: false,
+        toolbar: contentTools
+    }
+});
+
+// Store accumulated changes
+var contentChange = new contentDelta();
+contentQuill.on("text-change", function(delta) {
+    contentChange = contentChange.compose(delta);
+});
+
+// Save periodically
+setInterval(function() {
+    if (contentChange.length() > 0) {
+            console.log("Saving changes", contentChange);
+    /*
+    Send partial changes
+    $.post("/your-endpoint", {
+      partial: JSON.stringify(change)
+    });
+
+    Send entire document
+    $.post("/your-endpoint", {
+      doc: JSON.stringify(quill.getContents())
+    });
+    */
+        contentChange = new contentDelta();
+  }
+}, 5*1000);
+
+// Check for unsaved data
+window.onbeforeunload = function() {
+    if (contentChange.length() > 0) {
+        return "There are unsaved changes. Are you sure you want to leave?";
+    }
+}
+
+$('.cloud.ui.styled.center.aligned.accordion').accordion();
+$('.ui.styled.center.aligned.accordion').accordion();
+// {selector: {trigger: '.title .dropdown.icon'}});
+
+// --- //
+
+var scheduleDelta = Quill.import("delta");
+
+var scheduleQuill = new Quill('#schedule-editor', {
+    modules: {
+        syntax: true, // --> https://quilljs.com/docs/modules/syntax/
+        toolbar: [[ "code-block" ], [{ "color": [] }, { "background": [] }], [{ "align": [] }], ["clean"]]
+    },
+    theme: "snow"
+});
+
+// Store accumulated changes
+var scheduleChange = new scheduleDelta();
+scheduleQuill.on("text-change", function(delta) {
+    scheduleChange = scheduleChange.compose(delta);
+});
+
+// Save periodically
+setInterval(function() {
+    if (scheduleChange.length() > 0) {
+        console.log("Saving changes", scheduleChange);
+        var abstraction = JSON.stringify(scheduleQuill.getContents());
+        console.log(abstraction);
+        console.log(JSON.parse(abstraction));
+    /*
+    Send partial changes
+    $.post("/your-endpoint", {
+      partial: JSON.stringify(change)
+    });
+
+    Send entire document
+    $.post("/your-endpoint", {
+      doc: JSON.stringify(quill.getContents())
+    });
+    */
+    scheduleChange = new scheduleDelta();
+  }
+}, 3*1000);
+
+// Check for unsaved data
+window.onbeforeunload = function() {
+    if (scheduleChange.length() > 0) {
+        return "There are unsaved changes. Are you sure you want to leave?";
+    }
+}
+
+</script>
+
+<script nonce="{{ Metadata.JWN }}">
+    $(".selection.dropdown").dropdown();
+
+    var toastedUsernameRequirement = false;
+    var toastedUsernameAlphanumerics = false;
+    var toastedUsernameMinimum = false;
+    var toastedUsernameMaximum = false;
+
+    var Toasted = false;
+
+    $('.ui.form').form({
+        fields: {
+            // --- Username ---
+            Username: {
+                identifier: "Username",
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: function() {
+                            if (toastedUsernameRequirement != true) {
+                                $("body").toast({
+                                    title: "Username Field Required",
+                                    message: "Invalid Form Entry",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : 'zoom',
+                                    hideMethod   : 'fade',
+                                }); toastedUsernameRequirement = true;
+                                Toasted = true;
+                                return "<strong><u>Username</u> is Required</strong>"
+                            } else {
+                                return "<strong><u>Username</u> is Required</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: 'regExp[/^[a-zA-Z0-9_]*$/]',
+                        prompt: function() {
+                            if (toastedUsernameAlphanumerics != true) {
+                                $("body").toast({
+                                    title: "Username Incorrectly Formatted",
+                                    message: "Entry must only use Alphanumeric Characters \n and meet Minimum & Maximum Length Requirements",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : 'zoom',
+                                    hideMethod   : 'fade',
+                                }); toastedUsernameAlphanumerics = true;
+                                Toasted = true;
+                                return "<strong>Username must only use Alphanumeric Characters</strong>"
+                            } else {
+                                return "<strong>Username must only use Alphanumeric Characters</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: "minLength[6]",
+                        prompt: function() {
+                            if (toastedUsernameMinimum != true) {
+                                $("body").toast({
+                                    title: "Insufficient Username Length",
+                                    message: "Username cannot be less than 6 characters in length</strong>",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : 'zoom',
+                                    hideMethod   : 'fade',
+                                }); toastedUsernameMinimum = true;
+                                Toasted = true;
+                                return "<strong>Username needs to contain 6 or more characters</strong>"
+                            } else {
+                                return "<strong>Username needs to contain 6 or more characters</strong>"
+                            }
+                        }
+                    },
+                    {
+                        type: "maxLength[16]",
+                        prompt: function() {
+                            if (toastedUsernameMaximum != true) {
+                                $("body").toast({
+                                    title: "Excess Username Length",
+                                    message: "Username cannot use more than 16 characters",
+                                    displayTime: "auto",
+                                    showProgress: "top",
+                                    progressUp: true,
+                                    classProgress: "red",
+                                    class: "inverted",
+                                    closeIcon: true,
+                                    showMethod   : 'zoom',
+                                    hideMethod   : 'fade',
+                                }); toastedUsernameMaximum = true;
+                                Toasted = true;
+                                return "<strong>Username needs to contain less than 16</strong>"
+                            } else {
+                                return "<strong>Username needs to contain less than 16</strong>"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    })
+</script>

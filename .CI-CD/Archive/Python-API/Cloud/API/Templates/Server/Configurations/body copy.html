@@ -1,0 +1,206 @@
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<div class="ui main grid container">
+    <div class="row">
+        <div class="ui one column doubling stackable grid container">
+            <div class="center aligned middle aligned sixteen wide column">
+                <div class="Null ui inverted raised segment">
+                    <h1 class="ui header huge centered">
+                        {{shortname}}
+                        <hr>
+                        {{service}}
+                        <br>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for index in Files %}
+        {% for _key, _value in index.items() %}
+        <div class="row">
+            <div class="ui grid container">
+                <div id="Status-{{_key}}" class="ui icon inverted hidden message" style="margin-top: 1.75em;" hidden>
+                    <i id="Status-{{_key}}-Close" class="close icon"></i>
+                    <i id="loader" class="notched circle loading icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Test-Header
+                        </div>
+                        <!-- <p id="Body-{_key}"></p> -->
+                    </div>
+                </div>
+                <div class="ui inverted raised segment">
+                    <div class="row">
+                        <div id="overlay-container" class="ui one column doubling stackable grid container">
+                            <div class="ui large centered white inverted header sixteen wide column">
+                                <!-- {_value[-1]} -->
+                                Test-Sub-Header
+                                <hr>
+                            </div>
+                            <div class="sixteen wide column inverted segment">
+                                <!-- <div id="Content-{_key}" class="ql-container ql-editor ql-syntax ql-snow" contenteditable="true" spellcheck="false">{_value[0]}</div> -->
+                                <div id="Content-Example-1" class="ql-container ql-editor ql-syntax ql-snow" contenteditable="true" spellcheck="false">Example-Content-1</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class = "ui center aligned fluid basic segment">
+                                <!-- <button id="Save-{_key}" class="ui big blue centered segmented button" data-tooltip="Upload Changes to Server" data-position="left center"> -->
+                                    <button id="Save-Example-1" class="ui big blue centered segmented button" data-tooltip="Upload Changes to Server" data-position="left center">
+                                    <strong>
+                                        Save
+                                    </strong>
+                                </button>
+                                <!-- <button id="Download-{_key}" class="ui big icon segmented centered button" data-tooltip="Download {_value[-1]}" data-position="right center"> -->
+                                    <button id="Download-Example-1" class="ui big icon segmented centered button" data-tooltip="Download Example-1" data-position="right center">
+                                    <i class="segmented black download icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+{% for index in configurations %}
+    {% for _key, _value in index.items() %}
+        <div id="Modal-{{_key}}" class="ui basic modal">
+            <div class="ui icon header">
+                <i class="exclamation circle icon"></i>
+            </div>
+                <div class="content centered">
+                    <h3 class="ui segmented white large header centered">
+                        The contents for {{_value[-1]}} are scheduled for upload. Please note these changes can have detrimental effects, and may cause system or service failure.
+                    </h3>
+                    <br>
+                    <hr>
+                </div>
+                <div class="actions">
+                    <div id="Close-{{_key}}" class="ui basic cancel inverted button">
+                        <i class="remove icon"></i>
+                        Close
+                    </div>
+                <div id="Commit-{{_key}}" class="ui ok inverted button">
+                    <i class="checkmark icon"></i>
+                    Continue
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<style>
+.segmented.button {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+}
+.segmented.black.icon {
+    color: black;
+}
+.segmented.white.large.header {
+    color: white;
+}
+</style>
+
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
+{% for index in configurations %}
+    {% for _key, _value in index.items() %}
+        <script>
+            $(document).ready(function() {
+                $("#Save-{{_key}}").on("click", function(){
+                    document.getElementById("Save-{{_key}}").classList.add("active");
+
+                    $('#Modal-{{_key}}.ui.basic.modal').modal('show');
+
+                    var _html = document.getElementById("Content-{{_key}}").textContent;
+
+                    console.log(_html);
+
+
+                });
+            });
+            $(document).ready(function() {
+                $("#Download-{{_key}}").on("click", function(){
+                    var _html = document.getElementById("Content-{{_key}}").textContent;
+                    var link = document.createElement("a");
+                    link.download = "{{_value[-1]}}";
+                    var blob = new Blob([_html], {type: "text/plain"});
+                    link.href = window.URL.createObjectURL(blob);
+                    link.click();
+                });
+            });
+            $(document).ready(function() {
+                $("#Close-{{_key}}").on("click", function(){
+                    console.log("Close");
+                });
+            });
+            $(document).ready(function() {
+                $("#Commit-{{_key}}").on("click", function(){
+
+                    var _message = document.getElementById("Status-{{_key}}");
+
+                    _message.classList.remove("hidden");
+
+                    _message.getElementsByClassName("header").item(0)
+                        .innerHTML = "Establishing a Secure Connection";
+                    
+                    _message.getElementsByTagName("i").item(1).classList.add("loading");
+
+                    var _html = document.getElementById("Content-{{_key}}").textContent;
+                    
+                    var _data = new Blob([_html], {type: "text/plain"});
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/management/{{server}}/{{service}}?filename={{_value[-1]}}",
+                        data: _data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(data) {
+                            _message.getElementsByClassName("header").item(0)
+                                .innerHTML = "Successful";
+
+                            _message.style.color = "Green";
+
+                            _message.getElementsByClassName("header").item(0)
+                                .innerHTML.fontcolor = "Green";
+
+                            _message.getElementsByTagName("i").item(1).classList.remove("loading");
+                        },
+                    });
+
+                    _message.getElementsByClassName("header").item(0)
+                        .innerHTML = "Uploading File(s) to Server";
+
+                    _message.style.color = "rgb(18, 121, 198)";
+                });
+            });
+            $(document).ready(function() {
+                $("#Reload-{{_key}}").on("click", function(){
+                    document.getElementById("Reload-{{_key}}").getElementsByTagName("i").item(0).classList.remove("eraser");
+
+                    document.getElementById("Reload-{{_key}}").getElementsByTagName("i").item(0).classList.add("spinner");
+                    document.getElementById("Reload-{{_key}}").getElementsByTagName("i").item(0).classList.add("basic");
+                    document.getElementById("Reload-{{_key}}").getElementsByTagName("i").item(0).classList.add("elastic");
+                    document.getElementById("Reload-{{_key}}").getElementsByTagName("i").item(0).classList.add("loading");
+
+                    window.location.reload();
+                });
+            });
+        </script>
+
+        <script>
+        $(document).ready(function() {
+            $("#Status-{{_key}}-Close").on("click", function(){
+                var statusMessage = document.getElementById("Status-{{_key}}");
+                statusMessage.classList.add("hidden");
+            });
+        });
+        </script>
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,3 @@
+cat << 'EOF' | tee
+module-update = !"git add --all && git submodule foreach 'git add --all && (false || git commit -m [WIP]:[!Build]:[Module-Update]) 2>&1 && ( false || git push ) 2>&1' 2>/dev/null"
+EOF

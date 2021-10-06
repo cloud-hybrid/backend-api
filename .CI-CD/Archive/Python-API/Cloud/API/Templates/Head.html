@@ -1,0 +1,157 @@
+<head>
+    {% block head %}
+    <!-- Standard Meta -->
+    <meta charset="UTF-8" />
+
+    <!-- SEO -->
+    <meta name="application-name"   content="{{ Metadata.Application }}" />
+    <meta name="description"        content="{{ Metadata.Description }}" />
+    <meta name="keywords"           content="{{ Metadata.Keywords }}" />
+    <meta name="company"            content="{{ Metadata.Company }}" />
+    <meta name="author"             content="{{ Metadata.Author }}" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="{{ Metadata.Favicons.General.Standard }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ Metadata.Favicons.General.Large }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ Metadata.Favicons.General.Small }}">
+    <link rel="shortcut icon" href="http://example.com/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ Metadata.Favicons.Apple }}">
+
+    <!-- Complex Values -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <!-- Page Properties -->
+    <title>{{ Metadata["Shortname"] }} - {{ Metadata.Title }}</title>
+
+    <!-- JQuery + Component Scripts -->
+    <script nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./Scripts/jquery/dist/jquery.js') }}"></script>
+    <script nonce="{{ Metadata.JWN }}" src="{{ url_for('static', filename='./User-Interface/semantic.js') }}"></script>
+    <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
+    <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="{{ url_for('static', filename='./Cloud-Theme/Scripts/semantic.min.js') }}"></script>
+    <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="{{ url_for('static', filename='./Cloud-Theme/Scripts/Side-Menu.js') }}"></script>
+    <!-- Primary Site Styles -->
+    <link rel="stylesheet" nonce="{{ Metadata.JWN }}" type="text/css" href="{{ url_for('static', filename='./User-Interface/semantic.css') }}">
+    <link rel="stylesheet" nonce="{{ Metadata.JWN }}" type="text/css" href="{{ url_for('static', filename='./Null/Byte.css') }}">
+    <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Fomantic/semantic.css') }}">
+    <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Cloud.css') }}">
+    <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Menu.css') }}">
+    <!-- Imports -->
+    <!-- Task: Derive Fonts from Local `Font-Book` -->
+    <link nonce="{{ Metadata.JWN }}" href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link nonce="{{ Metadata.JWN }}" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    {% if Template["Background-Color"] == "Dark" %}
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-size: 1.0rem;
+            font-family: "Montserrat", "Sans-Serif";
+            text-rendering: optimizeLegibility;
+            margin-right: 0.0em;
+            margin-left: 0.0em;
+        }
+        body p {
+            font-size: 1.285em;
+            font-size: 1.15vw;
+        }
+        h1.ui.header {
+            font-size: 3.85em;
+            font-size: 3.4265vw;
+        }
+        h2.ui.header {
+            font-size: 2.125em;
+            font-size: 1.89125vw;
+        }
+        h3.ui.header {
+            font-size: 1.85em;
+            font-size: 1.585vw;
+            margin-bottom: 1em !important;
+        }
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+        .main.container {
+            margin-top: 7.0em;
+            min-height: calc(100vh - 7.0em);
+        }
+        .pusher {
+            background: rgb(15, 15, 15);
+            position: absolute;
+        }
+    </style>
+    {% elif Template["Background-Color"] == "Light" %}
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-size: 1.0rem;
+            font-family: "Montserrat", "Sans-Serif";
+            text-rendering: optimizeLegibility;
+            margin-right: 0.0em;
+            margin-left: 0.0em;
+        }
+        body p {
+            font-size: 1.285em;
+        }
+        h1.ui.header {
+            font-size: 3.85em;
+        }
+        h2.ui.header {
+            font-size: 2.125em;
+        }
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+        .main.container {
+            margin-top: 7.0em;
+            min-height: calc(100vh - 7.0em);
+        }
+    </style>
+    {% else %}
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-size: 1.0rem;
+            font-family: "Montserrat", "Sans-Serif";
+            text-rendering: optimizeLegibility;
+            margin-right: 0.0em;
+            margin-left: 0.0em;
+        }
+        body p {
+            font-size: 1.285em;
+        }
+        h1.ui.header {
+            font-size: 3.85em;
+        }
+        h2.ui.header {
+            font-size: 2.125em;
+        }
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+        .main.container {
+            margin-top: 7.0em;
+            min-height: calc(100vh - 7.0em);
+        }
+        .pusher {
+            background: linear-gradient(270deg,
+                rgba(150,150,150,1) 0%,
+                rgba(165,165,165,1) 3%,
+                rgba(195,195,195,1) 7%,
+                rgba(230,230,230,1) 30%,
+                rgba(255,255,255,1) 35%,
+                rgba(255,255,255,1) 65%,
+                rgba(230,230,230,1) 70%,
+                rgba(195,195,195,1) 93%,
+                rgba(165,165,165,1) 97%,
+                rgba(150,150,150,1) 100%) !important;
+        }
+    </style>
+    {% endif %}
+    {% endblock %}
+</head>

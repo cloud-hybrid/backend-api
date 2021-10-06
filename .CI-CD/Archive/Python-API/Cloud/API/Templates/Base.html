@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <!-- Standard Meta -->
+        <meta charset="UTF-8"/>
+
+        <!-- SEO -->
+        <meta name="application-name"   content="Cloud-Hybrid Web-Application"/>
+        <meta name="description"        content="{{ Metadata.Description }}"/>
+        <meta name="keywords"           content="{{ Metadata.Keywords }}"/>
+        <meta name="company"            content="{{ Metadata.Company }}"/>
+        <meta name="author"             content="{{ Metadata.Author }}"/>
+
+        <!-- Favicons -->
+        <link rel="icon"    type="image/png"    href="{{ Metadata.Favicons.General.Standard }}"/>
+        <link rel="icon"    type="image/png"    sizes="32x32"   href="{{ Metadata.Favicons.General.Large }}"/>
+        <link rel="icon"    type="image/png"    sizes="16x16"   href="{{ Metadata.Favicons.General.Small }}"/>
+        <!-- <link rel="shortcut icon" type="image/ico" href="http://example.com/favicon.ico"/> -->
+        <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{ Metadata.Favicons.Apple }}"/>
+
+        <!-- Complex Values -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+
+        <!-- Page Properties -->
+        <title>{{ Metadata["Shortname"] }} - {{ Metadata.Title }}</title>
+
+        <!-- Style Sheets -->
+        <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Fomantic/semantic.css') }}">
+        <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Cloud.css') }}">
+        <link link nonce="{{ Metadata.JWN }}" rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./Cloud-Theme/Styles/Menu.css') }}">
+        <style>
+            .ui.inverted.vertical.footer.segment {
+                background: rgba(0, 0, 0, 0.95);
+            }
+        </style>
+
+        <!-- Scripting -->
+        <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
+        <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="{{ url_for('static', filename='./Cloud-Theme/Scripts/semantic.min.js') }}"></script>
+        <script nonce="{{ Metadata.JWN }}" type="application/javascript" src="{{ url_for('static', filename='./Cloud-Theme/Scripts/Side-Menu.js') }}"></script>
+
+        <!-- Components -->
+        <script nonce="{{ Metadata.JWN }}">
+            $(document).ready(function() {
+                // Menu ---
+                $(".menu .gaming.item").popup({
+                    inline     : false,
+                    hoverable  : true,
+                    position   : "bottom center",
+                    preserve   : true,
+                    delay: {
+                        show: 0,
+                        hide: 125
+                    },
+                    setFluidWidth: true
+                });
+
+                $(".menu .servers.item").popup({
+                    inline     : false,
+                    hoverable  : true,
+                    position   : "bottom center",
+                    preserve   : true,
+                    delay: {
+                        show: 0,
+                        hide: 125
+                    },
+                    setFluidWidth: true
+                });
+
+                $(".menu .featured.item").popup({
+                    inline     : false,
+                    hoverable  : true,
+                    position   : "bottom center",
+                    preserve   : true,
+                    delay: {
+                        show: 0,
+                        hide: 125
+                    },
+                    setFluidWidth: true
+                });
+            })
+        </script>
+        {% endblock %}
+    </head>
+    <body class="index pushable dimmable" ontouchstart>
+        <div class="ui vertical inverted sidebar menu left">{% block sidemenu %}{% endblock %}</div>
+        <div class="ui fixed inverted fluid main menu">{% block menu %}{% endblock %}</div>
+        <div class="pusher">
+            {% block pusher %}{% endblock %}
+            <div class="ui inverted vertical footer segment">
+                {% block footer %}{% include "Footer.html" %}{% endblock %}
+            </div>
+        </div>
+        <script nonce="{{ Metadata.JWN }}">
+            function Open(url) { window.open(url, "_blank") };
+        </script>
+        {% block javascript %}{% endblock %}
+        {% if session["Authenticated"] == True %}
+        <script nonce="{{ Metadata.JWN }}">
+        $(document).ready(function() {
+            const Sidebar = $(".ui.sidebar").first().sidebar("attach events", ".ui.icon.item .bars", "toggle");
+        })
+        </script>
+        {% endif %}
+    </body>
+</html>

@@ -1,0 +1,403 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# ========================================================================
+# --> WSGI Server Configuration File for Cloud-API
+# ========================================================================
+
+# - - - - - - - - - - - - - - - - -
+# Concurrency Conditions & System
+# - - - - - - - - - - - - - - - - -
+#
+# The argument of the --async option is the number of “cores” to initialize.
+# Each core can manage a single request, so the more cores spawned, the more
+# requests the server will be able to manage (and more memory that's used).
+# The job of the suspend/resume engines is to stop the current request management,
+# move to another core, and eventually come back to the old one (and so on).
+#
+# Technically, cores are simple memory structures holding request’s data, but to
+# give the user the illusion of a multithreaded system such the term is used.
+#
+# The switch between cores needs app cooperation. There are various ways to
+# accomplish that, and generally, if using a loop engine, all is automagic (or
+# requires very little effort).
+#
+# POSIX Capabilities
+#   - https://uwsgi-docs.readthedocs.io/en/latest/Capabilities.html
+#
+# Asyncio: https://uwsgi-docs.readthedocs.io/en/latest/asyncio.html
+#
+
+Links:
+    - SNMP: https://uwsgi-docs.readthedocs.io/en/latest/SNMP.html
+    - Log-Format: https://uwsgi-docs.readthedocs.io/en/latest/LogFormat.html
+    - YAML-Anchors: https://docs.gitlab.com/ee/ci/yaml/#anchors
+    - GeoIP: https://uwsgi-docs.readthedocs.io/en/latest/GeoIP.html
+    - CRON: https://uwsgi-docs.readthedocs.io/en/latest/Cron.html
+
+Commands:
+    - V-Environment: |
+        uwsgi -H Environments/MacOS-Environment --yaml WSGI.Yaml
+    - Dynamic Reloading: | # --> ∆ᵗ set(2)
+        py-autoreload = 2
+    - SNMP Protocol: |
+        snmp: 0.0.0.0:2222
+        snmp-community: Segmentation-Fault
+Quick References:
+    Payload Backup: |
+        procname-master: "Cloud-API"
+        procname-prefix-spaced: "API"
+        module: WSGI:Application
+        callable: Application
+        socket: 0.0.0.0:5000
+        buffer-size: 24576
+        chmod-socket: 640
+        protocol: http
+        http-auto-gzip: True
+        processes: 1
+        threads: 1
+        async: False
+        die-on-term: True
+        single-interpreter: True
+        enable-threads: True
+        master: True
+        memory-report: True
+        need-app: True
+        pcre-jit: True
+        reaper: True
+        router-list: True
+        vacum: True
+        disable-logging: True
+        log-4xx: False
+        log-5xx: True
+        max-requests: 1000
+        max-worker-lifetime: 3600
+        reload-on-rss: 2048
+        worker-reload-mercy: 60
+        log-format: @(Logger.Yaml)
+    RSS Memory: |
+        Resident Set Size (RSS) is the portion of memory occupied by a
+        process that is held in main memory (RAM). The rest of the occupied
+        memory exists in the swap space or file system, either because some
+        parts of the occupied memory were paged out, or because some parts of
+        the executable were never loaded.
+    VSZ Memory: |
+        VSZ is the Virtual Memory Size. It includes all memory that the
+        process can access, including memory that is swapped out, memory
+        that is allocated, but not used, andmemory that is from shared
+        libraries.
+Python:
+    Variable & Function List:
+        - https://uwsgi-docs.readthedocs.io/en/latest/PythonModule.html
+    Request Objects:
+        - Create List from Cookie Keys: list(request.cookies.keys())
+        - Create List from Cookie Values: list(request.cookies.values())
+        - Basic Auth Username: request.authorization.username
+        - Basic Auth Password: request.authorization.password
+        - Secure Connection Boolean: request.is_secure
+        - Blueprint Attribute Access: request.blueprint
+        - Blueprint -> Endpoint Access: request.endpoint
+        - Blueprint/Request Full Path: request.full_path
+        - Request Headers: request.headers
+        - Request Dictionary from Values: request.values
+        - Trusted Hosts Attribute: request.trusted_hosts
+        - Method: request.method
+    Magic Variables: |
+        %v	the vassals directory (pwd)
+        %V	the uWSGI version
+        %h	the hostname
+        %o	the original config filename, as specified on the command line
+        %O	same as %o but refer to the first non-template config file (version 1.9.18)
+        %p	the absolute path of the configuration file
+        %P	same as %p but refer to the first non-template config file (version 1.9.18)
+        %s	the filename of the configuration file
+        %S	same as %s but refer to the first non-template config file (version 1.9.18)
+        %d	the absolute path of the directory containing the configuration file
+        %D	same as %d but refer to the first non-template config file (version 1.9.18)
+        %e	the extension of the configuration file
+        %E	same as %e but refer to the first non-template config file (version 1.9.18)
+        %n	the filename without extension
+        %N	same as %n but refer to the first non-template config file (version 1.9.18)
+        %c	the name of the directory containing the config file (version 1.3+)
+        %C	same as %c but refer to the first non-template config file (version 1.9.18)
+        %t	unix time (in seconds, gathered at instance startup) (version 1.9.20-dev+)
+        %T	unix time (in microseconds, gathered at instance startup) (version 1.9.20-dev+)
+        %x	the current section identifier, eg. config.ini:section (version 1.9-dev+)
+        %X	same as %x but refer to the first non-template config file (version 1.9.18)
+        %i	inode number of the file (version 2.0.1)
+        %I	same as %i but refer to the first non-template config file
+        %0..%9	a specific component of the full path of the directory containing the config file (version 1.3+)
+        %[	ANSI escape “\033” (useful for printing colors)
+        %k	detected cpu cores (version 1.9.20-dev+)
+        %u	uid of the user running the process (version 2.0)
+        %U	username (if available, otherwise fallback to uid) of the user running the process (version 2.0)
+        %g	gid of the user running the process (version 2.0)
+        %G	group name (if available, otherwise fallback to gid) of the user running the process (version 2.0)
+        %j	HEX representation of the djb33x hash of the full config path
+        %J	same as %j but refer to the first non-template config file
+
+    Linux Capabilities: |
+        audit_control	CAP_AUDIT_CONTROL
+        audit_write	CAP_AUDIT_WRITE
+        chown	CAP_CHOWN
+        dac_override	CAP_DAC_OVERRIDE
+        dac_read_search	CAP_DAC_READ_SEARCH
+        fowner	CAP_FOWNER
+        fsetid	CAP_FSETID
+        ipc_lock	CAP_IPC_LOCK
+        ipc_owner	CAP_IPC_OWNER
+        kill	CAP_KILL
+        lease	CAP_LEASE
+        linux_immutable	CAP_LINUX_IMMUTABLE
+        mac_admin	CAP_MAC_ADMIN
+        mac_override	CAP_MAC_OVERRIDE
+        mknod	CAP_MKNOD
+        net_admin	CAP_NET_ADMIN
+        net_bind_service	CAP_NET_BIND_SERVICE
+        net_broadcast	CAP_NET_BROADCAST
+        net_raw	CAP_NET_RAW
+        setfcap	CAP_SETFCAP
+        setgid	CAP_SETGID
+        setpcap	CAP_SETPCAP
+        setuid	CAP_SETUID
+        sys_admin	CAP_SYS_ADMIN
+        sys_boot	CAP_SYS_BOOT
+        sys_chroot	CAP_SYS_CHROOT
+        sys_module	CAP_SYS_MODULE
+        sys_nice	CAP_SYS_NICE
+        sys_pacct	CAP_SYS_PACCT
+        sys_ptrace	CAP_SYS_PTRACE
+        sys_rawio	CAP_SYS_RAWIO
+        sys_resource	CAP_SYS_RESOURCE
+        sys_time	CAP_SYS_TIME
+        sys_tty_config	CAP_SYS_TTY_CONFIG
+        syslog	CAP_SYSLOG
+        wake_alarm	CAP_WAKE_ALARM
+---
+
+# ========================================================================
+# --> Package Task & Request Tracking
+# ========================================================================
+
+Taskboard: |
+    - [ ] Database for Planet-Side 2.
+    - [ ] Fonts for 20R Discord.
+    - [ ] 20R Store Page.
+    - [ ] Division-Events Calendar.
+        - [ ] Nexus-Bot Implementation (API).
+        - [ ] Website Cross-over functionality.
+        - [ ] Event Scheduler (Website).
+        - [ ] Discord CRON Notifications.
+    - [ ] Mods for Mordhau.
+    - [ ] Squad Training Server.
+    - [ ] Auto-Changelog.
+        - [ ] Attach Changelog to Pipeline Updates.
+    - [ ] 20R Twitch Page (Website).
+    - [ ] Create Fredo a Server.
+    - [ ] Log IPs: Accessible via `flask.request.access_route`
+    - [ ] Log Blueprint: Accessible via `flask.request.blueprint` (Prints Blueprint Name)
+
+Requests: |
+    - Discord Game API: Detect activity of User's game, and if
+    they're playing a division-relevant game, it would assign them the
+    applicable role and/or DM a recruiter if they're playing on a server
+    hosted by 20r.
+    - Discord Activity Tracker: Track Users' 20r-discord activity, and if
+    they're not active (message, voice-chat) for a given amount of time,
+    Nexus-Bot reaches ot to an applicable recruiter for further handling or
+    userbase clean-up.
+    - Discord Game API: If a member begins playing a relevant divisioned
+    game, a one-time message is sent and asks if they would like to join it;
+    Nexus-Bot would also provide a quick overview of the division's ambitions,
+    and other division-specific information.
+        - Response == False: Remove user from Database --> Division Table -->
+        Members -- Foreign-Key --> Enrollment-Requests
+        - Response == True: Assign User an applicable role & DM a recruiter
+        for follow-up.
+    - Set-Up a Database for Planet-Side 2.
+    - Create 20R Store.
+---
+
+---
+
+# ========================================================================
+# --> Reverse Proxy & Web-Server Configuration (NGINX)
+# ========================================================================
+
+NGINX: |
+    server {
+        listen 443 http2 ssl;
+        listen [::]:443 http2 ssl;
+        server_name cloudhybrid.io www.cloudhybrid.io;
+
+        root /var/www/html;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        ssl_certificate /etc/letsencrypt/live/cloudhybrid.io/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/cloudhybrid.io/privkey.pem;
+
+        client_max_body_size 0;
+
+        underscores_in_headers  on;
+        ignore_invalid_headers  off;
+        ssi_silent_errors       on;
+        server_tokens           off;
+
+        server_name_in_redirect on;
+
+        include ssl.conf;
+        include security.conf;
+        include proxy.conf;
+
+        location / {
+            http2_push_preload on;
+            proxy_intercept_errors off;
+            proxy_ignore_client_abort off;
+            include uwsgi_params;
+            include ssl.conf;
+            include security.conf;
+            include proxy.conf;
+            uwsgi_pass 10.0.0.200:5000;
+        }
+
+        location /status {
+            stub_status;
+        }
+
+        location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+        deny all;
+        }
+
+        location ~* ^\.(jpg|jpeg|gif|css|png|js|ico)$ {
+            expires max;
+            access_log off;
+        }
+
+        location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location ~ /\.ht {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+    }
+
+    server {
+        listen *:80;
+        listen [::]:80;
+
+        server_name cloudhybrid.io www.cloudhybrid.io;
+
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        location / {
+            return 301 https://cloudhybrid.io$request_uri;
+        }
+    }
+
+---
+
+uwsgi:
+    module:             Cloud.WSGI:Application
+    callable:           Application
+    chmod-socket:       644
+    master:             True
+    honour-stdin:       True
+    pcre-jit:           True
+    reaper:             True
+    router-list:        True
+    vacuum:             True
+    need-app:           True
+    master-as-root:     True
+    single-interpreter: True
+    manage-script-name: True
+
+    # ========================================================================
+    # --> Process & Worker Management
+    # ========================================================================
+
+    procname-master:            "Interface"
+    procname-prefix-spaced:     "Cloud Worker"
+    threads:                    4
+    processes:                  16
+    worker-reload-mercy:        60
+    max-requests:               1000
+    reload-on-rss:              2048
+    max-worker-lifetime:        3600
+    thunder-lock:               True
+    enable-threads:             True
+    close-on-exec:              True
+    die-on-term:                True
+
+    # ========================================================================
+    # --> Networking: Sockets, Buffers, Request Handling
+    # ========================================================================
+
+    protocol:           http
+    socket:             0.0.0.0:5000
+    http11-socket:      /tmp/keep-alive.sock
+    buffer-size:        4096
+    http-auto-gzip:     True
+
+    # ========================================================================
+    # --> Logging, Metrics & Statistics
+    # ========================================================================
+
+    log-format:         @(Logger.Yaml)
+    metrics-dir:        .../Statistics
+    memory-report:      False
+    stats-http:         False
+    enable-metrics:     False
+    log-micros:         False
+    log-4xx:            False
+    show-config:        True
+    log-5xx:            False
+    disable-logging:    False
+
+    ignore-sigpipe: true
+    ignore-write-errors: true
+    disable-write-exception: true
+
+    # ========================================================================
+    # --> WSGI-related Settings
+    # ========================================================================
+
+    wsgi-disable-file-wrapper: False
+
+    # ========================================================================
+    # --> Development (Settings Under Review & Testing)
+    #       ::py-autoreload should be disabled in production
+    #       ::strict        should be set to `True` in Production
+    # ========================================================================
+
+    strict:             True
+    py-autoreload:      False
+
+    # ========================================================================
+    # --> Declarations
+    # ========================================================================
+
+    declare-option: Flask=plugin python
+    declare-option: Application=callable Application
+
+    Flask:              True
+    Application:        True
+
+    #
+    # ========================================================================
+    # --> Advanced Process Management
+    # ========================================================================
+    # - https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html#security-and-availability
+    #
+
+    harakiri: 18.5
+    offload-threads: 1

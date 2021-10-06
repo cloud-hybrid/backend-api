@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:    *    -*- #
+
+set -e
+
+_T="   "
+
+print () {
+    local input="$1"
+
+    echo ""
+    echo "${input}"
+    echo ""
+
+    sleep 2.0
+}
+
+update() {
+    sudo apt update --yes \
+    && DEBIAN_FRONTEND=noninteractive apt-get --yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \
+    && sudo apt autoremove --yes \
+    && sudo apt clean --yes \
+    && sudo apt autoclean --yes
+}
+
+dependencies() {
+    print "${_T} Installing Library Dependencies"
+    sudo apt install --assume-yes \
+        acl \
+        autoconf \
+        dnsmasq-base \
+        git \
+        golang \
+        libacl1-dev \
+        libcap-dev \
+        liblxc1 \
+        liblxc-dev \
+        libtool \
+        libudev-dev \
+        libuv1-dev \
+        make \
+        pkg-config \
+        rsync \
+        squashfs-tools \
+        tar \
+        tcl \
+        xz-utils \
+        ebtables \
+            --show-progress \
+            --show-upgraded \
+            --install-recommends \
+            --ignore-hold
+
+    print "${_T} Installing Storage Tools"
+    sudo apt install --assume-yes \
+        lvm2 \
+        thin-provisioning-tools \
+            --show-progress \
+            --show-upgraded \
+            --install-recommends \
+            --ignore-hold
+}
+
+print "Installing Dependencies"
+
+# dependencies
+
+# update
+

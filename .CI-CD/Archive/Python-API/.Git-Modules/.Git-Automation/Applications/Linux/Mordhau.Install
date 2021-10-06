@@ -1,0 +1,582 @@
+#!/usr/bin/env bash
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:    *    -*- #
+
+# ========================================================================
+# --> Mordhau Installer (UTF-8, Script)
+# ========================================================================
+# - Usage: sudo chmod a+x ./Mordhau.Install && sudo \
+#		./Mordhau.Install
+#
+
+# set -e
+
+print () {
+    local input="$1"
+
+    echo "${input}"
+    echo ""
+
+    sleep 2.0
+}
+
+sudo add-apt-repository multiverse --enable-source --yes
+
+sudo add-apt-repository universe --enable-source --yes
+
+sudo dpkg --add-architecture i386
+
+sudo apt update --yes \
+    && DEBIAN_FRONTEND=noninteractive apt-get --yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade \
+    && sudo apt autoremove --yes \
+    && sudo apt clean --yes \
+    && sudo apt autoclean --yes
+
+sudo apt install lib32gcc1 \
+    lib32stdc++6 \
+    libfontconfig1 \
+    libpangocairo-1.0-0 \
+    libnss3 \
+    libgconf2-4 \
+    libxi6 \
+    libxcursor1 \
+    libxss1 \
+    libxcomposite1 \
+    libasound2 \
+    libxdamage1 \
+    libxtst6 \
+    libatk1.0-0 \
+    libxrandr2 \
+    libpcre3 \
+    libpcre3-dbg \
+    libpcre3-dev \
+    glibc-source \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+sudo apt install net-tools \
+    git \
+    tree \
+    zip \
+    unzip \
+    glances \
+    wget \
+    ufw \
+        --show-progress \
+        --show-upgraded \
+        --install-recommends \
+        --ignore-hold \
+        --assume-yes
+
+sudo useradd Steam \
+    --create-home \
+        --home-dir "/Steam" \
+            --comment "Steam API" \
+                --system \
+                    --password "Steam"
+
+sudo bash -c cat << EOF > /Steam/Initialize-IBM-Mordhau-Dallas-1
+@sSteamCmdForcePlatformType linux
+@ShutdownOnFailedCommand 0
+@NoPromptForPassword 1
+login anonymous
+force_install_dir /Steam/IBM-Mordhau-Dallas-1
+app_update 629800 validate
+quit
+EOF
+
+sudo bash -c cat << EOF > /etc/systemd/system/IBM-Mordhau-Dallas-1.service
+[Unit]
+Description=IBM-Mordhau-Dallas-1
+Requires=network.target local-fs.target
+After=network.target local-fs.target
+[Service]
+Type=simple
+PIDFile=/Steam/IBM-Mordhau-Dallas-1.pid
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=30
+StartLimitBurst=5
+User=Steam
+Group=Steam
+ExecStartPre=/Steam/steamcmd.sh +login anonymous +runscript /Steam/Initialize-IBM-Mordhau-Dallas-1
+ExecStart=/Steam/IBM-Mordhau-Dallas-1/MordhauServer.sh -Port=7000 -QueryPort=27000 -BeaconPort=15000
+ExecStop=/bin/kill -SIGINT \$MAINPID
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo chmod 644 /etc/systemd/system/IBM-Mordhau-Dallas-1.service
+
+echo "Y" | sudo ufw enable
+
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 443
+sudo ufw allow 3478
+sudo ufw allow 4379
+sudo ufw allow 4380
+sudo ufw allow 5000
+sudo ufw allow 9999
+
+sudo ufw allow 7000:8000/udp
+sudo ufw allow 7000:8000/tcp
+sudo ufw allow 15000:15100/udp
+sudo ufw allow 15000:15100/tcp
+sudo ufw allow 27000:27100/udp
+sudo ufw allow 27000:27100/tcp
+sudo ufw allow 28000:30000/udp
+sudo ufw allow 28000:30000/tcp
+
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 22 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 80 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 443 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 5000 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 5000 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 7000:8000 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 7000:8000 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 9999 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 9999 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 15000:15100 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 15000:15100 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 27000:27100 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 27000:27100 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 28000:30000 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p tcp -m tcp --sport 28000:30000 --dport 0:65355 -j ACCEPT"
+
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 3478 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 4379 --dport 0:65355 -j ACCEPT"
+sudo bash -c "iptables -A INPUT -p udp -m udp --sport 4380 --dport 0:65355 -j ACCEPT"
+
+sudo ufw reload
+
+find /Steam -type d -exec chmod 755 {} \;
+find /Steam -type f -exec chmod 644 {} \;
+
+sudo chown Steam:Steam -R /Steam
+
+sudo bash -c cat << EOF > /etc/sudoers.d/Steam
+Steam ALL=(ALL) NOPASSWD:ALL
+EOF
+
+cd /Steam
+
+curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
+
+chmod a+x /Steam/Initialize-IBM-Mordhau-Dallas-1
+
+/Steam/steamcmd.sh +login anonymous +runscript /Steam/Initialize-IBM-Mordhau-Dallas-1          &
+PROCESS=${?} \
+    && wait ${PROCESS}
+
+mkdir -p /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer
+
+# ========================================================================
+# --> Compat.ini (1/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Compat.ini
+
+EOF
+
+# ========================================================================
+# --> DeviceProfiles.ini (2/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/DeviceProfiles.ini
+
+EOF
+
+# ========================================================================
+# --> Engine.ini (3/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Engine.ini
+[/Script/OnlineSubsystemUtils.IpNetDriver]
+NetServerMaxTickRate=120
+EOF
+
+# ========================================================================
+# --> Game.ini (4/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Game.ini
+[/Script/Mordhau.MordhauGameSession]
+MaxSlots=25
+ServerName=20R Multi-Purpose Server (1) - US Central - Compute Machine
+ServerPassword=
+AdminPassword=YL9M5tT5btYxtuBCbtZ3BDol2dh6uchrbGHBlHg1Brw
+BannedPlayers=()
+MutedPlayers=()
+LegacyAdmins=76561198000117133
+LegacyAdmins=76561198132364921
+LegacyAdmins=76561198087919412
+LegacyAdmins=76561198051868607
+LegacyAdmins=76561198117876947
+LegacyAdmins=76561198014463236
+LegacyAdmins=76561198139647290
+LegacyAdmins=76561198236007414
+LegacyAdmins=76561198041972329
+LegacyAdmins=76561198197388197
+LegacyAdmins=76561198370637452
+LegacyAdmins=76561198997637019
+LegacyAdmins=76561198119676403
+LegacyAdmins=76561198088098008
+LegacyAdmins=76561198127067177
+LegacyAdmins=76561198084831525
+LegacyAdmins=76561198065887209
+LegacyAdmins=76561197994403841
+LegacyAdmins=76561198079441747
+LegacyAdmins=76561198016820211
+LegacyAdmins=76561198093407344
+LegacyAdmins=76561198069239211
+LegacyAdmins=76561198272121021
+LegacyAdmins=76561198214524733
+LegacyAdmins=76561197986907335
+LegacyAdmins=76561198161992998
+LegacyAdmins=76561198093067796
+LegacyAdmins=76561198061693868
+LegacyAdmins=76561198059645866
+LegacyAdmins=76561198104221471
+LegacyBannedPlayers=((76561198115243504, 0),(76561198159468460, 0),(76561198241111528, 0),(76561198118431831, 0),(76561198231505648, 0),(76561198360941562, 0),(76561198043144061, 0),(76561197971823923, 0),(76561198028431868, 0),(76561198097669951, 0),(76561198103624688, 0),(76561198056431797, 0),(76561199022099996, 0),(76561198219193363, 0),(76561198104745947, 0),(76561198028535959, 0),(76561198034336617, 0),(76561198086638200, 0),(76561198972899095, 0),(76561198330450631, 0),(76561198971500248, 0),(76561198878459170, 0),(76561198178840909, 0),(76561198282494043, 0),(76561198302504522, 0),(76561198201606913, 0))
+LegacyMutedPlayers=()
+Mods=116684
+Mods=99833
+Mods=65262
+Mods=92046
+Mods=80493
+Mods=41654
+Mods=41613
+
+[/Script/Engine.GameSession]
+MaxPlayers=40
+
+[/Game/Mordhau/Blueprints/GameModes/BP_DeathmatchGameMode.BP_DeathmatchGameMode_C]
+ScoreToWin=5000
+
+[/Game/Mordhau/Blueprints/GameModes/BP_DeathmatchGameState.BP_DeathmatchGameState_C]
+MatchDurationMax=1200
+
+[/Game/Mordhau/Blueprints/GameModes/BP_SkirmishGameState.BP_SkirmishGameState_C]
+RoundDuration=300
+
+[/Script/Mordhau.MordhauGameMode]
+bIsThirdPersonCameraDisabled=False
+ConstrainAspectRatio=1.777778
+bIsHitStopOnTeamHitsDisabled=False
+bDisableClientMods=False
+PlayerRespawnTime=3.000000
+AutoKickOnTeamKillAmount=5
+BallistaRespawnTime=30.000000
+CatapultRespawnTime=30.000000
+HorseRespawnTime=30.000000
+DamageFactor=1.000000
+TeamDamageFactor=1.000000
+TeamDamageFlinch=1
+MapRotation=FFA_Contraband
+MapRotation=FFA_MostPit
+MapRotation=SKM_Contraband
+MapRotation=SKM_MoshPit
+MapRotation=skm_steedie_contraband
+MapRotation=SKM_Chester
+MapRotation=skm_chester_noregen
+EOF
+
+# ========================================================================
+# --> GameUserSettings.ini (5/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/GameUserSettings.ini
+ScalabilityGroups]
+sg.ResolutionQuality=100.000000
+sg.ViewDistanceQuality=3
+sg.AntiAliasingQuality=3
+sg.ShadowQuality=3
+sg.PostProcessQuality=3
+sg.TextureQuality=3
+sg.EffectsQuality=3
+sg.FoliageQuality=3
+
+[/Script/Mordhau.MordhauGameUserSettings]
+MordhauVersion=1
+Language=English
+Gore=2
+ProfanityFilter=1
+ThirdPersonDeathCamera=0
+CharacterCloth=2
+FriendlyMarkers=0
+HideDefaultLoadouts=0
+NoTeamColorsOnGear=0
+Headbob=1.000000
+MovementHeadbob=1.000000
+CombatHeadbob=1.000000
+MaxRagdolls=10
+RagdollStayTime=30.000000
+DrawTracersStayTime=2.000000
+ShowServerInScoreboard=1
+CrosshairType=0
+ShowKilledBy=1
+ShowStatusBar=1
+ShowTargetInfo=1
+ShowSpawnInfo=1
+ShowChatBox=1
+ShowEmotesMenu=1
+ShowEquipment=1
+ShowAmmo=1
+ShowAnnouncements=1
+ShowTips=1
+ShowObjectives=1
+ShowHitMarker=1
+ShowScoreFeed=1
+ShowKillFeed=1
+QuickSpawn=0
+ShowObservedDelay=0
+HideWatermark=0
+ScreenPercentage=100.000000
+FieldOfView=78.000000
+CameraDistance=0.000000
+Gamma=1.000000
+AntiAliasing=2
+IndirectCapsuleShadows=1
+CharacterFidelity=2
+RagdollFidelity=1
+ScreenSpaceReflections=1
+Bloom=1.000000
+MotionBlur=0.090000
+AmbientOcclusion=1
+LensFlares=1
+MasterVolume=1.000000
+EffectsVolume=1.000000
+MusicVolume=0.500000
+VideoVolume=1.000000
+MatchmakingRegion=Worldwide
+CasualMatchmakingGameModes=Frontline
+CasualMatchmakingGameModes=Invasion
+CasualMatchmakingGameModes=Battle Royale
+CasualMatchmakingGameModes=Horde
+RankedMatchmakingGameModes=Duel
+bServerBrowserNotFull=True
+bServerBrowserHasPlayers=True
+bServerBrowserNoPassword=True
+ServerBrowserServerName=
+ServerBrowserGameMode=Invasion
+ServerBrowserMaxPing=100
+bUseVSync=False
+bUseDynamicResolution=False
+ResolutionSizeX=1280
+ResolutionSizeY=720
+LastUserConfirmedResolutionSizeX=1280
+LastUserConfirmedResolutionSizeY=720
+WindowPosX=-1
+WindowPosY=-1
+FullscreenMode=0
+LastConfirmedFullscreenMode=0
+PreferredFullscreenMode=1
+Version=5
+AudioQualityLevel=0
+FrameRateLimit=60.000000
+DesiredScreenWidth=1280
+DesiredScreenHeight=720
+LastUserConfirmedDesiredScreenWidth=1280
+LastUserConfirmedDesiredScreenHeight=720
+LastRecommendedScreenWidth=-1.000000
+LastRecommendedScreenHeight=-1.000000
+LastCPUBenchmarkResult=-1.000000
+LastGPUBenchmarkResult=-1.000000
+LastGPUBenchmarkMultiplier=1.000000
+bUseHDRDisplayOutput=False
+HDRDisplayOutputNits=1000
+
+[/Script/Engine.GameUserSettings]
+bUseDesiredScreenHeight=False
+EOF
+
+# ========================================================================
+# --> Hardware.ini (6/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Hardware.ini
+
+EOF
+
+# ========================================================================
+# --> Input.ini (7/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Input.ini
+[/Script/Mordhau.MordhauInput]
+ActionMappings=(ActionName="Show Main Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Escape)
+ActionMappings=(ActionName="Show Main Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_Special_Right)
+ActionMappings=(ActionName="Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=LeftMouseButton)
+ActionMappings=(ActionName="Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_RightTrigger)
+ActionMappings=(ActionName="Jump",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=SpaceBar)
+ActionMappings=(ActionName="Jump",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_FaceButton_Bottom)
+ActionMappings=(ActionName="Sprint",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=LeftShift)
+ActionMappings=(ActionName="Sprint",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftThumbstick)
+ActionMappings=(ActionName="Parry",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=RightMouseButton)
+ActionMappings=(ActionName="Parry",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftTrigger)
+ActionMappings=(ActionName="Feint Or Parry",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Stab",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=MouseScrollUp)
+ActionMappings=(ActionName="Stab",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_RightShoulder)
+ActionMappings=(ActionName="Feint",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Q)
+ActionMappings=(ActionName="Feint",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftShoulder)
+ActionMappings=(ActionName="Crouch",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=LeftControl)
+ActionMappings=(ActionName="Crouch",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Use",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=E)
+ActionMappings=(ActionName="Use",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_FaceButton_Left)
+ActionMappings=(ActionName="Drop",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=G)
+ActionMappings=(ActionName="Drop",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_FaceButton_Right)
+ActionMappings=(ActionName="Kick",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=F)
+ActionMappings=(ActionName="Kick",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_RightThumbstick)
+ActionMappings=(ActionName="Cycle Camera",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=P)
+ActionMappings=(ActionName="Cycle Camera",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Equip Slot 1",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=One)
+ActionMappings=(ActionName="Equip Slot 1",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_DPad_Up)
+ActionMappings=(ActionName="Equip Slot 2",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Two)
+ActionMappings=(ActionName="Equip Slot 2",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_DPad_Left)
+ActionMappings=(ActionName="Equip Slot 3",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Three)
+ActionMappings=(ActionName="Equip Slot 3",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_DPad_Right)
+ActionMappings=(ActionName="Equip Slot 4",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Four)
+ActionMappings=(ActionName="Equip Slot 4",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_DPad_Down)
+ActionMappings=(ActionName="Equip Slot 5",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Five)
+ActionMappings=(ActionName="Equip Slot 5",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Equip Slot 6",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Six)
+ActionMappings=(ActionName="Equip Slot 6",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Equip Slot 7",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Seven)
+ActionMappings=(ActionName="Equip Slot 7",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Equip Slot 8",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Eight)
+ActionMappings=(ActionName="Equip Slot 8",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Equip Slot 9",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Nine)
+ActionMappings=(ActionName="Equip Slot 9",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Holster",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Zero)
+ActionMappings=(ActionName="Holster",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Right Upper Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=MouseScrollDown)
+ActionMappings=(ActionName="Right Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Right Lower Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=ThumbMouseButton)
+ActionMappings=(ActionName="Left Upper Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Left Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Left Lower Strike",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Flip Attack Side",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Right Stab",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Left Stab",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Weapon Mode / Reload",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=R)
+ActionMappings=(ActionName="Weapon Mode / Reload",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_FaceButton_Top)
+ActionMappings=(ActionName="Fire",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=LeftMouseButton)
+ActionMappings=(ActionName="Fire",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_RightTrigger)
+ActionMappings=(ActionName="Ranged Cancel",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=RightMouseButton)
+ActionMappings=(ActionName="Ranged Cancel",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftTrigger)
+ActionMappings=(ActionName="Primary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=LeftMouseButton)
+ActionMappings=(ActionName="Primary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_RightTrigger)
+ActionMappings=(ActionName="Secondary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=RightMouseButton)
+ActionMappings=(ActionName="Secondary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftTrigger)
+ActionMappings=(ActionName="Tertiary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=MiddleMouseButton)
+ActionMappings=(ActionName="Tertiary Spectator Action",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_FaceButton_Right)
+ActionMappings=(ActionName="Suicide",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=End)
+ActionMappings=(ActionName="Suicide",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Scoreboard",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Tab)
+ActionMappings=(ActionName="Show Scoreboard",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_Special_Left)
+ActionMappings=(ActionName="Show Chat",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Y)
+ActionMappings=(ActionName="Show Chat",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Profile Select",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=B)
+ActionMappings=(ActionName="Show Profile Select",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Team Select",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=M)
+ActionMappings=(ActionName="Show Team Select",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Emote Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=X)
+ActionMappings=(ActionName="Show Emote Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Voice Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=C)
+ActionMappings=(ActionName="Show Voice Menu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Battlecry",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=V)
+ActionMappings=(ActionName="Battlecry",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Show Team Chat",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=U)
+ActionMappings=(ActionName="Show Team Chat",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Choose 1",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=One)
+ActionMappings=(ActionName="Choose 2",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Two)
+ActionMappings=(ActionName="Choose 3",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Three)
+ActionMappings=(ActionName="Choose 4",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Four)
+ActionMappings=(ActionName="Choose 5",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Five)
+ActionMappings=(ActionName="Choose 6",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Six)
+ActionMappings=(ActionName="Choose 7",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Seven)
+ActionMappings=(ActionName="Choose 8",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Eight)
+ActionMappings=(ActionName="Choose 9",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Nine)
+ActionMappings=(ActionName="Choose Exit",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Escape)
+ActionMappings=(ActionName="Choose Exit",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_Special_Left)
+ActionMappings=(ActionName="Mute Target",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=K)
+ActionMappings=(ActionName="Mute Target",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=None)
+ActionMappings=(ActionName="Vote Yes",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=PageUp)
+ActionMappings=(ActionName="Vote No",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=PageDown)
+ActionMappings=(ActionName="Toggle UI Markers",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=H)
+AxisMappings=(AxisName="Move Forward",Scale=1.000000,Key=W)
+AxisMappings=(AxisName="Move Forward",Scale=-1.000000,Key=S)
+AxisMappings=(AxisName="Move Forward",Scale=1.000000,Key=Gamepad_LeftY)
+AxisMappings=(AxisName="Move Right",Scale=-1.000000,Key=A)
+AxisMappings=(AxisName="Move Right",Scale=1.000000,Key=D)
+AxisMappings=(AxisName="Move Right",Scale=1.000000,Key=Gamepad_LeftX)
+AxisMappings=(AxisName="Turn Right",Scale=1.000000,Key=MouseX)
+AxisMappings=(AxisName="Turn Right",Scale=1.000000,Key=Gamepad_RightX)
+AxisMappings=(AxisName="Look Up",Scale=-1.000000,Key=MouseY)
+AxisMappings=(AxisName="Look Up",Scale=1.000000,Key=Gamepad_RightY)
+AxisMappings=(AxisName="Spectator Fly Up",Scale=1.000000,Key=E)
+AxisMappings=(AxisName="Spectator Fly Up",Scale=-1.000000,Key=Q)
+AxisMappings=(AxisName="Spectator Fly Up",Scale=1.000000,Key=Gamepad_RightThumbstick)
+AxisMappings=(AxisName="Spectator Fly Up",Scale=-1.000000,Key=Gamepad_LeftThumbstick)
+ControlScheme=0
+AngleAttacksWithMovement=0
+MouseXIsFlipAttackSide=0
+InverseAttackDirectionX=0
+InverseAttackDirectionY=0
+AngleAttackAfterPress=0
+ToggleSprint=0
+EOF
+
+# ========================================================================
+# --> PhysXVehicles.ini (8/9)
+# ========================================================================
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/PhysXVehicles.ini
+
+EOF
+
+# ========================================================================
+# --> Scalability.ini (9/9)
+# ========================================================================
+
+cat << EOF > /Steam/IBM-Mordhau-Dallas-1/Mordhau/Saved/Config/LinuxServer/Scalability.ini
+
+EOF
+
+chmod a+x /Steam/steamcmd.sh && /Steam/steamcmd.sh
+
+sudo systemctl daemon-reload
+
+sudo systemctl start IBM-Mordhau-Dallas-1.service
+if [ $? -eq 0 ]; then
+    sudo systemctl enable IBM-Mordhau-Dallas-1.service
+else
+    sudo systemctl restart IBM-Mordhau-Dallas-1.service
+    if [ $? -eq 0 ]; then
+        sudo systemctl enable IBM-Mordhau-Dallas-1.service
+    else
+        sudo systemctl stop IBM-Mordhau-Dallas-1.service
+        print "Waiting for Mordhau Services to Stop (30 Seconds)"
+        sleep 30
+
+        sudo systemctl start IBM-Mordhau-Dallas-1.service
+
+        if [ $? -eq 0 ]; then
+            sudo systemctl enable IBM-Mordhau-Dallas-1.service
+        fi
+    fi
+fi
+
+sudo reboot

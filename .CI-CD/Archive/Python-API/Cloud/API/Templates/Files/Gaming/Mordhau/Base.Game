@@ -1,0 +1,19 @@
+{% block Mode %}
+[/Script/Mordhau.MordhauGameMode]
+bIsThirdPersonCameraDisabled=False
+ConstrainAspectRatio=0.000000
+bIsHitStopOnTeamHitsDisabled=False
+bDisableClientMods=True
+PlayerRespawnTime=5.000000
+AutoKickOnTeamKillAmount=5
+BallistaRespawnTime=30.000000
+CatapultRespawnTime=30.000000
+HorseRespawnTime=30.000000
+DamageFactor=1.000000
+TeamDamageFactor=1.000000
+TeamDamageFlinch=1
+{% endblock %}
+
+{% block Session %}
+[/Script/Mordhau.MordhauGameSession]
+{% endblock %}

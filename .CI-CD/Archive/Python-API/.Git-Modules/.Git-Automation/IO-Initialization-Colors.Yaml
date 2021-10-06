@@ -1,0 +1,40 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# Owner:    Jacob B. Sanders
+# Source:   code.cloud-technology.io
+# License:  BSD 3-Clause License
+
+#
+# ========================================================================
+# Pipeline: Continuous Integration & Deployment Configuration(s)
+# ========================================================================
+#
+
+---
+
+# ------------------------------------------------------------------------
+# Colors Exportable Configuration
+# ------------------------------------------------------------------------
+
+.Initialization: &Colors
+    - X="\\33[0m"    # --> Reset
+    - R="\\33[91m"   # --> Red
+    - G="\\33[32m"   # --> Green
+    - B="\\33[34m"   # --> Blue
+    - Y="\\33[33m"   # --> Yellow
+    - Z="\\33[90m"   # --> Grey
+    - X="\\33[0m"    # --> Reset
+    - D="\\33[2m"    # --> Dim
+    - L="\\33[4m"    # --> Link
+    - H="\\33[1m"    # --> Bold (Highlight)
+    - I="\\33[3m"    # --> Italicize
+    - S="\\33[7m"    # --> Select
+    - U="\\033[4m"   # --> Underline
+    - Error ()       { printf "${R}\n ➡ %s${X}\n\n" "${@}"; } # e.g Error     "Hello World"
+    - Auxiliary ()   { printf "${B}\n ➡ %s${X}\n\n" "${@}"; } # e.g Auxiliary "Hello World"
+    - Success ()     { printf "${G}\n ➡ %s${X}\n\n" "${@}"; } # e.g Success   "Hello World"
+    - Warning ()     { printf "${Y}\n ➡ %s${X}\n\n" "${@}"; } # e.g Warning   "Hello World"

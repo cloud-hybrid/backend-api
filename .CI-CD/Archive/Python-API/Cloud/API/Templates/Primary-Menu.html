@@ -1,0 +1,558 @@
+
+{% if session["Authenticated"] == True %}
+<div class="ui icon item">
+    <i class="large bars link icon"></i>
+</div>
+{% endif %}
+<div class="ui fluid container">
+    <a class="ui link item" href="/">
+        <img class="logo"src="{{ url_for('static', filename='./Images/20r-logo.png') }}"/>
+        {{ Metadata.Company }}
+    </a>
+
+    <a href="" class="item">
+        <span id="store" class="expanded text">Store</span>
+    </a>
+
+    <div id="gaming-menu-item" class="ui simple dropdown inverted item">
+        <div id="gaming-container" class="menu-expansion-container">
+        <span id="gaming" class="expanded text">
+            <span class="yellow text">Gaming</span>
+        </span>
+        <i id="gaming-dropdown" class="yellow text expanded gamepad icon"></i>
+        </div>
+        <div class="inverted menu">
+
+            <a class="servers item">
+                Mordhau
+                <i class="dropdown icon"></i>
+            </a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/mordhau">Home</a>
+                    <hr>
+                    <a class="item" href="/mordhau#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/mordhau#administrators">Administrators</a>
+                    <a class="item" href="/mordhau#calendar">Calendar</a>
+                    <a class="item" href="/mordhau#events">Events</a>
+                    <a class="item" href="/mordhau#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/mordhau#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/mordhau/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+        
+            <div class="ui inverted flowing popup bottom center transition hidden">
+                <div class="ui inverted four column divided grid">
+                    <div class="Null ui center aligned column">
+                        <a class="item" href="/mordhau">Home</a>
+                        <div class="ui inverted divider"></div>
+                        <div class="cloud transparent ui inverted link list">
+                            <a class="item">Overview</a>
+                            <a class="item">Recruitment</a>
+                            <a class="item">Calendar</a>
+                            <a class="item">Events</a>
+                        </div>
+                    </div>
+                    <div class="Null ui center aligned fluid column">
+                        Resources
+                        <div class="ui inverted divider"></div>
+                        <div class="cloud transparent ui inverted link list">
+                            <a class="item"><u>Discord</u></a>
+                            <a class="item">Servers</a>
+                            <a class="item">Articles</a>
+                            <hr>
+                            <a class="item">
+                                <strong>
+                                    Schedule
+                                </strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="Null ui center aligned column">
+                        Hosting
+                        <div class="ui inverted divider"></div>
+                        <div class="cloud transparent ui inverted link list">
+                            <a class="item">Gaming</a>
+                            <a class="item">Services</a>
+                            <a class="item">Purchasing</a>
+                            <hr>
+                            <a class="item">
+                                <strong>Demo</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="Null ui center aligned column">
+                        &nbsp;
+                        <div class="ui inverted divider"></div>
+                        <div class="cloud transparent ui inverted link list">
+                            <a class="item">
+                                Affiliates
+                            </a>
+                            <a class="item" href="/contact">
+                                Contact
+                            </a>
+                            <a class="item">
+                                Guides
+                            </a>
+                            <a class="item">
+                                Security
+                            </a>
+                            <a class="item">
+                                References
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/mordhau">Mordhau</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/mordhau">Home</a>
+                    <hr>
+                    <a class="item" href="/mordhau#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/mordhau#administrators">Administrators</a>
+                    <a class="item" href="/mordhau#calendar">Calendar</a>
+                    <a class="item" href="/mordhau#events">Events</a>
+                    <a class="item" href="/mordhau#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/mordhau#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/mordhau/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/squad">Squad</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/squad">Home</a>
+                    <hr>
+                    <a class="item" href="/squad#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/squad#administrators">Administrators</a>
+                    <a class="item" href="/squad#calendar">Calendar</a>
+                    <a class="item" href="/squad#events">Events</a>
+                    <a class="item" href="/squad#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/squad#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/squad/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/rust">Rust</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/rust">Home</a>
+                    <hr>
+                    <a class="item" href="/rust#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/rust#administrators">Administrators</a>
+                    <a class="item" href="/rust#calendar">Calendar</a>
+                    <a class="item" href="/rust#events">Events</a>
+                    <a class="item" href="/rust#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/rust#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/rust/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/escape-from-tarkov">Tarkov</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/escape-from-tarkov">Home</a>
+                    <hr>
+                    <a class="item" href="/escape-from-tarkov#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/escape-from-tarkov#administrators">Administrators</a>
+                    <a class="item" href="/escape-from-tarkov#calendar">Calendar</a>
+                    <a class="item" href="/escape-from-tarkov#events">Events</a>
+                    <a class="item" href="/escape-from-tarkov#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/escape-from-tarkov#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/escape-from-tarkov/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/rocket-league">Rocket League</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/rocket-league">Home</a>
+                    <hr>
+                    <a class="item" href="/rocket-league#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/rocket-league#administrators">Administrators</a>
+                    <a class="item" href="/rocket-league#calendar">Calendar</a>
+                    <a class="item" href="/rocket-league#events">Events</a>
+                    <a class="item" href="/rocket-league#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/rocket-league#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/rocket-league/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/mount-and-blade-bannerlord">Bannerlord</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/mount-and-blade-bannerlord">Home</a>
+                    <hr>
+                    <a class="item" href="/mount-and-blade-bannerlord#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/mount-and-blade-bannerlord#administrators">Administrators</a>
+                    <a class="item" href="/mount-and-blade-bannerlord#calendar">Calendar</a>
+                    <a class="item" href="/mount-and-blade-bannerlord#events">Events</a>
+                    <a class="item" href="/mount-and-blade-bannerlord#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/mount-and-blade-bannerlord#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/mount-and-blade-bannerlord/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/rainbow-6ix-siege">Rainbow 6ix</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/rainbow-6ix-siege">Home</a>
+                    <hr>
+                    <a class="item" href="/rainbow-6ix-siege#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/rainbow-6ix-siege#administrators">Administrators</a>
+                    <a class="item" href="/rainbow-6ix-siege#calendar">Calendar</a>
+                    <a class="item" href="/rainbow-6ix-siege#events">Events</a>
+                    <a class="item" href="/rainbow-6ix-siege#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/rainbow-6ix-siege#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/rainbow-6ix-siege/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/halo">Halo</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/halo">Home</a>
+                    <hr>
+                    <a class="item" href="/halo#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/halo#administrators">Administrators</a>
+                    <a class="item" href="/halo#calendar">Calendar</a>
+                    <a class="item" href="/halo#events">Events</a>
+                    <a class="item" href="/halo#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/halo#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/halo/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/last-oasis">Last Oasis</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/last-oasis">Home</a>
+                    <hr>
+                    <a class="item" href="/last-oasis#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/last-oasis#administrators">Administrators</a>
+                    <a class="item" href="/last-oasis#calendar">Calendar</a>
+                    <a class="item" href="/last-oasis#events">Events</a>
+                    <a class="item" href="/last-oasis#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/last-oasis#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/last-oasis/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="item">
+                <i class="dropdown icon"></i>
+                <a href="/minecraft">Minecraft</a>
+                <div class="inverted menu">
+                    <hr>
+                    <a class="item" href="/minecraft">Home</a>
+                    <hr>
+                    <a class="item" href="/minecraft#servers">Servers</a>
+                    <hr>
+                    <a class="item" href="/minecraft#administrators">Administrators</a>
+                    <a class="item" href="/minecraft#calendar">Calendar</a>
+                    <a class="item" href="/minecraft#events">Events</a>
+                    <a class="item" href="/minecraft#recruitment">Recruitment</a>
+                    <hr>
+                    <a class="item" href="/minecraft#discord">Discord</a>
+                    <hr>
+                    {% if session["Authenticated"] == True %}
+                    <a class="item" href="/minecraft/administration">Administration</a>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div> 
+
+    <a class="featured item">
+        Resources
+        <i class="dropdown icon"></i>
+    </a>
+
+    <div class="ui inverted flowing popup bottom center transition hidden">
+        <div class="ui inverted three column relaxed fluid divided grid">
+            <div class="Null ui center aligned column">
+                <i class="user icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Login</a>
+                    <a class="item">Sign Up</a>
+                    <a class="item">Dashboard</a>
+                    <hr>
+                    <a class="item">
+                        <strong>
+                            Cloud
+                        </strong>
+                    </a>
+                </div>
+            </div>
+            <div class="Null ui center aligned column">
+                <i class="chart pie icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Advertising</a>
+                    <a class="item">Outreach</a>
+                    <a class="item">Partners</a>
+                    <a class="item">Twitch</a>
+                </div>
+            </div>
+            <div class="Null ui center aligned column">
+                <i class="edit icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Blog</a>
+                    <a class="item">Videos</a>
+                    <a class="item">Tutorials</a>
+                    <hr>
+                    <a class="item">
+                        <strong>
+                            References
+                        </strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="servers item">
+        Servers
+        <i class="dropdown icon"></i>
+    </a>
+
+    <div class="ui inverted flowing popup bottom center transition hidden">
+        <div class="ui inverted four column divided grid">
+            <div class="Null ui center aligned column">
+                &nbsp;&nbsp;Community&nbsp;&nbsp;
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Mordhau</a>
+                    <a class="item">Rust</a>
+                    <a class="item">Minecraft</a>
+                    <a class="item">Squad</a>
+                    <a class="item">Bannerlord</a>
+                </div>
+            </div>
+            <div class="Null ui center aligned fluid column">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Internal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Dashboard</a>
+                    <a class="item">Modding</a>
+                    <a class="item">Staff</a>
+                    <hr>
+                    <a class="item">
+                        <strong>
+                            Schedule
+                        </strong>
+                    </a>
+                </div>
+            </div>
+            <div class="Null ui center aligned column">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hosting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Gaming</a>
+                    <a class="item">Services</a>
+                    <a class="item">Purchasing</a>
+                    <hr>
+                    <a class="item">
+                        <strong>Demo</strong>
+                    </a>
+                </div>
+            </div>
+            <div class="Null ui center aligned column">
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                <!-- (Continued) -->
+                &nbsp;
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">
+                        Affiliates
+                    </a>
+                    <a class="item" href="/contact">
+                        Contact
+                    </a>
+                    <a class="item">
+                        Guides
+                    </a>
+                    <a class="item">
+                        Security
+                    </a>
+                    <a class="item">
+                        References
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="" class="item">
+        Blog
+    </a>
+
+    <a class="item" href="/contact">
+        Contact
+    </a>
+
+    <a href="" class="item">
+        Team
+    </a>
+
+    <div class="ui inverted flowing popup bottom center transition hidden">
+        <div class="ui inverted three column relaxed fluid divided grid">
+            <div class="Null ui center aligned column">
+                <i class="gamepad icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Mordhau</a>
+                    <a class="item">Squad</a>
+                    <a class="item">Rust</a>
+                    <a class="item">Escape from Tarkov</a>
+                </div>
+            </div>
+            <div class="Null ui center aligned fluid column">
+                <i class="ghost icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">Rocket League</a>
+                    <a class="item">Call of Duty</a>
+                    <a class="item">Rainbow 6ix Siege</a>
+                    <a class="item">Minecraft</a>
+                </div>
+            </div>
+            <div class="Null ui center aligned column">
+                <i class="headset icon"></i>
+                <div class="ui inverted divider"></div>
+                <div class="cloud transparent ui inverted link list">
+                    <a class="item">League</a>
+                    <a class="item">CS: GO</a>
+                    <a class="item">Planet Side 2</a>
+                    <hr>
+                    <a class="item">
+                        <strong>
+                            All&nbsp;
+                            <i class="green gamepad icon"></i>
+                        </strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right inverted user-menu-control menu item">
+        {% if session["Authenticated"] != True %}
+        <a class="ui green basic inverted button" href="/login">Portal</a>
+        {% else %}
+        <a class="ui red basic inverted button" href="/logout">Logout</a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    span#store.expanded.text {
+        min-width: 80px;
+        text-align: center;
+    }
+    div#gaming-container.menu-expansion-container {
+        text-align: center;
+        min-width: 125px;
+    }
+    span#gaming.expanded.text {
+        min-width: 100px;
+        width: 100%;
+    }
+    i#gaming-dropdown.expanded.icon {
+        margin-left: 0.75785em;
+        color: #9c9288;
+    }
+    .yellow.text {
+        color: #dbba34;
+        /* text-decoration: underline;
+        text-underline-offset: 0.385em; */
+    }
+    #gaming-menu-item {
+        color: #9844a3;
+    }
+    #gaming-menu-item:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+</style>

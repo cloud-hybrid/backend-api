@@ -1,0 +1,64 @@
+<style>
+    .ui.main.grid.container {
+        margin-top: 0.0em;
+        padding-top: 0.0em;
+    }
+    .ui.block.grid.container {
+        display: block;
+    }
+    span::first-letter {
+        font-weight: bold;
+        color: red;
+        text-transform: capitalize;
+    }
+    span.ui.inverted.white.text {
+        color: white;
+    }
+
+    i.i-table.icon.center.aligned {
+        margin: auto;
+    }
+
+    table.ui.table.fixed {
+        width: 87.5%;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 1;
+    }
+
+    .ui.top.fill {
+        width: 100%;
+        padding-top: 5.0em;
+    }
+
+    .ui.center.aligned.raised.segment {
+        z-index: -1;
+        margin-top: calc(0.0em - 3px);
+        margin-bottom: calc(0.0em - 2px);
+
+        border-top-width: 2px;
+        border-top-left-radius: 0.0em;
+        border-top-right-radius: 0.0em;
+        border-top-color: rgba(0, 0, 0, 0.225);
+        border-top-style: solid;
+
+        border-bottom-width: 2px;
+        border-bottom-left-radius: 0.0em;
+        border-bottom-right-radius: 0.0em;
+        border-bottom-color: rgba(0, 0, 0, 0.225);
+        border-bottom-style: solid;
+        
+        padding-top: 3.0em;
+        padding-bottom: 4.75em;
+    }
+
+    .ui.padded.center.aligned.grid {
+        z-index: -1;
+        margin-top: -1px;
+        position: relative;
+    }
+
+    .ui.bottom.fill {
+        min-height: 35vh;
+    }
+</style>

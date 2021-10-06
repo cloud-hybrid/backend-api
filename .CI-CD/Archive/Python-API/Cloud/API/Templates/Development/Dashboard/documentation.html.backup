@@ -1,0 +1,32 @@
+<ol id="_sidebar-list" class="ui bullet inverted list">
+    <li>
+        Server Administration
+        <ol>
+            <li>
+                <a href="https://gitlab.cloudhybrid.io" target="_blank" rel="noreferrer">
+                    <strong>SSH</strong> - Accessing the Server
+                </a>
+            </li>
+            <li>
+                <a href="https://gitlab.cloudhybrid.io" target="_blank" rel="noreferrer">
+                    Editing Files with <strong><code>nano</code></strong>
+                </a>
+            </li>
+            <li>
+                <a href="https://gitlab.cloudhybrid.io" target="_blank" rel="noreferrer">
+                    Server <strong>*.services</strong>
+                </a>
+            </li>
+            <li>
+                <a href="https://gitlab.cloudhybrid.io" target="_blank" rel="noreferrer">
+                    Server <strong>*.services</strong>
+                </a>
+            </li>
+            <li>
+                <a href="https://gitlab.cloudhybrid.io" target="_blank" rel="noreferrer">
+                    Server <strong>*.services</strong>
+                </a>
+            </li>
+        </ol>
+    </li>
+</ol>
