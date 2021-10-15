@@ -41,4 +41,12 @@ for Line in Source.readlines():
 Source.close()
 Target.close()
 
-JSON = json.dump(Data, API, separators = (", ", ": "), indent = 4, sort_keys = True)
+JSON = json.dumps(Data, separators = (", ", ": "), indent = 4, sort_keys = True)
+
+FD = open(CWD + os.sep + os.pardir + os.sep + "API" + os.sep + "Environment.json", "w+")
+
+FD.write(JSON)
+
+FD.close()
+
+exit(0)

@@ -41,6 +41,8 @@ CWD = Path = os.path.abspath(os.path.dirname(__file__))
 
 assert os.path.isfile(os.path.join(CWD, "Environment.ini"))
 
+shutil.copy(CWD + os.sep + "Environment.ini", CWD + os.sep + ".CI-CD")
+
 subprocess.run(
     shlex.split("{0} {1} Environment.ini".format(
         sys.executable, os.path.join(CWD, ".CI-CD" + os.sep + "Sanitize.py")
@@ -296,6 +298,12 @@ sys.stdout.flush()
 sys.stdout.write("[Backend-API]: Generating Distribution ➜ (Long-Running)" + "\n")
 sys.stdout.flush()
 
+shutil.copy(Path + os.sep + "Key.pem", Path + os.sep + "Server" + os.sep + "Development.key")
+
+shutil.copy(Path + os.sep + "Configuration" + os.sep + "Development.conf", Path + os.sep + "Server")
+shutil.copy(Path + os.sep + "Configuration" + os.sep + "Development.pfx", Path + os.sep + "Server")
+shutil.copy(Path + os.sep + "Configuration" + os.sep + "Development.crt", Path + os.sep + "Server")
+
 try:
     setuptools.setup(
         name = Name,
@@ -316,9 +324,10 @@ try:
             "Server": [
                 "VERSION",
                 "Key.PEM",
-                "Development.key",
+                "Development.conf",
+                "Development.pfx",
                 "Development.crt",
-                "Development.pfx"
+                "Development.key"
             ]
         },
         python_requires = ">=3.8.0",
