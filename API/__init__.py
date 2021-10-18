@@ -94,6 +94,10 @@ import Database.Taskboard
 import Database.Taskboard.Interfaces.Task
 import Database.Taskboard.Interfaces.LinkedResource
 
+import Database.Git
+import Database.Git.Interfaces.Task
+import Database.Git.Interfaces.LinkedResource
+
 # -------------------------------
 # ASGI Application(s)
 # -------------------------------
